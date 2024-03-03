@@ -1,0 +1,17 @@
+syntax = "proto3";
+import "availability.proto";
+import "tenant.proto";
+
+package proto;
+
+option go_package = "./proto";
+
+message Empty { }
+
+service AvailabilityService {
+  rpc UpsertAvailability(UpsertAvailabilityRequest) returns (UpsertAvailabilityResponse);
+}
+
+service TenantService {
+  rpc RegisterTenant(RegisterTenantRequest) returns (stream RegisterTenantResponse);
+}

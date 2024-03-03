@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "./proto";
+
+message RegisterTenantRequest {
+  string name = 1;
+  string location = 2;
+  string email = 3;
+  string password = 4;
+}
+message RegisterTenantResponse {
+  string status = 1;
+  string error = 2;
+}
