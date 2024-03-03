@@ -5,6 +5,8 @@ import (
 	"net"
 	"runtime/debug"
 
+	"github.com/bufbuild/protovalidate-go"
+	protovalidatemiddleware "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/protovalidate"
 	"github.com/rs/zerolog/log"
 
 	"reserve/api/grpcapi"
@@ -34,13 +36,16 @@ func main() {
 		log.Error().Msgf("recovered from panic %s", string(debug.Stack()))
 		return status.Errorf(codes.Internal, "%s", p)
 	}
+	validator, err := protovalidate.New()
 
 	opts := []grpc.ServerOption{
 		grpc.ChainUnaryInterceptor(
 			grpcapi.ValidateToken,
+			protovalidatemiddleware.UnaryServerInterceptor(validator),
 			recovery.UnaryServerInterceptor(recovery.WithRecoveryHandler(grpcPanicRecoveryHandler)),
 		),
 		grpc.ChainStreamInterceptor(
+			protovalidatemiddleware.StreamServerInterceptor(validator),
 			recovery.StreamServerInterceptor(recovery.WithRecoveryHandler(grpcPanicRecoveryHandler)),
 		),
 	}

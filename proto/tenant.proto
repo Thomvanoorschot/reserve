@@ -2,12 +2,14 @@ syntax = "proto3";
 
 package proto;
 
+import "buf/validate/validate.proto";
+
 option go_package = "./proto";
 
 message RegisterTenantRequest {
-  string name = 1;
+  string name = 1 [(buf.validate.field).string.min_len = 1];
   string location = 2;
-  string email = 3;
+  string email = 3 [(buf.validate.field).string.email = true];
   string password = 4;
 }
 message RegisterTenantResponse {
