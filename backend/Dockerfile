@@ -17,7 +17,7 @@ FROM dependencies AS Build
 COPY . ./
 
 RUN --mount=type=cache,target=/go/pkg/mod/ CGO_ENABLED=0 go build \
-    -C cmd/api \
+    -C cmd/grpc_api \
     -installsuffix 'static' \
     -ldflags '-s -w' \
     -o /app

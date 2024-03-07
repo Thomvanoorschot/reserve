@@ -15,3 +15,15 @@ service AvailabilityService {
 service TenantService {
   rpc RegisterTenant(RegisterTenantRequest) returns (stream RegisterTenantResponse);
 }
+
+message TestRPCRequest {
+  string testField = 1;
+}
+
+message TestRPCResponse {
+ string testField = 1;
+}
+
+service TestService {
+  rpc TestUnaryRPC(TestRPCRequest) returns (TestRPCResponse);
+}

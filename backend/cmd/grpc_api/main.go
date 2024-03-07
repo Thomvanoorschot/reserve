@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net"
 	"runtime/debug"
@@ -43,6 +44,10 @@ func main() {
 			grpcapi.ValidateToken,
 			protovalidatemiddleware.UnaryServerInterceptor(validator),
 			recovery.UnaryServerInterceptor(recovery.WithRecoveryHandler(grpcPanicRecoveryHandler)),
+			func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
+				fmt.Println("AAAAAAAAAA")
+				return handler(ctx, req)
+			},
 		),
 		grpc.ChainStreamInterceptor(
 			protovalidatemiddleware.StreamServerInterceptor(validator),
@@ -65,6 +70,9 @@ func main() {
 	tenantService := tenant.NewService(tursoClient, firebaseClient)
 	tenantHandler := grpcapi.NewTenantHandler(tenantService)
 	proto.RegisterTenantServiceServer(s, tenantHandler)
+
+	testHandler := grpcapi.NewTestHandler()
+	proto.RegisterTestServiceServer(s, testHandler)
 
 	if err := s.Serve(listener); err != nil {
 		log.Fatal().Msgf("failed to serve:%s", err)

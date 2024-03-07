@@ -15,9 +15,16 @@ var (
 	errInvalidToken    = status.Errorf(codes.Unauthenticated, "invalid token")
 )
 
+var ignoreList = []string{
+	"/proto.TenantService/RegisterTenant",
+	"/proto.TestService/TestUnaryRPC",
+}
+
 func ValidateToken(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
-	if info.FullMethod == "/proto.TenantService/RegisterTenant" {
-		return handler(ctx, req)
+	for _, il := range ignoreList {
+		if il == info.FullMethod {
+			return handler(ctx, req)
+		}
 	}
 	md, ok := metadata.FromIncomingContext(ctx)
 	if !ok {

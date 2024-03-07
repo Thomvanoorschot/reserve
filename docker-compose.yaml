@@ -10,3 +10,10 @@ services:
       - backend/.env
     ports:
       - "8080:8080"
+  envoy:
+    image: envoyproxy/envoy:dev-5fc7662fb807b5ad0e882532857d102bb5c705df
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    ports:
+      - "9901:9901"
+      - "8081:8081"
