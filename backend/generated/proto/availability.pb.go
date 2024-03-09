@@ -20,14 +20,21 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type UpsertAvailabilityRequest struct {
+type UpsertResourceRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
+
+	Id              int64  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Name            string `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty"`
+	LocationId      int64  `protobuf:"varint,3,opt,name=locationId,proto3" json:"locationId,omitempty"`
+	MinimumSegments string `protobuf:"bytes,4,opt,name=minimumSegments,proto3" json:"minimumSegments,omitempty"`
+	MaximumSegments string `protobuf:"bytes,5,opt,name=maximumSegments,proto3" json:"maximumSegments,omitempty"`
+	Availability    []bool `protobuf:"varint,6,rep,packed,name=availability,proto3" json:"availability,omitempty"`
 }
 
-func (x *UpsertAvailabilityRequest) Reset() {
-	*x = UpsertAvailabilityRequest{}
+func (x *UpsertResourceRequest) Reset() {
+	*x = UpsertResourceRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_availability_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -35,13 +42,13 @@ func (x *UpsertAvailabilityRequest) Reset() {
 	}
 }
 
-func (x *UpsertAvailabilityRequest) String() string {
+func (x *UpsertResourceRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpsertAvailabilityRequest) ProtoMessage() {}
+func (*UpsertResourceRequest) ProtoMessage() {}
 
-func (x *UpsertAvailabilityRequest) ProtoReflect() protoreflect.Message {
+func (x *UpsertResourceRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_availability_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -53,19 +60,61 @@ func (x *UpsertAvailabilityRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpsertAvailabilityRequest.ProtoReflect.Descriptor instead.
-func (*UpsertAvailabilityRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpsertResourceRequest.ProtoReflect.Descriptor instead.
+func (*UpsertResourceRequest) Descriptor() ([]byte, []int) {
 	return file_availability_proto_rawDescGZIP(), []int{0}
 }
 
-type UpsertAvailabilityResponse struct {
+func (x *UpsertResourceRequest) GetId() int64 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+func (x *UpsertResourceRequest) GetName() string {
+	if x != nil {
+		return x.Name
+	}
+	return ""
+}
+
+func (x *UpsertResourceRequest) GetLocationId() int64 {
+	if x != nil {
+		return x.LocationId
+	}
+	return 0
+}
+
+func (x *UpsertResourceRequest) GetMinimumSegments() string {
+	if x != nil {
+		return x.MinimumSegments
+	}
+	return ""
+}
+
+func (x *UpsertResourceRequest) GetMaximumSegments() string {
+	if x != nil {
+		return x.MaximumSegments
+	}
+	return ""
+}
+
+func (x *UpsertResourceRequest) GetAvailability() []bool {
+	if x != nil {
+		return x.Availability
+	}
+	return nil
+}
+
+type UpsertResourceResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 }
 
-func (x *UpsertAvailabilityResponse) Reset() {
-	*x = UpsertAvailabilityResponse{}
+func (x *UpsertResourceResponse) Reset() {
+	*x = UpsertResourceResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_availability_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -73,13 +122,13 @@ func (x *UpsertAvailabilityResponse) Reset() {
 	}
 }
 
-func (x *UpsertAvailabilityResponse) String() string {
+func (x *UpsertResourceResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpsertAvailabilityResponse) ProtoMessage() {}
+func (*UpsertResourceResponse) ProtoMessage() {}
 
-func (x *UpsertAvailabilityResponse) ProtoReflect() protoreflect.Message {
+func (x *UpsertResourceResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_availability_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -91,8 +140,8 @@ func (x *UpsertAvailabilityResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpsertAvailabilityResponse.ProtoReflect.Descriptor instead.
-func (*UpsertAvailabilityResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpsertResourceResponse.ProtoReflect.Descriptor instead.
+func (*UpsertResourceResponse) Descriptor() ([]byte, []int) {
 	return file_availability_proto_rawDescGZIP(), []int{1}
 }
 
@@ -100,12 +149,23 @@ var File_availability_proto protoreflect.FileDescriptor
 
 var file_availability_proto_rawDesc = []byte{
 	0x0a, 0x12, 0x61, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x1b, 0x0a, 0x19, 0x55,
-	0x70, 0x73, 0x65, 0x72, 0x74, 0x41, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74,
-	0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x1c, 0x0a, 0x1a, 0x55, 0x70, 0x73, 0x65,
-	0x72, 0x74, 0x41, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x09, 0x5a, 0x07, 0x2e, 0x2f, 0x70, 0x72, 0x6f, 0x74,
-	0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x05, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0xd3, 0x01, 0x0a, 0x15,
+	0x55, 0x70, 0x73, 0x65, 0x72, 0x74, 0x52, 0x65, 0x73, 0x6f, 0x75, 0x72, 0x63, 0x65, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x69, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x03, 0x52, 0x02, 0x69, 0x64, 0x12, 0x12, 0x0a, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x04, 0x6e, 0x61, 0x6d, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x6c, 0x6f, 0x63,
+	0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a, 0x6c,
+	0x6f, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x49, 0x64, 0x12, 0x28, 0x0a, 0x0f, 0x6d, 0x69, 0x6e,
+	0x69, 0x6d, 0x75, 0x6d, 0x53, 0x65, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x04, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x0f, 0x6d, 0x69, 0x6e, 0x69, 0x6d, 0x75, 0x6d, 0x53, 0x65, 0x67, 0x6d, 0x65,
+	0x6e, 0x74, 0x73, 0x12, 0x28, 0x0a, 0x0f, 0x6d, 0x61, 0x78, 0x69, 0x6d, 0x75, 0x6d, 0x53, 0x65,
+	0x67, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0f, 0x6d, 0x61,
+	0x78, 0x69, 0x6d, 0x75, 0x6d, 0x53, 0x65, 0x67, 0x6d, 0x65, 0x6e, 0x74, 0x73, 0x12, 0x22, 0x0a,
+	0x0c, 0x61, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x18, 0x06, 0x20,
+	0x03, 0x28, 0x08, 0x52, 0x0c, 0x61, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74,
+	0x79, 0x22, 0x18, 0x0a, 0x16, 0x55, 0x70, 0x73, 0x65, 0x72, 0x74, 0x52, 0x65, 0x73, 0x6f, 0x75,
+	0x72, 0x63, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x09, 0x5a, 0x07, 0x2e,
+	0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -122,8 +182,8 @@ func file_availability_proto_rawDescGZIP() []byte {
 
 var file_availability_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_availability_proto_goTypes = []interface{}{
-	(*UpsertAvailabilityRequest)(nil),  // 0: proto.UpsertAvailabilityRequest
-	(*UpsertAvailabilityResponse)(nil), // 1: proto.UpsertAvailabilityResponse
+	(*UpsertResourceRequest)(nil),  // 0: proto.UpsertResourceRequest
+	(*UpsertResourceResponse)(nil), // 1: proto.UpsertResourceResponse
 }
 var file_availability_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -140,7 +200,7 @@ func file_availability_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_availability_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpsertAvailabilityRequest); i {
+			switch v := v.(*UpsertResourceRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -152,7 +212,7 @@ func file_availability_proto_init() {
 			}
 		}
 		file_availability_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpsertAvailabilityResponse); i {
+			switch v := v.(*UpsertResourceResponse); i {
 			case 0:
 				return &v.state
 			case 1:

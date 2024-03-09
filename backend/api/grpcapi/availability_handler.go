@@ -10,7 +10,7 @@ import (
 )
 
 type AvailabilityService interface {
-	UpsertAvailability(ctx context.Context) (*proto.UpsertAvailabilityResponse, error)
+	UpsertResource(ctx context.Context, req *proto.UpsertResourceRequest) (*proto.UpsertResourceResponse, error)
 }
 
 type AvailabilityHandler struct {
@@ -24,14 +24,14 @@ func NewAvailabilityHandler(availabilityService AvailabilityService) *Availabili
 	}
 }
 
-func (h *AvailabilityHandler) UpsertAvailability(ctx context.Context, req *proto.UpsertAvailabilityRequest) (*proto.UpsertAvailabilityResponse, error) {
+func (h *AvailabilityHandler) UpsertResource(ctx context.Context, req *proto.UpsertResourceRequest) (*proto.UpsertResourceResponse, error) {
 	if req == nil {
 		return nil, status.Error(
 			codes.InvalidArgument, "no request found",
 		)
 	}
 
-	resp, err := h.availabilityService.UpsertAvailability(ctx)
+	resp, err := h.availabilityService.UpsertResource(ctx, req)
 	if err != nil {
 		return nil, status.Error(
 			codes.Unknown, err.Error(),

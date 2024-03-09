@@ -11,7 +11,8 @@ import (
 )
 
 type ApiConfig struct {
-	APIPort string `envconfig:"API_PORT"               default:"8080"`
+	APIPort       string `envconfig:"API_PORT" default:"8080"`
+	MigrationsDir string `envconfig:"MIGRATIONS_DIR"`
 }
 
 var apiConfig *ApiConfig
@@ -20,7 +21,6 @@ var apiOnce sync.Once
 func LoadApiConfig() *ApiConfig {
 	apiOnce.Do(func() {
 		loadApiConfig()
-
 	})
 
 	return apiConfig

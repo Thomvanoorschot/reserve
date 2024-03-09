@@ -2,13 +2,19 @@ package tenant
 
 import (
 	"context"
+	"database/sql"
 	"fmt"
+	"time"
 
 	"reserve/clients/turso"
 	"reserve/generated/proto"
 )
 
 const Organization = "thomvanoorschot" // TODO Temporary
+
+type Migrator interface {
+	Migrate(db *sql.DB) error
+}
 
 type DbProvider interface {
 	CreateGroup(cgr turso.CreateGroupRequest) (g turso.Group, err error)
@@ -18,16 +24,28 @@ type IdentityProvider interface {
 	CreateTenant(ctx context.Context, name string) (string, error)
 	CreateAdmin(ctx context.Context, tenantID, email, password string) error
 }
+type Repository interface {
+	Db(tenant string) (*sql.DB, error)
+}
 
 type Service struct {
 	dbProvider       DbProvider
 	identityProvider IdentityProvider
+	migrator         Migrator
+	repository       Repository
 }
 
-func NewService(dbProvider DbProvider, identityProvider IdentityProvider) *Service {
+func NewService(
+	dbProvider DbProvider,
+	identityProvider IdentityProvider,
+	migrator Migrator,
+	repository Repository,
+) *Service {
 	return &Service{
 		dbProvider:       dbProvider,
 		identityProvider: identityProvider,
+		migrator:         migrator,
+		repository:       repository,
 	}
 }
 
@@ -65,6 +83,18 @@ func (s *Service) RegisterTenant(ctx context.Context, req *proto.RegisterTenantR
 		respCh <- &proto.RegisterTenantResponse{Error: err.Error()}
 	}
 
+	dbConn, err := s.repository.Db(req.Name)
+	if err != nil {
+		respCh <- &proto.RegisterTenantResponse{Error: err.Error()}
+	}
+
+	<-time.NewTimer(30 * time.Second).C
+
+	respCh <- &proto.RegisterTenantResponse{Status: "Running database migrations"}
+	err = s.migrator.Migrate(dbConn)
+	if err != nil {
+		respCh <- &proto.RegisterTenantResponse{Error: err.Error()}
+	}
 	fmt.Println(db.Hostname)
 	quitCh <- true
 }

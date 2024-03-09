@@ -1,10 +1,13 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"net"
 	"runtime/debug"
+
+	"reserve/migrations"
+	repo "reserve/repositories/turso"
+	"reserve/services/availability"
 
 	"github.com/bufbuild/protovalidate-go"
 	protovalidatemiddleware "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/protovalidate"
@@ -44,10 +47,6 @@ func main() {
 			grpcapi.ValidateToken,
 			protovalidatemiddleware.UnaryServerInterceptor(validator),
 			recovery.UnaryServerInterceptor(recovery.WithRecoveryHandler(grpcPanicRecoveryHandler)),
-			func(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (resp any, err error) {
-				fmt.Println("AAAAAAAAAA")
-				return handler(ctx, req)
-			},
 		),
 		grpc.ChainStreamInterceptor(
 			protovalidatemiddleware.StreamServerInterceptor(validator),
@@ -60,14 +59,18 @@ func main() {
 
 	tursoCfg := config.LoadTursoConfig()
 	tursoClient := turso.NewClient(tursoCfg)
+	repository := repo.NewRepository(tursoClient)
 
 	gcpConfig := config.LoadGCPConfig()
 	firebaseClient := gcpfirebase.NewClient(gcpConfig)
 
-	availabilityHandler := grpcapi.NewAvailabilityHandler(nil)
+	availabilityService := availability.NewService(repository)
+	availabilityHandler := grpcapi.NewAvailabilityHandler(availabilityService)
 	proto.RegisterAvailabilityServiceServer(s, availabilityHandler)
 
-	tenantService := tenant.NewService(tursoClient, firebaseClient)
+	migrator := migrations.NewMigrator()
+
+	tenantService := tenant.NewService(tursoClient, firebaseClient, migrator, repository)
 	tenantHandler := grpcapi.NewTenantHandler(tenantService)
 	proto.RegisterTenantServiceServer(s, tenantHandler)
 

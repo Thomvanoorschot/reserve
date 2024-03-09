@@ -4,7 +4,13 @@ package proto;
 
 option go_package = "./proto";
 
-message UpsertAvailabilityRequest {
+message UpsertResourceRequest {
+  int64 id = 1;
+  string name = 2;
+  int64 locationId = 3;
+  string minimumSegments = 4;
+  string maximumSegments = 5;
+  repeated bool availability = 6;
 }
-message UpsertAvailabilityResponse {
+message UpsertResourceResponse {
 }

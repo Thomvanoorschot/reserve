@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AvailabilityServiceClient interface {
-	UpsertAvailability(ctx context.Context, in *UpsertAvailabilityRequest, opts ...grpc.CallOption) (*UpsertAvailabilityResponse, error)
+	UpsertResource(ctx context.Context, in *UpsertResourceRequest, opts ...grpc.CallOption) (*UpsertResourceResponse, error)
 }
 
 type availabilityServiceClient struct {
@@ -33,9 +33,9 @@ func NewAvailabilityServiceClient(cc grpc.ClientConnInterface) AvailabilityServi
 	return &availabilityServiceClient{cc}
 }
 
-func (c *availabilityServiceClient) UpsertAvailability(ctx context.Context, in *UpsertAvailabilityRequest, opts ...grpc.CallOption) (*UpsertAvailabilityResponse, error) {
-	out := new(UpsertAvailabilityResponse)
-	err := c.cc.Invoke(ctx, "/proto.AvailabilityService/UpsertAvailability", in, out, opts...)
+func (c *availabilityServiceClient) UpsertResource(ctx context.Context, in *UpsertResourceRequest, opts ...grpc.CallOption) (*UpsertResourceResponse, error) {
+	out := new(UpsertResourceResponse)
+	err := c.cc.Invoke(ctx, "/proto.AvailabilityService/UpsertResource", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *availabilityServiceClient) UpsertAvailability(ctx context.Context, in *
 // All implementations must embed UnimplementedAvailabilityServiceServer
 // for forward compatibility
 type AvailabilityServiceServer interface {
-	UpsertAvailability(context.Context, *UpsertAvailabilityRequest) (*UpsertAvailabilityResponse, error)
+	UpsertResource(context.Context, *UpsertResourceRequest) (*UpsertResourceResponse, error)
 	mustEmbedUnimplementedAvailabilityServiceServer()
 }
 
@@ -54,8 +54,8 @@ type AvailabilityServiceServer interface {
 type UnimplementedAvailabilityServiceServer struct {
 }
 
-func (UnimplementedAvailabilityServiceServer) UpsertAvailability(context.Context, *UpsertAvailabilityRequest) (*UpsertAvailabilityResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpsertAvailability not implemented")
+func (UnimplementedAvailabilityServiceServer) UpsertResource(context.Context, *UpsertResourceRequest) (*UpsertResourceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpsertResource not implemented")
 }
 func (UnimplementedAvailabilityServiceServer) mustEmbedUnimplementedAvailabilityServiceServer() {}
 
@@ -70,20 +70,20 @@ func RegisterAvailabilityServiceServer(s grpc.ServiceRegistrar, srv Availability
 	s.RegisterService(&AvailabilityService_ServiceDesc, srv)
 }
 
-func _AvailabilityService_UpsertAvailability_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpsertAvailabilityRequest)
+func _AvailabilityService_UpsertResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpsertResourceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AvailabilityServiceServer).UpsertAvailability(ctx, in)
+		return srv.(AvailabilityServiceServer).UpsertResource(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.AvailabilityService/UpsertAvailability",
+		FullMethod: "/proto.AvailabilityService/UpsertResource",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AvailabilityServiceServer).UpsertAvailability(ctx, req.(*UpsertAvailabilityRequest))
+		return srv.(AvailabilityServiceServer).UpsertResource(ctx, req.(*UpsertResourceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -96,8 +96,8 @@ var AvailabilityService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AvailabilityServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "UpsertAvailability",
-			Handler:    _AvailabilityService_UpsertAvailability_Handler,
+			MethodName: "UpsertResource",
+			Handler:    _AvailabilityService_UpsertResource_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

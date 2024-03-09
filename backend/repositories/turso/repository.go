@@ -1,7 +1,6 @@
 package turso
 
 import (
-	"context"
 	"database/sql"
 	"fmt"
 	"sync"
@@ -41,9 +40,7 @@ func (r *Repository) AddConnection(token, dbName string) (*sql.DB, error) {
 	return db, nil
 }
 
-func (r *Repository) Db(ctx context.Context) (*sql.DB, error) {
-	// TODO Get key from ctx
-	tenant := ctx.Value("tenant").(string)
+func (r *Repository) Db(tenant string) (*sql.DB, error) {
 	cachedDb, ok := r.dbs.Load(tenant)
 	if ok {
 		return cachedDb.(*sql.DB), nil
@@ -53,7 +50,7 @@ func (r *Repository) Db(ctx context.Context) (*sql.DB, error) {
 		DatabaseName: tenant,
 		Expiration:   "24h",
 	})
-	
+
 	// Removing almost expired key from cache
 	go func() {
 		<-time.NewTimer(23 * time.Hour).C
