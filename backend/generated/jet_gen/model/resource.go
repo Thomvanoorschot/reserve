@@ -11,6 +11,9 @@ type Resource struct {
 	ID                   *int64 `sql:"primary_key"`
 	Name                 string
 	LocationID           int64
+	MinimumSegments      int64
+	MaximumSegments      int64
+	AllowInvalidSegments bool
 	DefaultAvailability1 int64
 	DefaultAvailability2 int64
 }

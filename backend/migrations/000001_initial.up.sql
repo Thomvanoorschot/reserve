@@ -9,6 +9,7 @@ CREATE TABLE resource (
     location_id INTEGER NOT NULL,
     minimum_segments INTEGER  NOT NULL,
     maximum_segments INTEGER  NOT NULL,
+    allow_invalid_segments BOOLEAN NOT NULL,
     default_availability_1 INTEGER NOT NULL,
     default_availability_2 INTEGER NOT NULL,
     FOREIGN KEY(location_id) REFERENCES location(id)

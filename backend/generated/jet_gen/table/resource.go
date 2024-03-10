@@ -20,6 +20,9 @@ type resourceTable struct {
 	ID                   sqlite.ColumnInteger
 	Name                 sqlite.ColumnString
 	LocationID           sqlite.ColumnInteger
+	MinimumSegments      sqlite.ColumnInteger
+	MaximumSegments      sqlite.ColumnInteger
+	AllowInvalidSegments sqlite.ColumnBool
 	DefaultAvailability1 sqlite.ColumnInteger
 	DefaultAvailability2 sqlite.ColumnInteger
 
@@ -65,10 +68,13 @@ func newResourceTableImpl(schemaName, tableName, alias string) resourceTable {
 		IDColumn                   = sqlite.IntegerColumn("id")
 		NameColumn                 = sqlite.StringColumn("name")
 		LocationIDColumn           = sqlite.IntegerColumn("location_id")
+		MinimumSegmentsColumn      = sqlite.IntegerColumn("minimum_segments")
+		MaximumSegmentsColumn      = sqlite.IntegerColumn("maximum_segments")
+		AllowInvalidSegmentsColumn = sqlite.BoolColumn("allow_invalid_segments")
 		DefaultAvailability1Column = sqlite.IntegerColumn("default_availability_1")
 		DefaultAvailability2Column = sqlite.IntegerColumn("default_availability_2")
-		allColumns                 = sqlite.ColumnList{IDColumn, NameColumn, LocationIDColumn, DefaultAvailability1Column, DefaultAvailability2Column}
-		mutableColumns             = sqlite.ColumnList{NameColumn, LocationIDColumn, DefaultAvailability1Column, DefaultAvailability2Column}
+		allColumns                 = sqlite.ColumnList{IDColumn, NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultAvailability1Column, DefaultAvailability2Column}
+		mutableColumns             = sqlite.ColumnList{NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultAvailability1Column, DefaultAvailability2Column}
 	)
 
 	return resourceTable{
@@ -78,6 +84,9 @@ func newResourceTableImpl(schemaName, tableName, alias string) resourceTable {
 		ID:                   IDColumn,
 		Name:                 NameColumn,
 		LocationID:           LocationIDColumn,
+		MinimumSegments:      MinimumSegmentsColumn,
+		MaximumSegments:      MaximumSegmentsColumn,
+		AllowInvalidSegments: AllowInvalidSegmentsColumn,
 		DefaultAvailability1: DefaultAvailability1Column,
 		DefaultAvailability2: DefaultAvailability2Column,
 
