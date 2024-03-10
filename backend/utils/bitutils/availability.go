@@ -25,26 +25,49 @@ func CountConsecutiveOnes(num int64) int64 {
 	return count
 }
 
-func BitsToSlotStarts(startTimes []time.Time, num uint64, allowInvalidSegments bool, minimumSegments int8) []time.Time {
-	today := time.Now().Local()
+type SplitUpDay struct {
+	PartOne uint64
+	PartTwo uint64
+}
+
+func BitsToSlotStarts(days []SplitUpDay, allowInvalidSegments bool, minimumSegments int8) []time.Time {
+	var startTimes []time.Time
 	mask := createBitmask(minimumSegments)
 	fmt.Printf("using bitmask: %064b\n", mask)
-
+	for i, day := range days {
+		if day.PartTwo == 0 {
+			continue
+		}
+		dt := time.Now().Local().Add(time.Duration(i) * 24 * time.Hour)
+		day.PartOne = day.PartOne | day.PartTwo<<48
+		if i < (len(days) - 1) {
+			day.PartTwo = day.PartTwo | days[i+1].PartOne<<48
+		}
+		//fmt.Printf("a1 availability: %064b\n", a1)
+		startTimes = append(startTimes, processPartOfDay(day.PartOne, dt, mask, false)...)
+		startTimes = append(startTimes, processPartOfDay(day.PartTwo, dt, mask, true)...)
+	}
+	return startTimes
+}
+func processPartOfDay(partOfDay uint64, today time.Time, mask uint64, isSecondPart bool) []time.Time {
+	var times []time.Time
 	for i := 0; i < 48; i++ {
-		nextNum := num >> uint(i)
-		bit := nextNum & 1
+		nextNum := partOfDay >> uint(i)
+		fmt.Printf("a1 availability: %064b\n", nextNum)
+
 		satisfiesMask := (nextNum & mask) == mask
 		if !satisfiesMask {
 			continue
 		}
-		if bit == 1 {
-			startOfDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
-			startTimes = append(startTimes, startOfDay.Add(15*time.Minute*time.Duration(i)))
+		startOfDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
+		multiplier := time.Duration(i)
+		if isSecondPart {
+			multiplier = multiplier + 48
 		}
+		times = append(times, startOfDay.Add(15*time.Minute*multiplier))
 	}
-	return startTimes
+	return times
 }
-
 func createBitmask(minimumSegments int8) uint64 {
 	return math.MaxUint64 >> (64 - minimumSegments)
 }
