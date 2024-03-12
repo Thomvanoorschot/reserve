@@ -30,43 +30,47 @@ type SplitUpDay struct {
 	PartTwo uint64
 }
 
+const (
+	SegmentsInDay             = 96
+	SegmentsInHalfDay         = SegmentsInDay / 2
+	SegmentsInQuarterDay      = SegmentsInHalfDay / 2
+	SegmentsInThreeQuarterDay = SegmentsInHalfDay + SegmentsInQuarterDay
+)
+
 func BitsToSlotStarts(days []SplitUpDay, allowInvalidSegments bool, minimumSegments int8) []time.Time {
 	var startTimes []time.Time
 	mask := createBitmask(minimumSegments)
-	fmt.Printf("using bitmask: %064b\n", mask)
 	for i, day := range days {
 		if day.PartTwo == 0 {
 			continue
 		}
-		dt := time.Now().Local().Add(time.Duration(i) * 24 * time.Hour)
-		day.PartOne = day.PartOne | day.PartTwo<<48
+		today := time.Now().Local().Add(time.Duration(i) * 24 * time.Hour)
+		startOfDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
+		day.PartOne |= day.PartTwo << SegmentsInHalfDay
 		if i < (len(days) - 1) {
-			day.PartTwo = day.PartTwo | days[i+1].PartOne<<48
+			day.PartTwo |= days[i+1].PartOne << 48
 		}
-		//fmt.Printf("a1 availability: %064b\n", a1)
-		startTimes = append(startTimes, processPartOfDay(day.PartOne, dt, mask, false)...)
-		startTimes = append(startTimes, processPartOfDay(day.PartTwo, dt, mask, true)...)
+		for si := 1; si <= SegmentsInDay; si++ {
+			if si != 1 {
+				mask = mask << uint(1)
+			}
+
+			if si == SegmentsInHalfDay || si == SegmentsInThreeQuarterDay {
+				mask >>= SegmentsInQuarterDay
+				day.PartOne >>= SegmentsInQuarterDay
+				day.PartOne |= day.PartTwo << SegmentsInQuarterDay
+			}
+			fmt.Printf("availability      : %064b\n", day.PartOne)
+			fmt.Printf("mask              : %064b\n", mask)
+			satisfiesMask := (day.PartOne & mask) == mask
+			if !satisfiesMask || (!allowInvalidSegments && (si-1)%2 != 0) {
+				continue
+			}
+
+			startTimes = append(startTimes, startOfDay.Add(15*time.Minute*time.Duration(si-1)))
+		}
 	}
 	return startTimes
-}
-func processPartOfDay(partOfDay uint64, today time.Time, mask uint64, isSecondPart bool) []time.Time {
-	var times []time.Time
-	for i := 0; i < 48; i++ {
-		nextNum := partOfDay >> uint(i)
-		fmt.Printf("a1 availability: %064b\n", nextNum)
-
-		satisfiesMask := (nextNum & mask) == mask
-		if !satisfiesMask {
-			continue
-		}
-		startOfDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
-		multiplier := time.Duration(i)
-		if isSecondPart {
-			multiplier = multiplier + 48
-		}
-		times = append(times, startOfDay.Add(15*time.Minute*multiplier))
-	}
-	return times
 }
 func createBitmask(minimumSegments int8) uint64 {
 	return math.MaxUint64 >> (64 - minimumSegments)
