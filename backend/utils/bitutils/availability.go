@@ -48,8 +48,9 @@ func BitsToSlotStarts(days []SplitUpDay, allowInvalidSegments bool, minimumSegme
 		startOfDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
 		day.PartOne |= day.PartTwo << SegmentsInHalfDay
 		if i < (len(days) - 1) {
-			day.PartTwo |= days[i+1].PartOne << 48
+			day.PartTwo |= days[i+1].PartOne << SegmentsInHalfDay
 		}
+		var cursor int
 		for si := 1; si <= SegmentsInDay; si++ {
 			if si != 1 {
 				mask = mask << uint(1)
@@ -59,21 +60,45 @@ func BitsToSlotStarts(days []SplitUpDay, allowInvalidSegments bool, minimumSegme
 				mask >>= SegmentsInQuarterDay
 				day.PartOne >>= SegmentsInQuarterDay
 				day.PartOne |= day.PartTwo << SegmentsInQuarterDay
+				cursor -= SegmentsInQuarterDay
+			} else {
+				cursor++
 			}
-			fmt.Printf("availability      : %064b\n", day.PartOne)
-			fmt.Printf("mask              : %064b\n", mask)
+			//fmt.Printf("availability      : %064b\n", day.PartOne)
+			//fmt.Printf("mask              : %064b\n", mask)
+			//consecutiveOnes := countFlippedBitsUntilIndex(day.PartOne, si-1)
+			//fmt.Printf("consecutiveOnes   : %d\n", consecutiveOnes)
 			satisfiesMask := (day.PartOne & mask) == mask
-			if !satisfiesMask || (!allowInvalidSegments && (si-1)%2 != 0) {
+			if !satisfiesMask || (!allowInvalidSegments && countFlippedBitsUntilIndex(day.PartOne, cursor-1)%minimumSegments != 0) {
 				continue
 			}
+			// Kademlia
 
 			startTimes = append(startTimes, startOfDay.Add(15*time.Minute*time.Duration(si-1)))
 		}
 	}
 	return startTimes
 }
+
 func createBitmask(minimumSegments int8) uint64 {
 	return math.MaxUint64 >> (64 - minimumSegments)
+}
+
+func countFlippedBitsUntilIndex(num uint64, index int) int8 {
+	if index == 0 {
+		return 0
+	}
+	var count int8 = 0
+
+	for i := 0; i < index; i++ {
+		if (num>>(index-i-1))&1 == 1 {
+			count++
+		} else {
+			return count
+		}
+	}
+
+	return count
 }
 
 func PrintBits(num int64) {
