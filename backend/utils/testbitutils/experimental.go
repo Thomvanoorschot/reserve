@@ -33,7 +33,7 @@ func BitsToSlotStarts(ad []AvailabilityDay, allowInvalidSegments bool, minimumSe
 		today.Add(time.Duration(i) * 24 * time.Hour)
 		startOfDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
 
-		// We're using only 48 of the 64 bits in an UINT64. This leaves 16 bits unused.
+		// Only the first 48 of the 64 bits in an UINT64 are used. This leaves 16 bits unused.
 		// PartOne would look like: 0b0000000000000000111111111111111111111111111111111111111111111111
 		// This takes empty bits on the most significant side and replaces it with the 16 least significant.
 		// bits from the second part of the day. If PartTwo looked something like 0b1010101010101010, this would
@@ -53,9 +53,9 @@ func BitsToSlotStarts(ad []AvailabilityDay, allowInvalidSegments bool, minimumSe
 		// The for loop starts at 1 instead of 0, this is done so that it can use the "SegmentsInX" variables without
 		// subtracting one each time. This makes debugging a lot easier.
 		for si := 1; si <= SegmentsInDay; si++ {
-			// It does not make sense to shift the mask in the first iteration, we need to check if it matches in the
-			// initial position. After the first iteration the bitmask is shifted to the left each iteration. This
-			// is how it determines if it should add an availability time slot.
+			// It does not make sense to shift the mask in the first iteration, not shifting for the first iteration
+			// checks if it matches in the initial position. After the first iteration the bitmask is shifted to
+			// the left each iteration. This is how it determines if it should add an availability time slot.
 			if si != 1 {
 				mask = mask << uint(1)
 			}
