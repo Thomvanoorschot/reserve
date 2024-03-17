@@ -23,7 +23,7 @@ type expectedResult struct {
 }
 type definition struct {
 	name                 string
-	availability         []SplitUpDay
+	availability         []AvailabilityDay
 	allowInvalidSegments bool
 	minimumSegments      int16
 	expectedResult       expectedResult
@@ -32,7 +32,7 @@ type definition struct {
 var definitions = []definition{
 	{
 		name: "end of part spills over to first part",
-		availability: []SplitUpDay{
+		availability: []AvailabilityDay{
 			{
 				PartOne:   0b100000000000000000000000000000000000000000000000,
 				PartTwo:   0b000000000000000000000000000000000000000000000001,
@@ -51,7 +51,7 @@ var definitions = []definition{
 	},
 	{
 		name: "large minimum segment of 4 hours should still work",
-		availability: []SplitUpDay{
+		availability: []AvailabilityDay{
 			{
 				PartOne:   0b111110000000000000000000000000000000000000000000,
 				PartTwo:   0b000001111111111111111111111111111111111111111111,
@@ -70,7 +70,7 @@ var definitions = []definition{
 	},
 	{
 		name: "handle gaps in availability",
-		availability: []SplitUpDay{
+		availability: []AvailabilityDay{
 			{
 				PartOne:   0b000000000000000000000000000000000000000000000000,
 				PartTwo:   0b000000000000000000000000000000000000000000000000,
@@ -92,7 +92,7 @@ var definitions = []definition{
 	},
 	{
 		name: "allow invalid segments doesn't skip",
-		availability: []SplitUpDay{
+		availability: []AvailabilityDay{
 			{
 				PartOne:   0b000000000000000000000000000000000000000000000000,
 				PartTwo:   0b000000000000000000000000000000000000000000000000,
@@ -110,7 +110,7 @@ var definitions = []definition{
 	},
 	{
 		name: "invalid segment in previous bit range",
-		availability: []SplitUpDay{
+		availability: []AvailabilityDay{
 			{
 				PartOne:   0b000000000000000000000000000000000000000000000000,
 				PartTwo:   0b111111111000000000000000000000000000000000000000,
