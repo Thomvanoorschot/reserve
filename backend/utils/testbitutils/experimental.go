@@ -1,11 +1,12 @@
 package testbitutils
 
 import (
+	"fmt"
 	"math"
 	"time"
 )
 
-type AvailabilityDay struct {
+type DayBits struct {
 	PartOne   uint64
 	PartTwo   uint64
 	PartThree uint64
@@ -14,15 +15,86 @@ type AvailabilityDay struct {
 	PartSix   uint64
 }
 
+type AvailabilityDay struct {
+	DayBits
+}
+type Reservation struct {
+	DayBits
+}
+
 const (
 	MinutesInSegment        = 5
 	SegmentsInDay           = 288
 	SegmentsInOneSixthDay   = SegmentsInDay / 6
 	SegmentsInOneTwelfthDay = SegmentsInOneSixthDay / 2
 	OneTwelfthBitRange      = 0b111111111111111111111111
+	OneSixthBitRange        = 0b111111111111111111111111111111111111111111111111
 )
 
-func BitsToSlotStarts(ad []AvailabilityDay, allowInvalidSegments bool, minimumSegments int16) []time.Time {
+func GetReservationBits(startAt, endAt time.Time) Reservation {
+	startOfDay := time.Date(startAt.Year(), startAt.Month(), startAt.Day(), 0, 0, 0, 0, startAt.Location())
+
+	minutesSinceStartOfDay := startAt.Sub(startOfDay).Minutes()
+	minutesUntilEndOfSegment := endAt.Sub(startAt).Minutes()
+	startIndex := minutesSinceStartOfDay / MinutesInSegment
+	relativeStartIndex := int(startIndex) % SegmentsInOneSixthDay
+	maskLength := minutesUntilEndOfSegment / MinutesInSegment
+	maskLengthRemainder := int(maskLength) + relativeStartIndex - SegmentsInOneSixthDay
+	mask := createBitmask(int16(maskLength))
+	mask <<= relativeStartIndex
+	mask &= OneSixthBitRange
+
+	r := Reservation{}
+
+	if startIndex <= 48 {
+		r.PartOne = mask
+		if maskLengthRemainder > 0 {
+			remainderMask := createBitmask(int16(maskLengthRemainder))
+			remainderMask &= OneSixthBitRange
+			r.PartTwo &= remainderMask
+		}
+	} else if startIndex <= 96 {
+		r.PartTwo = mask
+		if maskLengthRemainder > 0 {
+			remainderMask := createBitmask(int16(maskLengthRemainder))
+			remainderMask &= OneSixthBitRange
+			r.PartThree &= remainderMask
+		}
+	} else if startIndex <= 144 {
+		r.PartThree = mask
+		if maskLengthRemainder > 0 {
+			remainderMask := createBitmask(int16(maskLengthRemainder))
+			remainderMask &= OneSixthBitRange
+			r.PartFour &= remainderMask
+		}
+	} else if startIndex <= 192 {
+		r.PartFour = mask
+		if maskLengthRemainder > 0 {
+			remainderMask := createBitmask(int16(maskLengthRemainder))
+			remainderMask &= OneSixthBitRange
+			r.PartFive &= remainderMask
+		}
+	} else if startIndex <= 240 {
+		r.PartFive = mask
+		if maskLengthRemainder > 0 {
+			remainderMask := createBitmask(int16(maskLengthRemainder))
+			remainderMask &= OneSixthBitRange
+			r.PartSix &= remainderMask
+		}
+	} else if startIndex <= 288 {
+		r.PartSix = mask
+	}
+	fmt.Printf("PartOne   : %064b\n", r.PartOne)
+	fmt.Printf("PartTwo   : %064b\n", r.PartTwo)
+	fmt.Printf("PartThree : %064b\n", r.PartThree)
+	fmt.Printf("PartFour  : %064b\n", r.PartFour)
+	fmt.Printf("PartFive  : %064b\n", r.PartFive)
+	fmt.Printf("PartSix   : %064b\n", r.PartSix)
+
+	return r
+}
+
+func GetTimeSlotStarts(ad []AvailabilityDay, allowInvalidSegments bool, minimumSegments int16) []time.Time {
 	startTimes := make([]time.Time, 0, 8)
 	mask := createBitmask(minimumSegments)
 	today := time.Now().Local()

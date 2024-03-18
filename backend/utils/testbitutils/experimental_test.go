@@ -34,12 +34,14 @@ var definitions = []definition{
 		name: "end of part spills over to first part",
 		availability: []AvailabilityDay{
 			{
-				PartOne:   0b100000000000000000000000000000000000000000000000,
-				PartTwo:   0b000000000000000000000000000000000000000000000001,
-				PartThree: 0b000000000000000000000000000000000000000000000000,
-				PartFour:  0b000000000000000000000000000000000000000000000000,
-				PartFive:  0b000000000000000000000000000000000000000000000000,
-				PartSix:   0b000000000000000000000000000000000000000000000000,
+				DayBits{
+					PartOne:   0b100000000000000000000000000000000000000000000000,
+					PartTwo:   0b000000000000000000000000000000000000000000000001,
+					PartThree: 0b000000000000000000000000000000000000000000000000,
+					PartFour:  0b000000000000000000000000000000000000000000000000,
+					PartFive:  0b000000000000000000000000000000000000000000000000,
+					PartSix:   0b000000000000000000000000000000000000000000000000,
+				},
 			}, {},
 		},
 		allowInvalidSegments: false,
@@ -53,12 +55,14 @@ var definitions = []definition{
 		name: "large minimum segment of 4 hours should still work",
 		availability: []AvailabilityDay{
 			{
-				PartOne:   0b111110000000000000000000000000000000000000000000,
-				PartTwo:   0b000001111111111111111111111111111111111111111111,
-				PartThree: 0b000000000000000000000000000000000000000000000000,
-				PartFour:  0b000000000000000000000000000000000000000000000000,
-				PartFive:  0b000000000000000000000000000000000000000000000000,
-				PartSix:   0b000000000000000000000000000000000000000000000000,
+				DayBits{
+					PartOne:   0b111110000000000000000000000000000000000000000000,
+					PartTwo:   0b000001111111111111111111111111111111111111111111,
+					PartThree: 0b000000000000000000000000000000000000000000000000,
+					PartFour:  0b000000000000000000000000000000000000000000000000,
+					PartFive:  0b000000000000000000000000000000000000000000000000,
+					PartSix:   0b000000000000000000000000000000000000000000000000,
+				},
 			}, {},
 		},
 		allowInvalidSegments: false,
@@ -72,13 +76,16 @@ var definitions = []definition{
 		name: "handle gaps in availability",
 		availability: []AvailabilityDay{
 			{
-				PartOne:   0b000000000000000000000000000000000000000000000000,
-				PartTwo:   0b000000000000000000000000000000000000000000000000,
-				PartThree: 0b000000000000000000001111111111110000111111111111,
-				PartFour:  0b000000000000000000000000000000000000000000000000,
-				PartFive:  0b000000000000000000000000000000000000000000000000,
-				PartSix:   0b000000000000000000000000000000000000000000000000,
-			}, {},
+				DayBits{
+					PartOne:   0b000000000000000000000000000000000000000000000000,
+					PartTwo:   0b000000000000000000000000000000000000000000000000,
+					PartThree: 0b000000000000000000001111111111110000111111111111,
+					PartFour:  0b000000000000000000000000000000000000000000000000,
+					PartFive:  0b000000000000000000000000000000000000000000000000,
+					PartSix:   0b000000000000000000000000000000000000000000000000,
+				},
+			},
+			{},
 		},
 		allowInvalidSegments: false,
 		minimumSegments:      12,
@@ -94,12 +101,14 @@ var definitions = []definition{
 		name: "allow invalid segments doesn't skip",
 		availability: []AvailabilityDay{
 			{
-				PartOne:   0b000000000000000000000000000000000000000000000000,
-				PartTwo:   0b000000000000000000000000000000000000000000000000,
-				PartThree: 0b000000000000000000000011110000000000000000000000,
-				PartFour:  0b000000000000000000000000000000000000000000000000,
-				PartFive:  0b000000000000000000000000000000000000000000000000,
-				PartSix:   0b000000000000000000000000000000000000000000000000,
+				DayBits{
+					PartOne:   0b000000000000000000000000000000000000000000000000,
+					PartTwo:   0b000000000000000000000000000000000000000000000000,
+					PartThree: 0b000000000000000000000011110000000000000000000000,
+					PartFour:  0b000000000000000000000000000000000000000000000000,
+					PartFive:  0b000000000000000000000000000000000000000000000000,
+					PartSix:   0b000000000000000000000000000000000000000000000000,
+				},
 			}, {},
 		},
 		allowInvalidSegments: true,
@@ -112,12 +121,14 @@ var definitions = []definition{
 		name: "invalid segment in previous bit range",
 		availability: []AvailabilityDay{
 			{
-				PartOne:   0b000000000000000000000000000000000000000000000000,
-				PartTwo:   0b111111111000000000000000000000000000000000000000,
-				PartThree: 0b111111111111111111111111111111111111111111111111,
-				PartFour:  0b000000000000000000000000000000000000000000000000,
-				PartFive:  0b000000000000000000000000000000000000000000000000,
-				PartSix:   0b000000000000000000000000000000000000000000000000,
+				DayBits{
+					PartOne:   0b000000000000000000000000000000000000000000000000,
+					PartTwo:   0b111111111000000000000000000000000000000000000000,
+					PartThree: 0b111111111111111111111111111111111111111111111111,
+					PartFour:  0b000000000000000000000000000000000000000000000000,
+					PartFive:  0b000000000000000000000000000000000000000000000000,
+					PartSix:   0b000000000000000000000000000000000000000000000000,
+				},
 			}, {},
 		},
 		allowInvalidSegments: false,
@@ -134,23 +145,23 @@ var definitions = []definition{
 	},
 }
 
-func BenchmarkBitsToSlotStarts(b *testing.B) {
+func BenchmarkGetTimeSlotStarts(b *testing.B) {
 	for _, testCase := range definitions {
 		b.Run(testCase.name, func(b *testing.B) {
 			b.ReportAllocs()
 			for i := 0; i < b.N; i++ {
-				BitsToSlotStarts(testCase.availability, testCase.allowInvalidSegments, testCase.minimumSegments)
+				GetTimeSlotStarts(testCase.availability, testCase.allowInvalidSegments, testCase.minimumSegments)
 			}
 		})
 	}
 }
 
-func TestBitsToSlotStarts(t *testing.T) {
+func TestGetTimeSlotStarts(t *testing.T) {
 	t.Parallel()
 
 	for _, testCase := range definitions {
 		t.Run(testCase.name, func(t *testing.T) {
-			startTimes := BitsToSlotStarts(testCase.availability, testCase.allowInvalidSegments, testCase.minimumSegments)
+			startTimes := GetTimeSlotStarts(testCase.availability, testCase.allowInvalidSegments, testCase.minimumSegments)
 			if len(startTimes) != testCase.expectedResult.length {
 				t.Errorf("expected %d of startTimes but got %d", testCase.expectedResult.length, len(startTimes))
 			}
@@ -170,4 +181,21 @@ func TestBitsToSlotStarts(t *testing.T) {
 			}
 		})
 	}
+}
+
+func TestGetReservationBits(t *testing.T) {
+	testToday := time.Now().Local()
+
+	GetReservationBits(
+		time.Date(testToday.Year(), testToday.Month(), testToday.Day(), 0, 10, 0, 0, testToday.Location()),
+		time.Date(testToday.Year(), testToday.Month(), testToday.Day(), 0, 20, 0, 0, testToday.Location()),
+	)
+}
+func TestGetReservationBitsSpillover(t *testing.T) {
+	testToday := time.Now().Local()
+
+	GetReservationBits(
+		time.Date(testToday.Year(), testToday.Month(), testToday.Day(), 0, 10, 0, 0, testToday.Location()),
+		time.Date(testToday.Year(), testToday.Month(), testToday.Day(), 8, 20, 0, 0, testToday.Location()),
+	)
 }
