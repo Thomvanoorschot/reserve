@@ -17,19 +17,19 @@ import (
 
 var today = time.Now().Local()
 
-type expectedResult struct {
+type tsExpectedResult struct {
 	length     int
 	startTimes []time.Time
 }
-type definition struct {
+type tsDefinition struct {
 	name                 string
 	availability         []AvailabilityDay
 	allowInvalidSegments bool
 	minimumSegments      int16
-	expectedResult       expectedResult
+	expectedResult       tsExpectedResult
 }
 
-var definitions = []definition{
+var tsDefinitions = []tsDefinition{
 	{
 		name: "end of part spills over to first part",
 		availability: []AvailabilityDay{
@@ -46,7 +46,7 @@ var definitions = []definition{
 		},
 		allowInvalidSegments: false,
 		minimumSegments:      2,
-		expectedResult: expectedResult{
+		expectedResult: tsExpectedResult{
 			length:     1,
 			startTimes: []time.Time{time.Date(today.Year(), today.Month(), today.Day(), 3, 55, 0, 0, today.Location())},
 		},
@@ -67,7 +67,7 @@ var definitions = []definition{
 		},
 		allowInvalidSegments: false,
 		minimumSegments:      48,
-		expectedResult: expectedResult{
+		expectedResult: tsExpectedResult{
 			length:     1,
 			startTimes: []time.Time{time.Date(today.Year(), today.Month(), today.Day(), 3, 35, 0, 0, today.Location())},
 		},
@@ -89,7 +89,7 @@ var definitions = []definition{
 		},
 		allowInvalidSegments: false,
 		minimumSegments:      12,
-		expectedResult: expectedResult{
+		expectedResult: tsExpectedResult{
 			length: 2,
 			startTimes: []time.Time{
 				time.Date(today.Year(), today.Month(), today.Day(), 8, 0, 0, 0, today.Location()),
@@ -113,7 +113,7 @@ var definitions = []definition{
 		},
 		allowInvalidSegments: true,
 		minimumSegments:      2,
-		expectedResult: expectedResult{
+		expectedResult: tsExpectedResult{
 			length: 3,
 		},
 	},
@@ -133,7 +133,7 @@ var definitions = []definition{
 		},
 		allowInvalidSegments: false,
 		minimumSegments:      12,
-		expectedResult: expectedResult{
+		expectedResult: tsExpectedResult{
 			length: 4,
 			startTimes: []time.Time{
 				time.Date(today.Year(), today.Month(), today.Day(), 7, 15, 0, 0, today.Location()),
@@ -146,7 +146,7 @@ var definitions = []definition{
 }
 
 func BenchmarkGetTimeSlotStarts(b *testing.B) {
-	for _, testCase := range definitions {
+	for _, testCase := range tsDefinitions {
 		b.Run(testCase.name, func(b *testing.B) {
 			b.ReportAllocs()
 			for i := 0; i < b.N; i++ {
@@ -159,7 +159,7 @@ func BenchmarkGetTimeSlotStarts(b *testing.B) {
 func TestGetTimeSlotStarts(t *testing.T) {
 	t.Parallel()
 
-	for _, testCase := range definitions {
+	for _, testCase := range tsDefinitions {
 		t.Run(testCase.name, func(t *testing.T) {
 			startTimes := GetTimeSlotStarts(testCase.availability, testCase.allowInvalidSegments, testCase.minimumSegments)
 			if len(startTimes) != testCase.expectedResult.length {
@@ -183,19 +183,101 @@ func TestGetTimeSlotStarts(t *testing.T) {
 	}
 }
 
-func TestGetReservationBits(t *testing.T) {
-	testToday := time.Now().Local()
-
-	GetReservationBits(
-		time.Date(testToday.Year(), testToday.Month(), testToday.Day(), 0, 10, 0, 0, testToday.Location()),
-		time.Date(testToday.Year(), testToday.Month(), testToday.Day(), 0, 20, 0, 0, testToday.Location()),
-	)
+type rsExpectedResult struct {
+	partOne   uint64
+	partTwo   uint64
+	partThree uint64
+	partFour  uint64
+	partFive  uint64
+	partSix   uint64
 }
-func TestGetReservationBitsSpillover(t *testing.T) {
-	testToday := time.Now().Local()
+type rsDefinition struct {
+	name           string
+	expectedResult rsExpectedResult
+	startAt        time.Time
+	endAt          time.Time
+}
 
-	GetReservationBits(
-		time.Date(testToday.Year(), testToday.Month(), testToday.Day(), 0, 10, 0, 0, testToday.Location()),
-		time.Date(testToday.Year(), testToday.Month(), testToday.Day(), 8, 20, 0, 0, testToday.Location()),
-	)
+var rsDefinitions = []rsDefinition{
+	{
+		name:    "simple example shows correct stimeslots",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 10, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 20, 0, 0, today.Location()),
+		expectedResult: rsExpectedResult{
+			partOne:   0b0000000000000000000000000000000000000000000000000000000000001100,
+			partTwo:   0b0000000000000000000000000000000000000000000000000000000000000000,
+			partThree: 0b0000000000000000000000000000000000000000000000000000000000000000,
+			partFour:  0b0000000000000000000000000000000000000000000000000000000000000000,
+			partFive:  0b0000000000000000000000000000000000000000000000000000000000000000,
+			partSix:   0b0000000000000000000000000000000000000000000000000000000000000000,
+		},
+	},
+	{
+		name:    "long reservation that spans multiple bit ranges",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 10, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 12, 0, 0, 0, today.Location()),
+		expectedResult: rsExpectedResult{
+			partOne:   0b0000000000000000111111111111111111111111111111111111111111111100,
+			partTwo:   0b0000000000000000111111111111111111111111111111111111111111111111,
+			partThree: 0b0000000000000000111111111111111111111111111111111111111111111111,
+			partFour:  0b0000000000000000000000000000000000000000000000000000000000000000,
+			partFive:  0b0000000000000000000000000000000000000000000000000000000000000000,
+			partSix:   0b0000000000000000000000000000000000000000000000000000000000000000,
+		},
+	},
+	{
+		name:    "reservation at the start",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 30, 0, 0, today.Location()),
+		expectedResult: rsExpectedResult{
+			partOne:   0b0000000000000000000000000000000000000000000000000000000000111111,
+			partTwo:   0b0000000000000000000000000000000000000000000000000000000000000000,
+			partThree: 0b0000000000000000000000000000000000000000000000000000000000000000,
+			partFour:  0b0000000000000000000000000000000000000000000000000000000000000000,
+			partFive:  0b0000000000000000000000000000000000000000000000000000000000000000,
+			partSix:   0b0000000000000000000000000000000000000000000000000000000000000000,
+		},
+	},
+	{
+		name:    "reservation at the end",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 20, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 20, 30, 0, 0, today.Location()),
+		expectedResult: rsExpectedResult{
+			partOne:   0b0000000000000000000000000000000000000000000000000000000000000000,
+			partTwo:   0b0000000000000000000000000000000000000000000000000000000000000000,
+			partThree: 0b0000000000000000000000000000000000000000000000000000000000000000,
+			partFour:  0b0000000000000000000000000000000000000000000000000000000000000000,
+			partFive:  0b0000000000000000000000000000000000000000000000000000000000000000,
+			partSix:   0b0000000000000000000000000000000000000000000000000000000000111111,
+		},
+	},
+}
+
+func TestGetReservationBits(t *testing.T) {
+	t.Parallel()
+
+	for _, testCase := range rsDefinitions {
+		t.Run(testCase.name, func(t *testing.T) {
+			reservation := GetReservationBits(testCase.startAt, testCase.endAt)
+			if reservation.PartOne != testCase.expectedResult.partOne ||
+				reservation.PartTwo != testCase.expectedResult.partTwo ||
+				reservation.PartThree != testCase.expectedResult.partThree ||
+				reservation.PartFour != testCase.expectedResult.partFour ||
+				reservation.PartFive != testCase.expectedResult.partFive ||
+				reservation.PartSix != testCase.expectedResult.partSix {
+				t.Errorf("part of day did not match expected outcome")
+			}
+		})
+	}
+}
+
+func BenchmarkGetReservationBits(b *testing.B) {
+	for _, testCase := range rsDefinitions {
+		b.Run(testCase.name, func(b *testing.B) {
+			b.ReportAllocs()
+			for i := 0; i < b.N; i++ {
+				GetReservationBits(testCase.startAt, testCase.endAt)
+			}
+		})
+	}
 }

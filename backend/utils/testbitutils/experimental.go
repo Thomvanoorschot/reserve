@@ -1,7 +1,6 @@
 package testbitutils
 
 import (
-	"fmt"
 	"math"
 	"time"
 )
@@ -31,6 +30,16 @@ const (
 	OneSixthBitRange        = 0b111111111111111111111111111111111111111111111111
 )
 
+func Test() {
+	testBits := Reservation{
+		DayBits{
+			PartOne: 0b111111111111111111111111111111111111111111111111,
+		},
+	}
+	_ = testBits.PartOne
+	//fmt.Println(testBits.PartTwo)
+}
+
 func GetReservationBits(startAt, endAt time.Time) Reservation {
 	startOfDay := time.Date(startAt.Year(), startAt.Month(), startAt.Day(), 0, 0, 0, 0, startAt.Location())
 
@@ -38,65 +47,74 @@ func GetReservationBits(startAt, endAt time.Time) Reservation {
 	minutesUntilEndOfSegment := endAt.Sub(startAt).Minutes()
 	startIndex := minutesSinceStartOfDay / MinutesInSegment
 	relativeStartIndex := int(startIndex) % SegmentsInOneSixthDay
-	maskLength := minutesUntilEndOfSegment / MinutesInSegment
-	maskLengthRemainder := int(maskLength) + relativeStartIndex - SegmentsInOneSixthDay
-	mask := createBitmask(int16(maskLength))
-	mask <<= relativeStartIndex
-	mask &= OneSixthBitRange
+	rangeLength := minutesUntilEndOfSegment / MinutesInSegment
+	maxRangeLength := math.Min(rangeLength, float64(SegmentsInOneSixthDay))
+	bitRange := createBitRange(int16(maxRangeLength))
+	bitRange <<= relativeStartIndex
+	bitRange &= OneSixthBitRange
+	var bitRangeRemainder int
+	if rangeLength != maxRangeLength {
+		bitRangeRemainder = int(rangeLength) - int(maxRangeLength) + relativeStartIndex
+	}
 
 	r := Reservation{}
 
 	if startIndex <= 48 {
-		r.PartOne = mask
-		if maskLengthRemainder > 0 {
-			remainderMask := createBitmask(int16(maskLengthRemainder))
-			remainderMask &= OneSixthBitRange
-			r.PartTwo &= remainderMask
-		}
-	} else if startIndex <= 96 {
-		r.PartTwo = mask
-		if maskLengthRemainder > 0 {
-			remainderMask := createBitmask(int16(maskLengthRemainder))
-			remainderMask &= OneSixthBitRange
-			r.PartThree &= remainderMask
-		}
-	} else if startIndex <= 144 {
-		r.PartThree = mask
-		if maskLengthRemainder > 0 {
-			remainderMask := createBitmask(int16(maskLengthRemainder))
-			remainderMask &= OneSixthBitRange
-			r.PartFour &= remainderMask
-		}
-	} else if startIndex <= 192 {
-		r.PartFour = mask
-		if maskLengthRemainder > 0 {
-			remainderMask := createBitmask(int16(maskLengthRemainder))
-			remainderMask &= OneSixthBitRange
-			r.PartFive &= remainderMask
-		}
-	} else if startIndex <= 240 {
-		r.PartFive = mask
-		if maskLengthRemainder > 0 {
-			remainderMask := createBitmask(int16(maskLengthRemainder))
-			remainderMask &= OneSixthBitRange
-			r.PartSix &= remainderMask
-		}
-	} else if startIndex <= 288 {
-		r.PartSix = mask
+		r.PartOne = bitRange
 	}
-	fmt.Printf("PartOne   : %064b\n", r.PartOne)
-	fmt.Printf("PartTwo   : %064b\n", r.PartTwo)
-	fmt.Printf("PartThree : %064b\n", r.PartThree)
-	fmt.Printf("PartFour  : %064b\n", r.PartFour)
-	fmt.Printf("PartFive  : %064b\n", r.PartFive)
-	fmt.Printf("PartSix   : %064b\n", r.PartSix)
+	if startIndex < 96 && startIndex > 48 || bitRangeRemainder > 0 {
+		if bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int16(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		r.PartTwo = bitRange
+	}
+	if startIndex < 144 && startIndex >= 96 || bitRangeRemainder > 0 {
+		if bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int16(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		r.PartThree = bitRange
+	}
+	if startIndex < 192 && startIndex >= 144 || bitRangeRemainder > 0 {
+		if bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int16(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		r.PartFour = bitRange
+	}
+	if startIndex < 240 && startIndex >= 192 || bitRangeRemainder > 0 {
+		if bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int16(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		r.PartFive = bitRange
+	}
+	if startIndex < 288 && startIndex >= 240 || bitRangeRemainder > 0 {
+		if bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int16(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		r.PartSix = bitRange
+	}
+	//fmt.Printf("PartOne   : %064b\n", r.PartOne)
+	//fmt.Printf("PartTwo   : %064b\n", r.PartTwo)
+	//fmt.Printf("PartThree : %064b\n", r.PartThree)
+	//fmt.Printf("PartFour  : %064b\n", r.PartFour)
+	//fmt.Printf("PartFive  : %064b\n", r.PartFive)
+	//fmt.Printf("PartSix   : %064b\n", r.PartSix)
 
 	return r
 }
 
 func GetTimeSlotStarts(ad []AvailabilityDay, allowInvalidSegments bool, minimumSegments int16) []time.Time {
 	startTimes := make([]time.Time, 0, 8)
-	mask := createBitmask(minimumSegments)
+	mask := createBitRange(minimumSegments)
 	today := time.Now().Local()
 	for i, day := range ad {
 		if i == len(ad)-1 && day.PartSix == 0 {
@@ -201,7 +219,7 @@ func GetTimeSlotStarts(ad []AvailabilityDay, allowInvalidSegments bool, minimumS
 
 // This creates a dynamically sized bitmask. Setting the minimumSegments to 4 would result in the following bitmask:
 // 0b0000000000000000000000000000000000000000000000000000000000001111
-func createBitmask(minimumSegments int16) uint64 {
+func createBitRange(minimumSegments int16) uint64 {
 	return math.MaxUint64 >> (64 - minimumSegments)
 }
 
