@@ -15,10 +15,15 @@ type DayBits struct {
 }
 
 type AvailabilityDay struct {
+	Date time.Time
+	DayBits
+}
+type ReservationBits struct {
 	DayBits
 }
 type Reservation struct {
-	DayBits
+	StartAt time.Time
+	EndAt   time.Time
 }
 
 const (
@@ -30,17 +35,7 @@ const (
 	OneSixthBitRange        = 0b111111111111111111111111111111111111111111111111
 )
 
-func Test() {
-	testBits := Reservation{
-		DayBits{
-			PartOne: 0b111111111111111111111111111111111111111111111111,
-		},
-	}
-	_ = testBits.PartOne
-	//fmt.Println(testBits.PartTwo)
-}
-
-func GetReservationBits(startAt, endAt time.Time) Reservation {
+func GetReservationBits(startAt, endAt time.Time) ReservationBits {
 	startOfDay := time.Date(startAt.Year(), startAt.Month(), startAt.Day(), 0, 0, 0, 0, startAt.Location())
 
 	minutesSinceStartOfDay := startAt.Sub(startOfDay).Minutes()
@@ -57,12 +52,12 @@ func GetReservationBits(startAt, endAt time.Time) Reservation {
 		bitRangeRemainder = int(rangeLength) - int(maxRangeLength) + relativeStartIndex
 	}
 
-	r := Reservation{}
+	r := ReservationBits{}
 
-	if startIndex <= 48 {
+	if startIndex < 48 {
 		r.PartOne = bitRange
 	}
-	if startIndex < 96 && startIndex > 48 || bitRangeRemainder > 0 {
+	if startIndex < 96 && startIndex >= 48 || bitRangeRemainder > 0 {
 		if bitRangeRemainder > 0 {
 			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
 			bitRange = createBitRange(int16(remainderRangeLength))
@@ -112,16 +107,36 @@ func GetReservationBits(startAt, endAt time.Time) Reservation {
 	return r
 }
 
-func GetTimeSlotStarts(ad []AvailabilityDay, allowInvalidSegments bool, minimumSegments int16) []time.Time {
+func GetTimeSlotStarts(ad []AvailabilityDay, rvsMap map[int64][]Reservation, allowInvalidSegments bool, minimumSegments int16) []time.Time {
 	startTimes := make([]time.Time, 0, 8)
 	mask := createBitRange(minimumSegments)
-	today := time.Now().Local()
 	for i, day := range ad {
+		// TODO This check is too naive
 		if i == len(ad)-1 && day.PartSix == 0 {
 			continue
 		}
-		today.Add(time.Duration(i) * 24 * time.Hour)
-		startOfDay := time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location())
+
+		// Get all reservations for the current day, so they can get overlapped onto the reservation bits.
+		rvs, ok := rvsMap[day.Date.Unix()]
+		if ok {
+			for _, rv := range rvs {
+				rvBits := GetReservationBits(rv.StartAt, rv.EndAt)
+
+				// The "Bit clear assignment" operator gets used here to disable all flipped availability bits
+				// wherever the reservation had bits flipped. It looks something like this:
+				// It looks something like this
+				// Availability : 0b000111
+				// Reservation  : 0b110011
+				// Result       : 0b000100
+				day.PartOne &^= rvBits.PartOne
+				day.PartTwo &^= rvBits.PartTwo
+				day.PartThree &^= rvBits.PartThree
+				day.PartFour &^= rvBits.PartFour
+				day.PartFive &^= rvBits.PartFive
+				day.PartSix &^= rvBits.PartSix
+			}
+		}
+		day.Date.Add(time.Duration(i) * 24 * time.Hour)
 
 		// Only the first 48 of the 64 bits in an UINT64 are used. This leaves 16 bits unused.
 		// PartOne would look like: 0b0000000000000000111111111111111111111111111111111111111111111111
@@ -211,7 +226,7 @@ func GetTimeSlotStarts(ad []AvailabilityDay, allowInvalidSegments bool, minimumS
 				continue
 			}
 
-			startTimes = append(startTimes, startOfDay.Add(MinutesInSegment*time.Minute*time.Duration(si-1)))
+			startTimes = append(startTimes, day.Date.Add(MinutesInSegment*time.Minute*time.Duration(si-1)))
 		}
 	}
 	return startTimes

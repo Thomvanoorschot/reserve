@@ -24,6 +24,7 @@ type tsExpectedResult struct {
 type tsDefinition struct {
 	name                 string
 	availability         []AvailabilityDay
+	reservations         map[int64][]Reservation
 	allowInvalidSegments bool
 	minimumSegments      int16
 	expectedResult       tsExpectedResult
@@ -34,7 +35,8 @@ var tsDefinitions = []tsDefinition{
 		name: "end of part spills over to first part",
 		availability: []AvailabilityDay{
 			{
-				DayBits{
+				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+				DayBits: DayBits{
 					PartOne:   0b100000000000000000000000000000000000000000000000,
 					PartTwo:   0b000000000000000000000000000000000000000000000001,
 					PartThree: 0b000000000000000000000000000000000000000000000000,
@@ -44,6 +46,7 @@ var tsDefinitions = []tsDefinition{
 				},
 			}, {},
 		},
+		reservations:         map[int64][]Reservation{},
 		allowInvalidSegments: false,
 		minimumSegments:      2,
 		expectedResult: tsExpectedResult{
@@ -55,7 +58,8 @@ var tsDefinitions = []tsDefinition{
 		name: "large minimum segment of 4 hours should still work",
 		availability: []AvailabilityDay{
 			{
-				DayBits{
+				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+				DayBits: DayBits{
 					PartOne:   0b111110000000000000000000000000000000000000000000,
 					PartTwo:   0b000001111111111111111111111111111111111111111111,
 					PartThree: 0b000000000000000000000000000000000000000000000000,
@@ -65,6 +69,7 @@ var tsDefinitions = []tsDefinition{
 				},
 			}, {},
 		},
+		reservations:         map[int64][]Reservation{},
 		allowInvalidSegments: false,
 		minimumSegments:      48,
 		expectedResult: tsExpectedResult{
@@ -76,7 +81,8 @@ var tsDefinitions = []tsDefinition{
 		name: "handle gaps in availability",
 		availability: []AvailabilityDay{
 			{
-				DayBits{
+				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+				DayBits: DayBits{
 					PartOne:   0b000000000000000000000000000000000000000000000000,
 					PartTwo:   0b000000000000000000000000000000000000000000000000,
 					PartThree: 0b000000000000000000001111111111110000111111111111,
@@ -87,6 +93,7 @@ var tsDefinitions = []tsDefinition{
 			},
 			{},
 		},
+		reservations:         map[int64][]Reservation{},
 		allowInvalidSegments: false,
 		minimumSegments:      12,
 		expectedResult: tsExpectedResult{
@@ -101,7 +108,8 @@ var tsDefinitions = []tsDefinition{
 		name: "allow invalid segments doesn't skip",
 		availability: []AvailabilityDay{
 			{
-				DayBits{
+				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+				DayBits: DayBits{
 					PartOne:   0b000000000000000000000000000000000000000000000000,
 					PartTwo:   0b000000000000000000000000000000000000000000000000,
 					PartThree: 0b000000000000000000000011110000000000000000000000,
@@ -111,6 +119,7 @@ var tsDefinitions = []tsDefinition{
 				},
 			}, {},
 		},
+		reservations:         map[int64][]Reservation{},
 		allowInvalidSegments: true,
 		minimumSegments:      2,
 		expectedResult: tsExpectedResult{
@@ -121,7 +130,8 @@ var tsDefinitions = []tsDefinition{
 		name: "invalid segment in previous bit range",
 		availability: []AvailabilityDay{
 			{
-				DayBits{
+				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+				DayBits: DayBits{
 					PartOne:   0b000000000000000000000000000000000000000000000000,
 					PartTwo:   0b111111111000000000000000000000000000000000000000,
 					PartThree: 0b111111111111111111111111111111111111111111111111,
@@ -131,6 +141,7 @@ var tsDefinitions = []tsDefinition{
 				},
 			}, {},
 		},
+		reservations:         map[int64][]Reservation{},
 		allowInvalidSegments: false,
 		minimumSegments:      12,
 		expectedResult: tsExpectedResult{
@@ -143,6 +154,113 @@ var tsDefinitions = []tsDefinition{
 			},
 		},
 	},
+	{
+		name: "a reservation invalidates valid availability",
+		availability: []AvailabilityDay{
+			{
+				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+				DayBits: DayBits{
+					PartOne:   0b000000000000000000000000000000000000000000000000,
+					PartTwo:   0b111111111111111111111111111111111111111111111111,
+					PartThree: 0b000000000000000000000000000000000000000000000000,
+					PartFour:  0b000000000000000000000000000000000000000000000000,
+					PartFive:  0b000000000000000000000000000000000000000000000000,
+					PartSix:   0b000000000000000000000000000000000000000000000000,
+				},
+			}, {},
+		},
+		reservations: map[int64][]Reservation{
+			time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).Unix(): {{
+				StartAt: time.Date(today.Year(), today.Month(), today.Day(), 5, 0, 0, 0, today.Location()),
+				EndAt:   time.Date(today.Year(), today.Month(), today.Day(), 6, 0, 0, 0, today.Location()),
+			}},
+		},
+		allowInvalidSegments: false,
+		minimumSegments:      12,
+		expectedResult: tsExpectedResult{
+			length: 3,
+			startTimes: []time.Time{
+				time.Date(today.Year(), today.Month(), today.Day(), 4, 0, 0, 0, today.Location()),
+				time.Date(today.Year(), today.Month(), today.Day(), 6, 0, 0, 0, today.Location()),
+				time.Date(today.Year(), today.Month(), today.Day(), 7, 0, 0, 0, today.Location()),
+			},
+		},
+	},
+	{
+		name: "a reservation has no effect on non flipped bits",
+		availability: []AvailabilityDay{
+			{
+				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+				DayBits: DayBits{
+					PartOne:   0b000000000000000000000000000000000000000000000000,
+					PartTwo:   0b111111111111111111111111111111111111111111111111,
+					PartThree: 0b000000000000000000000000000000000000000000000000,
+					PartFour:  0b000000000000000000000000000000000000000000000000,
+					PartFive:  0b000000000000000000000000000000000000000000000000,
+					PartSix:   0b000000000000000000000000000000000000000000000000,
+				},
+			}, {},
+		},
+		reservations: map[int64][]Reservation{
+			time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).Unix(): {{
+				StartAt: time.Date(today.Year(), today.Month(), today.Day(), 2, 0, 0, 0, today.Location()),
+				EndAt:   time.Date(today.Year(), today.Month(), today.Day(), 3, 0, 0, 0, today.Location()),
+			}},
+		},
+		allowInvalidSegments: false,
+		minimumSegments:      12,
+		expectedResult: tsExpectedResult{
+			length: 4,
+			startTimes: []time.Time{
+				time.Date(today.Year(), today.Month(), today.Day(), 4, 0, 0, 0, today.Location()),
+				time.Date(today.Year(), today.Month(), today.Day(), 5, 0, 0, 0, today.Location()),
+				time.Date(today.Year(), today.Month(), today.Day(), 6, 0, 0, 0, today.Location()),
+				time.Date(today.Year(), today.Month(), today.Day(), 7, 0, 0, 0, today.Location()),
+			},
+		},
+	},
+	{
+		name: "multiple reservations remove all availability",
+		availability: []AvailabilityDay{
+			{
+				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+				DayBits: DayBits{
+					PartOne:   0b000000000000000000000000000000000000000000000000,
+					PartTwo:   0b111111111111111111111111111111111111111111111111,
+					PartThree: 0b000000000000000000000000000000000000000000000000,
+					PartFour:  0b000000000000000000000000000000000000000000000000,
+					PartFive:  0b000000000000000000000000000000000000000000000000,
+					PartSix:   0b000000000000000000000000000000000000000000000000,
+				},
+			}, {},
+		},
+		reservations: map[int64][]Reservation{
+			time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).Unix(): {
+				{
+					StartAt: time.Date(today.Year(), today.Month(), today.Day(), 4, 0, 0, 0, today.Location()),
+					EndAt:   time.Date(today.Year(), today.Month(), today.Day(), 5, 0, 0, 0, today.Location()),
+				},
+				{
+					StartAt: time.Date(today.Year(), today.Month(), today.Day(), 5, 0, 0, 0, today.Location()),
+					EndAt:   time.Date(today.Year(), today.Month(), today.Day(), 6, 0, 0, 0, today.Location()),
+				},
+				{
+					StartAt: time.Date(today.Year(), today.Month(), today.Day(), 6, 0, 0, 0, today.Location()),
+					EndAt:   time.Date(today.Year(), today.Month(), today.Day(), 7, 0, 0, 0, today.Location()),
+				},
+				{
+					StartAt: time.Date(today.Year(), today.Month(), today.Day(), 7, 0, 0, 0, today.Location()),
+					EndAt:   time.Date(today.Year(), today.Month(), today.Day(), 8, 0, 0, 0, today.Location()),
+				},
+			},
+		},
+		allowInvalidSegments: false,
+		minimumSegments:      12,
+		expectedResult: tsExpectedResult{
+			length:     0,
+			startTimes: []time.Time{},
+		},
+	},
 }
 
 func BenchmarkGetTimeSlotStarts(b *testing.B) {
@@ -150,7 +268,7 @@ func BenchmarkGetTimeSlotStarts(b *testing.B) {
 		b.Run(testCase.name, func(b *testing.B) {
 			b.ReportAllocs()
 			for i := 0; i < b.N; i++ {
-				GetTimeSlotStarts(testCase.availability, testCase.allowInvalidSegments, testCase.minimumSegments)
+				GetTimeSlotStarts(testCase.availability, testCase.reservations, testCase.allowInvalidSegments, testCase.minimumSegments)
 			}
 		})
 	}
@@ -161,7 +279,7 @@ func TestGetTimeSlotStarts(t *testing.T) {
 
 	for _, testCase := range tsDefinitions {
 		t.Run(testCase.name, func(t *testing.T) {
-			startTimes := GetTimeSlotStarts(testCase.availability, testCase.allowInvalidSegments, testCase.minimumSegments)
+			startTimes := GetTimeSlotStarts(testCase.availability, testCase.reservations, testCase.allowInvalidSegments, testCase.minimumSegments)
 			if len(startTimes) != testCase.expectedResult.length {
 				t.Errorf("expected %d of startTimes but got %d", testCase.expectedResult.length, len(startTimes))
 			}
