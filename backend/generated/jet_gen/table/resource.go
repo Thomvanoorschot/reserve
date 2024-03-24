@@ -17,14 +17,15 @@ type resourceTable struct {
 	sqlite.Table
 
 	// Columns
-	ID                   sqlite.ColumnInteger
-	Name                 sqlite.ColumnString
-	LocationID           sqlite.ColumnInteger
-	MinimumSegments      sqlite.ColumnInteger
-	MaximumSegments      sqlite.ColumnInteger
-	AllowInvalidSegments sqlite.ColumnBool
-	DefaultAvailability1 sqlite.ColumnInteger
-	DefaultAvailability2 sqlite.ColumnInteger
+	ID                    sqlite.ColumnString
+	Name                  sqlite.ColumnString
+	LocationID            sqlite.ColumnString
+	MinimumSegments       sqlite.ColumnInteger
+	MaximumSegments       sqlite.ColumnInteger
+	AllowInvalidSegments  sqlite.ColumnBool
+	DefaultAvailabilityID sqlite.ColumnString
+	CreatedAt             sqlite.ColumnTimestamp
+	UpdatedAt             sqlite.ColumnTimestamp
 
 	AllColumns     sqlite.ColumnList
 	MutableColumns sqlite.ColumnList
@@ -65,30 +66,32 @@ func newResourceTable(schemaName, tableName, alias string) *ResourceTable {
 
 func newResourceTableImpl(schemaName, tableName, alias string) resourceTable {
 	var (
-		IDColumn                   = sqlite.IntegerColumn("id")
-		NameColumn                 = sqlite.StringColumn("name")
-		LocationIDColumn           = sqlite.IntegerColumn("location_id")
-		MinimumSegmentsColumn      = sqlite.IntegerColumn("minimum_segments")
-		MaximumSegmentsColumn      = sqlite.IntegerColumn("maximum_segments")
-		AllowInvalidSegmentsColumn = sqlite.BoolColumn("allow_invalid_segments")
-		DefaultAvailability1Column = sqlite.IntegerColumn("default_availability_1")
-		DefaultAvailability2Column = sqlite.IntegerColumn("default_availability_2")
-		allColumns                 = sqlite.ColumnList{IDColumn, NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultAvailability1Column, DefaultAvailability2Column}
-		mutableColumns             = sqlite.ColumnList{NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultAvailability1Column, DefaultAvailability2Column}
+		IDColumn                    = sqlite.StringColumn("id")
+		NameColumn                  = sqlite.StringColumn("name")
+		LocationIDColumn            = sqlite.StringColumn("location_id")
+		MinimumSegmentsColumn       = sqlite.IntegerColumn("minimum_segments")
+		MaximumSegmentsColumn       = sqlite.IntegerColumn("maximum_segments")
+		AllowInvalidSegmentsColumn  = sqlite.BoolColumn("allow_invalid_segments")
+		DefaultAvailabilityIDColumn = sqlite.StringColumn("default_availability_id")
+		CreatedAtColumn             = sqlite.TimestampColumn("created_at")
+		UpdatedAtColumn             = sqlite.TimestampColumn("updated_at")
+		allColumns                  = sqlite.ColumnList{IDColumn, NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultAvailabilityIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns              = sqlite.ColumnList{NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultAvailabilityIDColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return resourceTable{
 		Table: sqlite.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:                   IDColumn,
-		Name:                 NameColumn,
-		LocationID:           LocationIDColumn,
-		MinimumSegments:      MinimumSegmentsColumn,
-		MaximumSegments:      MaximumSegmentsColumn,
-		AllowInvalidSegments: AllowInvalidSegmentsColumn,
-		DefaultAvailability1: DefaultAvailability1Column,
-		DefaultAvailability2: DefaultAvailability2Column,
+		ID:                    IDColumn,
+		Name:                  NameColumn,
+		LocationID:            LocationIDColumn,
+		MinimumSegments:       MinimumSegmentsColumn,
+		MaximumSegments:       MaximumSegmentsColumn,
+		AllowInvalidSegments:  AllowInvalidSegmentsColumn,
+		DefaultAvailabilityID: DefaultAvailabilityIDColumn,
+		CreatedAt:             CreatedAtColumn,
+		UpdatedAt:             UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

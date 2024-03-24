@@ -1,4 +1,4 @@
-package testbitutils
+package availability
 
 import (
 	"testing"
@@ -16,86 +16,91 @@ import (
 //var a6 uint64 = 0b000000000000000000000000000000000000000000000000 // 20:00 - 24:00
 
 var today = time.Now().Local()
+var europeAmsterdam = "Europe/Amsterdam"
 
 type tsExpectedResult struct {
 	length     int
 	startTimes []time.Time
 }
 type tsDefinition struct {
-	name                 string
-	availability         []AvailabilityDay
-	reservations         map[int64][]Reservation
-	allowInvalidSegments bool
-	minimumSegments      int16
-	expectedResult       tsExpectedResult
+	name           string
+	reservations   map[int64][]Reservation
+	startAt, endAt time.Time
+	requirements   Requirements
+	expectedResult tsExpectedResult
 }
 
 var tsDefinitions = []tsDefinition{
 	{
-		name: "end of part spills over to first part",
-		availability: []AvailabilityDay{
-			{
-				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
-				DayBits: DayBits{
+		name:    "end of part spills over to first part",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).AddDate(0, 0, 1),
+		requirements: Requirements{
+			MinimumSegments:      2,
+			MaximumSegments:      2,
+			AllowInvalidSegments: false,
+			TZ:                   europeAmsterdam,
+			Resources: []Resource{{
+				Availability: []Availability{{
 					PartOne:   0b100000000000000000000000000000000000000000000000,
 					PartTwo:   0b000000000000000000000000000000000000000000000001,
 					PartThree: 0b000000000000000000000000000000000000000000000000,
 					PartFour:  0b000000000000000000000000000000000000000000000000,
 					PartFive:  0b000000000000000000000000000000000000000000000000,
 					PartSix:   0b000000000000000000000000000000000000000000000000,
-				},
-			}, {},
+				}},
+			}},
 		},
-		reservations:         map[int64][]Reservation{},
-		allowInvalidSegments: false,
-		minimumSegments:      2,
 		expectedResult: tsExpectedResult{
 			length:     1,
 			startTimes: []time.Time{time.Date(today.Year(), today.Month(), today.Day(), 3, 55, 0, 0, today.Location())},
 		},
 	},
 	{
-		name: "large minimum segment of 4 hours should still work",
-		availability: []AvailabilityDay{
-			{
-				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
-				DayBits: DayBits{
+		name:    "large minimum segment of 4 hours should still work",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).AddDate(0, 0, 1),
+		requirements: Requirements{
+			MinimumSegments:      48,
+			MaximumSegments:      48,
+			AllowInvalidSegments: false,
+			TZ:                   europeAmsterdam,
+			Resources: []Resource{{
+				Availability: []Availability{{
 					PartOne:   0b111110000000000000000000000000000000000000000000,
 					PartTwo:   0b000001111111111111111111111111111111111111111111,
 					PartThree: 0b000000000000000000000000000000000000000000000000,
 					PartFour:  0b000000000000000000000000000000000000000000000000,
 					PartFive:  0b000000000000000000000000000000000000000000000000,
 					PartSix:   0b000000000000000000000000000000000000000000000000,
-				},
-			}, {},
+				}},
+			}},
 		},
-		reservations:         map[int64][]Reservation{},
-		allowInvalidSegments: false,
-		minimumSegments:      48,
 		expectedResult: tsExpectedResult{
 			length:     1,
 			startTimes: []time.Time{time.Date(today.Year(), today.Month(), today.Day(), 3, 35, 0, 0, today.Location())},
 		},
 	},
 	{
-		name: "handle gaps in availability",
-		availability: []AvailabilityDay{
-			{
-				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
-				DayBits: DayBits{
+		name:    "handle gaps in availability",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).AddDate(0, 0, 1),
+		requirements: Requirements{
+			MinimumSegments:      12,
+			MaximumSegments:      12,
+			AllowInvalidSegments: false,
+			TZ:                   europeAmsterdam,
+			Resources: []Resource{{
+				Availability: []Availability{{
 					PartOne:   0b000000000000000000000000000000000000000000000000,
 					PartTwo:   0b000000000000000000000000000000000000000000000000,
 					PartThree: 0b000000000000000000001111111111110000111111111111,
 					PartFour:  0b000000000000000000000000000000000000000000000000,
 					PartFive:  0b000000000000000000000000000000000000000000000000,
 					PartSix:   0b000000000000000000000000000000000000000000000000,
-				},
-			},
-			{},
+				}},
+			}},
 		},
-		reservations:         map[int64][]Reservation{},
-		allowInvalidSegments: false,
-		minimumSegments:      12,
 		expectedResult: tsExpectedResult{
 			length: 2,
 			startTimes: []time.Time{
@@ -105,45 +110,49 @@ var tsDefinitions = []tsDefinition{
 		},
 	},
 	{
-		name: "allow invalid segments doesn't skip",
-		availability: []AvailabilityDay{
-			{
-				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
-				DayBits: DayBits{
+		name:    "allow invalid segments doesn't skip",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).AddDate(0, 0, 1),
+		requirements: Requirements{
+			MinimumSegments:      2,
+			MaximumSegments:      2,
+			AllowInvalidSegments: true,
+			TZ:                   europeAmsterdam,
+			Resources: []Resource{{
+				Availability: []Availability{{
 					PartOne:   0b000000000000000000000000000000000000000000000000,
 					PartTwo:   0b000000000000000000000000000000000000000000000000,
 					PartThree: 0b000000000000000000000011110000000000000000000000,
 					PartFour:  0b000000000000000000000000000000000000000000000000,
 					PartFive:  0b000000000000000000000000000000000000000000000000,
 					PartSix:   0b000000000000000000000000000000000000000000000000,
-				},
-			}, {},
+				}},
+			}},
 		},
-		reservations:         map[int64][]Reservation{},
-		allowInvalidSegments: true,
-		minimumSegments:      2,
 		expectedResult: tsExpectedResult{
 			length: 3,
 		},
 	},
 	{
-		name: "invalid segment in previous bit range",
-		availability: []AvailabilityDay{
-			{
-				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
-				DayBits: DayBits{
+		name:    "invalid segment in previous bit range",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).AddDate(0, 0, 1),
+		requirements: Requirements{
+			MinimumSegments:      12,
+			MaximumSegments:      12,
+			AllowInvalidSegments: false,
+			TZ:                   europeAmsterdam,
+			Resources: []Resource{{
+				Availability: []Availability{{
 					PartOne:   0b000000000000000000000000000000000000000000000000,
 					PartTwo:   0b111111111000000000000000000000000000000000000000,
 					PartThree: 0b111111111111111111111111111111111111111111111111,
 					PartFour:  0b000000000000000000000000000000000000000000000000,
 					PartFive:  0b000000000000000000000000000000000000000000000000,
 					PartSix:   0b000000000000000000000000000000000000000000000000,
-				},
-			}, {},
+				}},
+			}},
 		},
-		reservations:         map[int64][]Reservation{},
-		allowInvalidSegments: false,
-		minimumSegments:      12,
 		expectedResult: tsExpectedResult{
 			length: 4,
 			startTimes: []time.Time{
@@ -155,19 +164,24 @@ var tsDefinitions = []tsDefinition{
 		},
 	},
 	{
-		name: "a reservation invalidates valid availability",
-		availability: []AvailabilityDay{
-			{
-				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
-				DayBits: DayBits{
+		name:    "a reservation invalidates valid availability",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).AddDate(0, 0, 1),
+		requirements: Requirements{
+			MinimumSegments:      12,
+			MaximumSegments:      12,
+			AllowInvalidSegments: false,
+			TZ:                   europeAmsterdam,
+			Resources: []Resource{{
+				Availability: []Availability{{
 					PartOne:   0b000000000000000000000000000000000000000000000000,
 					PartTwo:   0b111111111111111111111111111111111111111111111111,
 					PartThree: 0b000000000000000000000000000000000000000000000000,
 					PartFour:  0b000000000000000000000000000000000000000000000000,
 					PartFive:  0b000000000000000000000000000000000000000000000000,
 					PartSix:   0b000000000000000000000000000000000000000000000000,
-				},
-			}, {},
+				}},
+			}},
 		},
 		reservations: map[int64][]Reservation{
 			time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).Unix(): {{
@@ -175,8 +189,6 @@ var tsDefinitions = []tsDefinition{
 				EndAt:   time.Date(today.Year(), today.Month(), today.Day(), 6, 0, 0, 0, today.Location()),
 			}},
 		},
-		allowInvalidSegments: false,
-		minimumSegments:      12,
 		expectedResult: tsExpectedResult{
 			length: 3,
 			startTimes: []time.Time{
@@ -187,19 +199,24 @@ var tsDefinitions = []tsDefinition{
 		},
 	},
 	{
-		name: "a reservation has no effect on non flipped bits",
-		availability: []AvailabilityDay{
-			{
-				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
-				DayBits: DayBits{
+		name:    "a reservation has no effect on non flipped bits",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).AddDate(0, 0, 1),
+		requirements: Requirements{
+			MinimumSegments:      12,
+			MaximumSegments:      12,
+			AllowInvalidSegments: false,
+			TZ:                   europeAmsterdam,
+			Resources: []Resource{{
+				Availability: []Availability{{
 					PartOne:   0b000000000000000000000000000000000000000000000000,
 					PartTwo:   0b111111111111111111111111111111111111111111111111,
 					PartThree: 0b000000000000000000000000000000000000000000000000,
 					PartFour:  0b000000000000000000000000000000000000000000000000,
 					PartFive:  0b000000000000000000000000000000000000000000000000,
 					PartSix:   0b000000000000000000000000000000000000000000000000,
-				},
-			}, {},
+				}},
+			}},
 		},
 		reservations: map[int64][]Reservation{
 			time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).Unix(): {{
@@ -207,8 +224,6 @@ var tsDefinitions = []tsDefinition{
 				EndAt:   time.Date(today.Year(), today.Month(), today.Day(), 3, 0, 0, 0, today.Location()),
 			}},
 		},
-		allowInvalidSegments: false,
-		minimumSegments:      12,
 		expectedResult: tsExpectedResult{
 			length: 4,
 			startTimes: []time.Time{
@@ -220,19 +235,24 @@ var tsDefinitions = []tsDefinition{
 		},
 	},
 	{
-		name: "multiple reservations remove all availability",
-		availability: []AvailabilityDay{
-			{
-				Date: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
-				DayBits: DayBits{
+		name:    "multiple reservations remove all availability",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).AddDate(0, 0, 1),
+		requirements: Requirements{
+			MinimumSegments:      12,
+			MaximumSegments:      12,
+			AllowInvalidSegments: false,
+			TZ:                   europeAmsterdam,
+			Resources: []Resource{{
+				Availability: []Availability{{
 					PartOne:   0b000000000000000000000000000000000000000000000000,
 					PartTwo:   0b111111111111111111111111111111111111111111111111,
 					PartThree: 0b000000000000000000000000000000000000000000000000,
 					PartFour:  0b000000000000000000000000000000000000000000000000,
 					PartFive:  0b000000000000000000000000000000000000000000000000,
 					PartSix:   0b000000000000000000000000000000000000000000000000,
-				},
-			}, {},
+				}},
+			}},
 		},
 		reservations: map[int64][]Reservation{
 			time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).Unix(): {
@@ -254,8 +274,6 @@ var tsDefinitions = []tsDefinition{
 				},
 			},
 		},
-		allowInvalidSegments: false,
-		minimumSegments:      12,
 		expectedResult: tsExpectedResult{
 			length:     0,
 			startTimes: []time.Time{},
@@ -268,7 +286,7 @@ func BenchmarkGetTimeSlotStarts(b *testing.B) {
 		b.Run(testCase.name, func(b *testing.B) {
 			b.ReportAllocs()
 			for i := 0; i < b.N; i++ {
-				GetTimeSlotStarts(testCase.availability, testCase.reservations, testCase.allowInvalidSegments, testCase.minimumSegments)
+				GetTimeSlotStarts(testCase.startAt, testCase.endAt, testCase.requirements, testCase.reservations)
 			}
 		})
 	}
@@ -279,7 +297,7 @@ func TestGetTimeSlotStarts(t *testing.T) {
 
 	for _, testCase := range tsDefinitions {
 		t.Run(testCase.name, func(t *testing.T) {
-			startTimes := GetTimeSlotStarts(testCase.availability, testCase.reservations, testCase.allowInvalidSegments, testCase.minimumSegments)
+			startTimes := GetTimeSlotStarts(testCase.startAt, testCase.endAt, testCase.requirements, testCase.reservations)
 			if len(startTimes) != testCase.expectedResult.length {
 				t.Errorf("expected %d of startTimes but got %d", testCase.expectedResult.length, len(startTimes))
 			}
@@ -373,10 +391,10 @@ var rsDefinitions = []rsDefinition{
 
 func TestGetReservationBits(t *testing.T) {
 	t.Parallel()
-
+	tz, _ := time.LoadLocation("Europe/Amsterdam")
 	for _, testCase := range rsDefinitions {
 		t.Run(testCase.name, func(t *testing.T) {
-			reservation := GetReservationBits(testCase.startAt, testCase.endAt)
+			reservation := GetReservationBits(testCase.startAt, testCase.endAt, tz)
 			if reservation.PartOne != testCase.expectedResult.partOne ||
 				reservation.PartTwo != testCase.expectedResult.partTwo ||
 				reservation.PartThree != testCase.expectedResult.partThree ||
@@ -390,11 +408,13 @@ func TestGetReservationBits(t *testing.T) {
 }
 
 func BenchmarkGetReservationBits(b *testing.B) {
+	tz, _ := time.LoadLocation("Europe/Amsterdam")
+
 	for _, testCase := range rsDefinitions {
 		b.Run(testCase.name, func(b *testing.B) {
 			b.ReportAllocs()
 			for i := 0; i < b.N; i++ {
-				GetReservationBits(testCase.startAt, testCase.endAt)
+				GetReservationBits(testCase.startAt, testCase.endAt, tz)
 			}
 		})
 	}

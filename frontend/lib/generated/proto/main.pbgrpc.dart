@@ -23,10 +23,10 @@ export 'main.pb.dart';
 
 @$pb.GrpcServiceName('proto.AvailabilityService')
 class AvailabilityServiceClient extends $grpc.Client {
-  static final _$upsertResource = $grpc.ClientMethod<$0.UpsertResourceRequest, $0.UpsertResourceResponse>(
-      '/proto.AvailabilityService/UpsertResource',
-      ($0.UpsertResourceRequest value) => value.writeToBuffer(),
-      ($core.List<$core.int> value) => $0.UpsertResourceResponse.fromBuffer(value));
+  static final _$getStartTimes = $grpc.ClientMethod<$0.GetStartTimesRequest, $0.GetStartTimesResponse>(
+      '/proto.AvailabilityService/GetStartTimes',
+      ($0.GetStartTimesRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.GetStartTimesResponse.fromBuffer(value));
 
   AvailabilityServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -34,8 +34,8 @@ class AvailabilityServiceClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
-  $grpc.ResponseFuture<$0.UpsertResourceResponse> upsertResource($0.UpsertResourceRequest request, {$grpc.CallOptions? options}) {
-    return $createUnaryCall(_$upsertResource, request, options: options);
+  $grpc.ResponseFuture<$0.GetStartTimesResponse> getStartTimes($0.GetStartTimesRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getStartTimes, request, options: options);
   }
 }
 
@@ -44,20 +44,20 @@ abstract class AvailabilityServiceBase extends $grpc.Service {
   $core.String get $name => 'proto.AvailabilityService';
 
   AvailabilityServiceBase() {
-    $addMethod($grpc.ServiceMethod<$0.UpsertResourceRequest, $0.UpsertResourceResponse>(
-        'UpsertResource',
-        upsertResource_Pre,
+    $addMethod($grpc.ServiceMethod<$0.GetStartTimesRequest, $0.GetStartTimesResponse>(
+        'GetStartTimes',
+        getStartTimes_Pre,
         false,
         false,
-        ($core.List<$core.int> value) => $0.UpsertResourceRequest.fromBuffer(value),
-        ($0.UpsertResourceResponse value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $0.GetStartTimesRequest.fromBuffer(value),
+        ($0.GetStartTimesResponse value) => value.writeToBuffer()));
   }
 
-  $async.Future<$0.UpsertResourceResponse> upsertResource_Pre($grpc.ServiceCall call, $async.Future<$0.UpsertResourceRequest> request) async {
-    return upsertResource(call, await request);
+  $async.Future<$0.GetStartTimesResponse> getStartTimes_Pre($grpc.ServiceCall call, $async.Future<$0.GetStartTimesRequest> request) async {
+    return getStartTimes(call, await request);
   }
 
-  $async.Future<$0.UpsertResourceResponse> upsertResource($grpc.ServiceCall call, $0.UpsertResourceRequest request);
+  $async.Future<$0.GetStartTimesResponse> getStartTimes($grpc.ServiceCall call, $0.GetStartTimesRequest request);
 }
 @$pb.GrpcServiceName('proto.TenantService')
 class TenantServiceClient extends $grpc.Client {

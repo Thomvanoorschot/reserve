@@ -17,12 +17,13 @@ type reservationTable struct {
 	sqlite.Table
 
 	// Columns
-	ID            sqlite.ColumnInteger
-	UserID        sqlite.ColumnString
-	EndAt         sqlite.ColumnTimestamp
-	Availability1 sqlite.ColumnInteger
-	Availability2 sqlite.ColumnInteger
-	ResourceID    sqlite.ColumnInteger
+	ID         sqlite.ColumnString
+	UserID     sqlite.ColumnString
+	StartAt    sqlite.ColumnTimestamp
+	EndAt      sqlite.ColumnTimestamp
+	ResourceID sqlite.ColumnString
+	CreatedAt  sqlite.ColumnTimestamp
+	UpdatedAt  sqlite.ColumnTimestamp
 
 	AllColumns     sqlite.ColumnList
 	MutableColumns sqlite.ColumnList
@@ -63,26 +64,28 @@ func newReservationTable(schemaName, tableName, alias string) *ReservationTable 
 
 func newReservationTableImpl(schemaName, tableName, alias string) reservationTable {
 	var (
-		IDColumn            = sqlite.IntegerColumn("id")
-		UserIDColumn        = sqlite.StringColumn("user_id")
-		EndAtColumn         = sqlite.TimestampColumn("end_at")
-		Availability1Column = sqlite.IntegerColumn("availability_1")
-		Availability2Column = sqlite.IntegerColumn("availability_2")
-		ResourceIDColumn    = sqlite.IntegerColumn("resource_id")
-		allColumns          = sqlite.ColumnList{IDColumn, UserIDColumn, EndAtColumn, Availability1Column, Availability2Column, ResourceIDColumn}
-		mutableColumns      = sqlite.ColumnList{UserIDColumn, EndAtColumn, Availability1Column, Availability2Column, ResourceIDColumn}
+		IDColumn         = sqlite.StringColumn("id")
+		UserIDColumn     = sqlite.StringColumn("user_id")
+		StartAtColumn    = sqlite.TimestampColumn("start_at")
+		EndAtColumn      = sqlite.TimestampColumn("end_at")
+		ResourceIDColumn = sqlite.StringColumn("resource_id")
+		CreatedAtColumn  = sqlite.TimestampColumn("created_at")
+		UpdatedAtColumn  = sqlite.TimestampColumn("updated_at")
+		allColumns       = sqlite.ColumnList{IDColumn, UserIDColumn, StartAtColumn, EndAtColumn, ResourceIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns   = sqlite.ColumnList{UserIDColumn, StartAtColumn, EndAtColumn, ResourceIDColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return reservationTable{
 		Table: sqlite.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:            IDColumn,
-		UserID:        UserIDColumn,
-		EndAt:         EndAtColumn,
-		Availability1: Availability1Column,
-		Availability2: Availability2Column,
-		ResourceID:    ResourceIDColumn,
+		ID:         IDColumn,
+		UserID:     UserIDColumn,
+		StartAt:    StartAtColumn,
+		EndAt:      EndAtColumn,
+		ResourceID: ResourceIDColumn,
+		CreatedAt:  CreatedAtColumn,
+		UpdatedAt:  UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

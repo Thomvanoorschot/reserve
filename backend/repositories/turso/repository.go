@@ -1,6 +1,7 @@
 package turso
 
 import (
+	"context"
 	"database/sql"
 	"fmt"
 	"sync"
@@ -40,7 +41,11 @@ func (r *Repository) AddConnection(token, dbName string) (*sql.DB, error) {
 	return db, nil
 }
 
-func (r *Repository) Db(tenant string) (*sql.DB, error) {
+func (r *Repository) Db(ctx context.Context) (*sql.DB, error) {
+	tenant, ok := ctx.Value("tenant").(string)
+	if !ok {
+		return nil, fmt.Errorf("need to specify tenant to access the database")
+	}
 	cachedDb, ok := r.dbs.Load(tenant)
 	if ok {
 		return cachedDb.(*sql.DB), nil

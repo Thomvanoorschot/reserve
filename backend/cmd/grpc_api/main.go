@@ -31,7 +31,7 @@ import (
 
 func main() {
 	apiCfg := config.LoadApiConfig()
-	listener, err := net.Listen("tcp", fmt.Sprintf(":%s", apiCfg.APIPort))
+	listener, err := net.Listen("tcp", fmt.Sprintf("localhost:%s", apiCfg.APIPort))
 	if err != nil {
 		log.Fatal().Msgf("failed to create listener: %s", err)
 	}

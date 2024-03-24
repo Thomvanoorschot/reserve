@@ -2,15 +2,30 @@ syntax = "proto3";
 
 package proto;
 
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
 option go_package = "./proto";
 
-message UpsertResourceRequest {
-  int64 id = 1;
-  string name = 2;
-  int64 locationId = 3;
-  string minimumSegments = 4;
-  string maximumSegments = 5;
-  repeated bool availability = 6;
+
+message GetStartTimesRequest {
+  string locationId = 1 [(buf.validate.field).string.uuid = true];
+  google.protobuf.Timestamp startAt = 2;
+  google.protobuf.Timestamp endAt = 3;
+  string tz = 4;
 }
-message UpsertResourceResponse {
+message GetStartTimesResponse {
+  repeated google.protobuf.Timestamp startTimes = 1;
+  string tz = 2;
 }
+
+//message UpsertResourceRequest {
+//  string id = 1 [(buf.validate.field).string.uuid = true];;
+//  string name = 2;
+//  string locationId = 3;
+//  string minimumSegments = 4;
+//  string maximumSegments = 5;
+//  repeated bool availability = 6;
+//}
+//message UpsertResourceResponse {
+//}

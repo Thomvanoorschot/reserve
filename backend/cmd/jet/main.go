@@ -120,8 +120,10 @@ func (p sqliteQuerySet) GetTableColumnsMetaData(db *sql.DB, _ string, tableName 
 	for _, columnInfo := range columnInfos {
 		columnType := strings.TrimSuffix(getColumnType(columnInfo.Type), " GENERATED ALWAYS")
 		isGenerated := columnInfo.Hidden == 2 || columnInfo.Hidden == 3 // stored or virtual column
-		if columnType == "INTEGER" {
+		isUnsigned := false
+		if columnType == "UNSIGNED INTEGER" {
 			columnType = "int8"
+			isUnsigned = true
 		}
 		columns = append(columns, metadata.Column{
 			Name:         columnInfo.Name,
@@ -131,7 +133,7 @@ func (p sqliteQuerySet) GetTableColumnsMetaData(db *sql.DB, _ string, tableName 
 			DataType: metadata.DataType{
 				Name:       columnType,
 				Kind:       metadata.BaseType,
-				IsUnsigned: false,
+				IsUnsigned: isUnsigned,
 			},
 		})
 	}

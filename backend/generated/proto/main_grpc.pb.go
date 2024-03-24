@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AvailabilityServiceClient interface {
-	UpsertResource(ctx context.Context, in *UpsertResourceRequest, opts ...grpc.CallOption) (*UpsertResourceResponse, error)
+	GetStartTimes(ctx context.Context, in *GetStartTimesRequest, opts ...grpc.CallOption) (*GetStartTimesResponse, error)
 }
 
 type availabilityServiceClient struct {
@@ -33,9 +33,9 @@ func NewAvailabilityServiceClient(cc grpc.ClientConnInterface) AvailabilityServi
 	return &availabilityServiceClient{cc}
 }
 
-func (c *availabilityServiceClient) UpsertResource(ctx context.Context, in *UpsertResourceRequest, opts ...grpc.CallOption) (*UpsertResourceResponse, error) {
-	out := new(UpsertResourceResponse)
-	err := c.cc.Invoke(ctx, "/proto.AvailabilityService/UpsertResource", in, out, opts...)
+func (c *availabilityServiceClient) GetStartTimes(ctx context.Context, in *GetStartTimesRequest, opts ...grpc.CallOption) (*GetStartTimesResponse, error) {
+	out := new(GetStartTimesResponse)
+	err := c.cc.Invoke(ctx, "/proto.AvailabilityService/GetStartTimes", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -46,7 +46,7 @@ func (c *availabilityServiceClient) UpsertResource(ctx context.Context, in *Upse
 // All implementations must embed UnimplementedAvailabilityServiceServer
 // for forward compatibility
 type AvailabilityServiceServer interface {
-	UpsertResource(context.Context, *UpsertResourceRequest) (*UpsertResourceResponse, error)
+	GetStartTimes(context.Context, *GetStartTimesRequest) (*GetStartTimesResponse, error)
 	mustEmbedUnimplementedAvailabilityServiceServer()
 }
 
@@ -54,8 +54,8 @@ type AvailabilityServiceServer interface {
 type UnimplementedAvailabilityServiceServer struct {
 }
 
-func (UnimplementedAvailabilityServiceServer) UpsertResource(context.Context, *UpsertResourceRequest) (*UpsertResourceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpsertResource not implemented")
+func (UnimplementedAvailabilityServiceServer) GetStartTimes(context.Context, *GetStartTimesRequest) (*GetStartTimesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetStartTimes not implemented")
 }
 func (UnimplementedAvailabilityServiceServer) mustEmbedUnimplementedAvailabilityServiceServer() {}
 
@@ -70,20 +70,20 @@ func RegisterAvailabilityServiceServer(s grpc.ServiceRegistrar, srv Availability
 	s.RegisterService(&AvailabilityService_ServiceDesc, srv)
 }
 
-func _AvailabilityService_UpsertResource_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpsertResourceRequest)
+func _AvailabilityService_GetStartTimes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetStartTimesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AvailabilityServiceServer).UpsertResource(ctx, in)
+		return srv.(AvailabilityServiceServer).GetStartTimes(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.AvailabilityService/UpsertResource",
+		FullMethod: "/proto.AvailabilityService/GetStartTimes",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AvailabilityServiceServer).UpsertResource(ctx, req.(*UpsertResourceRequest))
+		return srv.(AvailabilityServiceServer).GetStartTimes(ctx, req.(*GetStartTimesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -96,8 +96,8 @@ var AvailabilityService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AvailabilityServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "UpsertResource",
-			Handler:    _AvailabilityService_UpsertResource_Handler,
+			MethodName: "GetStartTimes",
+			Handler:    _AvailabilityService_GetStartTimes_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

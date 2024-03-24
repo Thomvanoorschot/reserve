@@ -9,7 +9,8 @@ option go_package = "./proto";
 message Empty { }
 
 service AvailabilityService {
-  rpc UpsertResource(UpsertResourceRequest) returns (UpsertResourceResponse);
+  rpc GetStartTimes(GetStartTimesRequest) returns (GetStartTimesResponse);
+//  rpc UpsertResource(UpsertResourceRequest) returns (UpsertResourceResponse);
 }
 
 service TenantService {

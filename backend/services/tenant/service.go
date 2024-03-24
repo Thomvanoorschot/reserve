@@ -25,7 +25,7 @@ type IdentityProvider interface {
 	CreateAdmin(ctx context.Context, tenantID, email, password string) error
 }
 type Repository interface {
-	Db(tenant string) (*sql.DB, error)
+	Db(ctx context.Context) (*sql.DB, error)
 }
 
 type Service struct {
@@ -83,7 +83,8 @@ func (s *Service) RegisterTenant(ctx context.Context, req *proto.RegisterTenantR
 		respCh <- &proto.RegisterTenantResponse{Error: err.Error()}
 	}
 
-	dbConn, err := s.repository.Db(req.Name)
+	ctx = context.WithValue(ctx, "tenant", req.Name)
+	dbConn, err := s.repository.Db(ctx)
 	if err != nil {
 		respCh <- &proto.RegisterTenantResponse{Error: err.Error()}
 	}

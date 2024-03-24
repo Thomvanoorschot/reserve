@@ -7,7 +7,16 @@
 
 package model
 
+import (
+	"github.com/google/uuid"
+	"time"
+)
+
 type Location struct {
-	ID   *int64 `sql:"primary_key"`
-	Name string
+	ID                    uuid.UUID `sql:"primary_key"`
+	Name                  string
+	DefaultAvailabilityID *uuid.UUID
+	Tz                    string
+	CreatedAt             time.Time
+	UpdatedAt             *time.Time
 }

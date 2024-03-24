@@ -17,8 +17,12 @@ type locationTable struct {
 	sqlite.Table
 
 	// Columns
-	ID   sqlite.ColumnInteger
-	Name sqlite.ColumnString
+	ID                    sqlite.ColumnString
+	Name                  sqlite.ColumnString
+	DefaultAvailabilityID sqlite.ColumnString
+	Tz                    sqlite.ColumnString
+	CreatedAt             sqlite.ColumnTimestamp
+	UpdatedAt             sqlite.ColumnTimestamp
 
 	AllColumns     sqlite.ColumnList
 	MutableColumns sqlite.ColumnList
@@ -59,18 +63,26 @@ func newLocationTable(schemaName, tableName, alias string) *LocationTable {
 
 func newLocationTableImpl(schemaName, tableName, alias string) locationTable {
 	var (
-		IDColumn       = sqlite.IntegerColumn("id")
-		NameColumn     = sqlite.StringColumn("name")
-		allColumns     = sqlite.ColumnList{IDColumn, NameColumn}
-		mutableColumns = sqlite.ColumnList{NameColumn}
+		IDColumn                    = sqlite.StringColumn("id")
+		NameColumn                  = sqlite.StringColumn("name")
+		DefaultAvailabilityIDColumn = sqlite.StringColumn("default_availability_id")
+		TzColumn                    = sqlite.StringColumn("tz")
+		CreatedAtColumn             = sqlite.TimestampColumn("created_at")
+		UpdatedAtColumn             = sqlite.TimestampColumn("updated_at")
+		allColumns                  = sqlite.ColumnList{IDColumn, NameColumn, DefaultAvailabilityIDColumn, TzColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns              = sqlite.ColumnList{NameColumn, DefaultAvailabilityIDColumn, TzColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return locationTable{
 		Table: sqlite.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:   IDColumn,
-		Name: NameColumn,
+		ID:                    IDColumn,
+		Name:                  NameColumn,
+		DefaultAvailabilityID: DefaultAvailabilityIDColumn,
+		Tz:                    TzColumn,
+		CreatedAt:             CreatedAtColumn,
+		UpdatedAt:             UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

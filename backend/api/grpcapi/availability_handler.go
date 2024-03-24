@@ -10,7 +10,8 @@ import (
 )
 
 type AvailabilityService interface {
-	UpsertResource(ctx context.Context, req *proto.UpsertResourceRequest) (*proto.UpsertResourceResponse, error)
+	GetStartTimes(ctx context.Context, req *proto.GetStartTimesRequest) (*proto.GetStartTimesResponse, error)
+	//UpsertResource(ctx context.Context, req *proto.UpsertResourceRequest) (*proto.UpsertResourceResponse, error)
 }
 
 type AvailabilityHandler struct {
@@ -24,14 +25,14 @@ func NewAvailabilityHandler(availabilityService AvailabilityService) *Availabili
 	}
 }
 
-func (h *AvailabilityHandler) UpsertResource(ctx context.Context, req *proto.UpsertResourceRequest) (*proto.UpsertResourceResponse, error) {
+func (h *AvailabilityHandler) GetStartTimes(ctx context.Context, req *proto.GetStartTimesRequest) (*proto.GetStartTimesResponse, error) {
 	if req == nil {
 		return nil, status.Error(
 			codes.InvalidArgument, "no request found",
 		)
 	}
 
-	resp, err := h.availabilityService.UpsertResource(ctx, req)
+	resp, err := h.availabilityService.GetStartTimes(ctx, req)
 	if err != nil {
 		return nil, status.Error(
 			codes.Unknown, err.Error(),
@@ -40,3 +41,20 @@ func (h *AvailabilityHandler) UpsertResource(ctx context.Context, req *proto.Ups
 
 	return resp, nil
 }
+
+//func (h *AvailabilityHandler) UpsertResource(ctx context.Context, req *proto.UpsertResourceRequest) (*proto.UpsertResourceResponse, error) {
+//	if req == nil {
+//		return nil, status.Error(
+//			codes.InvalidArgument, "no request found",
+//		)
+//	}
+//
+//	resp, err := h.availabilityService.UpsertResource(ctx, req)
+//	if err != nil {
+//		return nil, status.Error(
+//			codes.Unknown, err.Error(),
+//		)
+//	}
+//
+//	return resp, nil
+//}

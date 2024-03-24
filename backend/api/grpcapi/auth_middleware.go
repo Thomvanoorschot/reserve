@@ -18,10 +18,14 @@ var (
 var ignoreList = []string{
 	"/proto.TenantService/RegisterTenant",
 	"/proto.TestService/TestUnaryRPC",
+	"/proto.AvailabilityService/GetStartTimes",
 	"/proto.AvailabilityService/UpsertResource",
 }
 
 func ValidateToken(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
+	// TODO Temporary code
+
+	ctx = context.WithValue(ctx, "tenant", "test")
 	for _, il := range ignoreList {
 		if il == info.FullMethod {
 			return handler(ctx, req)

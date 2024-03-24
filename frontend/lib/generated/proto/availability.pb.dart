@@ -11,50 +11,41 @@
 
 import 'dart:core' as $core;
 
-import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class UpsertResourceRequest extends $pb.GeneratedMessage {
-  factory UpsertResourceRequest({
-    $fixnum.Int64? id,
-    $core.String? name,
-    $fixnum.Int64? locationId,
-    $core.String? minimumSegments,
-    $core.String? maximumSegments,
-    $core.Iterable<$core.bool>? availability,
+import 'google/protobuf/timestamp.pb.dart' as $3;
+
+class GetStartTimesRequest extends $pb.GeneratedMessage {
+  factory GetStartTimesRequest({
+    $core.String? locationId,
+    $3.Timestamp? startAt,
+    $3.Timestamp? endAt,
+    $core.String? tz,
   }) {
     final $result = create();
-    if (id != null) {
-      $result.id = id;
-    }
-    if (name != null) {
-      $result.name = name;
-    }
     if (locationId != null) {
       $result.locationId = locationId;
     }
-    if (minimumSegments != null) {
-      $result.minimumSegments = minimumSegments;
+    if (startAt != null) {
+      $result.startAt = startAt;
     }
-    if (maximumSegments != null) {
-      $result.maximumSegments = maximumSegments;
+    if (endAt != null) {
+      $result.endAt = endAt;
     }
-    if (availability != null) {
-      $result.availability.addAll(availability);
+    if (tz != null) {
+      $result.tz = tz;
     }
     return $result;
   }
-  UpsertResourceRequest._() : super();
-  factory UpsertResourceRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpsertResourceRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetStartTimesRequest._() : super();
+  factory GetStartTimesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetStartTimesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpsertResourceRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
-    ..aInt64(1, _omitFieldNames ? '' : 'id')
-    ..aOS(2, _omitFieldNames ? '' : 'name')
-    ..aInt64(3, _omitFieldNames ? '' : 'locationId', protoName: 'locationId')
-    ..aOS(4, _omitFieldNames ? '' : 'minimumSegments', protoName: 'minimumSegments')
-    ..aOS(5, _omitFieldNames ? '' : 'maximumSegments', protoName: 'maximumSegments')
-    ..p<$core.bool>(6, _omitFieldNames ? '' : 'availability', $pb.PbFieldType.KB)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStartTimesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'locationId', protoName: 'locationId')
+    ..aOM<$3.Timestamp>(2, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $3.Timestamp.create)
+    ..aOM<$3.Timestamp>(3, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $3.Timestamp.create)
+    ..aOS(4, _omitFieldNames ? '' : 'tz')
     ..hasRequiredFields = false
   ;
 
@@ -62,79 +53,85 @@ class UpsertResourceRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  UpsertResourceRequest clone() => UpsertResourceRequest()..mergeFromMessage(this);
+  GetStartTimesRequest clone() => GetStartTimesRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  UpsertResourceRequest copyWith(void Function(UpsertResourceRequest) updates) => super.copyWith((message) => updates(message as UpsertResourceRequest)) as UpsertResourceRequest;
+  GetStartTimesRequest copyWith(void Function(GetStartTimesRequest) updates) => super.copyWith((message) => updates(message as GetStartTimesRequest)) as GetStartTimesRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static UpsertResourceRequest create() => UpsertResourceRequest._();
-  UpsertResourceRequest createEmptyInstance() => create();
-  static $pb.PbList<UpsertResourceRequest> createRepeated() => $pb.PbList<UpsertResourceRequest>();
+  static GetStartTimesRequest create() => GetStartTimesRequest._();
+  GetStartTimesRequest createEmptyInstance() => create();
+  static $pb.PbList<GetStartTimesRequest> createRepeated() => $pb.PbList<GetStartTimesRequest>();
   @$core.pragma('dart2js:noInline')
-  static UpsertResourceRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpsertResourceRequest>(create);
-  static UpsertResourceRequest? _defaultInstance;
+  static GetStartTimesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStartTimesRequest>(create);
+  static GetStartTimesRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $fixnum.Int64 get id => $_getI64(0);
+  $core.String get locationId => $_getSZ(0);
   @$pb.TagNumber(1)
-  set id($fixnum.Int64 v) { $_setInt64(0, v); }
+  set locationId($core.String v) { $_setString(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasId() => $_has(0);
+  $core.bool hasLocationId() => $_has(0);
   @$pb.TagNumber(1)
-  void clearId() => clearField(1);
+  void clearLocationId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $core.String get name => $_getSZ(1);
+  $3.Timestamp get startAt => $_getN(1);
   @$pb.TagNumber(2)
-  set name($core.String v) { $_setString(1, v); }
+  set startAt($3.Timestamp v) { setField(2, v); }
   @$pb.TagNumber(2)
-  $core.bool hasName() => $_has(1);
+  $core.bool hasStartAt() => $_has(1);
   @$pb.TagNumber(2)
-  void clearName() => clearField(2);
+  void clearStartAt() => clearField(2);
+  @$pb.TagNumber(2)
+  $3.Timestamp ensureStartAt() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  $fixnum.Int64 get locationId => $_getI64(2);
+  $3.Timestamp get endAt => $_getN(2);
   @$pb.TagNumber(3)
-  set locationId($fixnum.Int64 v) { $_setInt64(2, v); }
+  set endAt($3.Timestamp v) { setField(3, v); }
   @$pb.TagNumber(3)
-  $core.bool hasLocationId() => $_has(2);
+  $core.bool hasEndAt() => $_has(2);
   @$pb.TagNumber(3)
-  void clearLocationId() => clearField(3);
+  void clearEndAt() => clearField(3);
+  @$pb.TagNumber(3)
+  $3.Timestamp ensureEndAt() => $_ensure(2);
 
   @$pb.TagNumber(4)
-  $core.String get minimumSegments => $_getSZ(3);
+  $core.String get tz => $_getSZ(3);
   @$pb.TagNumber(4)
-  set minimumSegments($core.String v) { $_setString(3, v); }
+  set tz($core.String v) { $_setString(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasMinimumSegments() => $_has(3);
+  $core.bool hasTz() => $_has(3);
   @$pb.TagNumber(4)
-  void clearMinimumSegments() => clearField(4);
-
-  @$pb.TagNumber(5)
-  $core.String get maximumSegments => $_getSZ(4);
-  @$pb.TagNumber(5)
-  set maximumSegments($core.String v) { $_setString(4, v); }
-  @$pb.TagNumber(5)
-  $core.bool hasMaximumSegments() => $_has(4);
-  @$pb.TagNumber(5)
-  void clearMaximumSegments() => clearField(5);
-
-  @$pb.TagNumber(6)
-  $core.List<$core.bool> get availability => $_getList(5);
+  void clearTz() => clearField(4);
 }
 
-class UpsertResourceResponse extends $pb.GeneratedMessage {
-  factory UpsertResourceResponse() => create();
-  UpsertResourceResponse._() : super();
-  factory UpsertResourceResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory UpsertResourceResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+class GetStartTimesResponse extends $pb.GeneratedMessage {
+  factory GetStartTimesResponse({
+    $core.Iterable<$3.Timestamp>? startTimes,
+    $core.String? tz,
+  }) {
+    final $result = create();
+    if (startTimes != null) {
+      $result.startTimes.addAll(startTimes);
+    }
+    if (tz != null) {
+      $result.tz = tz;
+    }
+    return $result;
+  }
+  GetStartTimesResponse._() : super();
+  factory GetStartTimesResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetStartTimesResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpsertResourceResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStartTimesResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..pc<$3.Timestamp>(1, _omitFieldNames ? '' : 'startTimes', $pb.PbFieldType.PM, protoName: 'startTimes', subBuilder: $3.Timestamp.create)
+    ..aOS(2, _omitFieldNames ? '' : 'tz')
     ..hasRequiredFields = false
   ;
 
@@ -142,22 +139,34 @@ class UpsertResourceResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  UpsertResourceResponse clone() => UpsertResourceResponse()..mergeFromMessage(this);
+  GetStartTimesResponse clone() => GetStartTimesResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  UpsertResourceResponse copyWith(void Function(UpsertResourceResponse) updates) => super.copyWith((message) => updates(message as UpsertResourceResponse)) as UpsertResourceResponse;
+  GetStartTimesResponse copyWith(void Function(GetStartTimesResponse) updates) => super.copyWith((message) => updates(message as GetStartTimesResponse)) as GetStartTimesResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static UpsertResourceResponse create() => UpsertResourceResponse._();
-  UpsertResourceResponse createEmptyInstance() => create();
-  static $pb.PbList<UpsertResourceResponse> createRepeated() => $pb.PbList<UpsertResourceResponse>();
+  static GetStartTimesResponse create() => GetStartTimesResponse._();
+  GetStartTimesResponse createEmptyInstance() => create();
+  static $pb.PbList<GetStartTimesResponse> createRepeated() => $pb.PbList<GetStartTimesResponse>();
   @$core.pragma('dart2js:noInline')
-  static UpsertResourceResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpsertResourceResponse>(create);
-  static UpsertResourceResponse? _defaultInstance;
+  static GetStartTimesResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStartTimesResponse>(create);
+  static GetStartTimesResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<$3.Timestamp> get startTimes => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $core.String get tz => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set tz($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTz() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTz() => clearField(2);
 }
 
 

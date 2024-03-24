@@ -7,13 +7,19 @@
 
 package model
 
+import (
+	"github.com/google/uuid"
+	"time"
+)
+
 type Resource struct {
-	ID                   *int64 `sql:"primary_key"`
-	Name                 string
-	LocationID           int64
-	MinimumSegments      int64
-	MaximumSegments      int64
-	AllowInvalidSegments bool
-	DefaultAvailability1 int64
-	DefaultAvailability2 int64
+	ID                    uuid.UUID `sql:"primary_key"`
+	Name                  string
+	LocationID            uuid.UUID
+	MinimumSegments       int32
+	MaximumSegments       int32
+	AllowInvalidSegments  bool
+	DefaultAvailabilityID uuid.UUID
+	CreatedAt             time.Time
+	UpdatedAt             *time.Time
 }
