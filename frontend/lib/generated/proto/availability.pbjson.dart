@@ -45,3 +45,50 @@ final $typed_data.Uint8List getStartTimesResponseDescriptor = $convert.base64Dec
     'ChVHZXRTdGFydFRpbWVzUmVzcG9uc2USOgoKc3RhcnRUaW1lcxgBIAMoCzIaLmdvb2dsZS5wcm'
     '90b2J1Zi5UaW1lc3RhbXBSCnN0YXJ0VGltZXMSDgoCdHoYAiABKAlSAnR6');
 
+@$core.Deprecated('Use availabilityRangeDescriptor instead')
+const AvailabilityRange$json = {
+  '1': 'AvailabilityRange',
+  '2': [
+    {'1': 'startAt', '3': 1, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startAt'},
+    {'1': 'endAt', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'endAt'},
+  ],
+};
+
+/// Descriptor for `AvailabilityRange`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List availabilityRangeDescriptor = $convert.base64Decode(
+    'ChFBdmFpbGFiaWxpdHlSYW5nZRI0CgdzdGFydEF0GAEgASgLMhouZ29vZ2xlLnByb3RvYnVmLl'
+    'RpbWVzdGFtcFIHc3RhcnRBdBIwCgVlbmRBdBgCIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1l'
+    'c3RhbXBSBWVuZEF0');
+
+@$core.Deprecated('Use upsertAvailabilityOverrideRequestDescriptor instead')
+const UpsertAvailabilityOverrideRequest$json = {
+  '1': 'UpsertAvailabilityOverrideRequest',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'resourceId', '3': 2, '4': 1, '5': 9, '8': {}, '10': 'resourceId'},
+    {'1': 'name', '3': 4, '4': 1, '5': 9, '10': 'name'},
+    {'1': 'startAt', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startAt'},
+    {'1': 'endAt', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'endAt'},
+    {'1': 'availabilityId', '3': 7, '4': 1, '5': 9, '10': 'availabilityId'},
+    {'1': 'availabilityRanges', '3': 8, '4': 3, '5': 11, '6': '.proto.AvailabilityRange', '10': 'availabilityRanges'},
+  ],
+};
+
+/// Descriptor for `UpsertAvailabilityOverrideRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List upsertAvailabilityOverrideRequestDescriptor = $convert.base64Decode(
+    'CiFVcHNlcnRBdmFpbGFiaWxpdHlPdmVycmlkZVJlcXVlc3QSDgoCaWQYASABKAlSAmlkEigKCn'
+    'Jlc291cmNlSWQYAiABKAlCCLpIBXIDsAEBUgpyZXNvdXJjZUlkEhIKBG5hbWUYBCABKAlSBG5h'
+    'bWUSNAoHc3RhcnRBdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSB3N0YXJ0QX'
+    'QSMAoFZW5kQXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgVlbmRBdBImCg5h'
+    'dmFpbGFiaWxpdHlJZBgHIAEoCVIOYXZhaWxhYmlsaXR5SWQSSAoSYXZhaWxhYmlsaXR5UmFuZ2'
+    'VzGAggAygLMhgucHJvdG8uQXZhaWxhYmlsaXR5UmFuZ2VSEmF2YWlsYWJpbGl0eVJhbmdlcw==');
+
+@$core.Deprecated('Use upsertAvailabilityOverrideResponseDescriptor instead')
+const UpsertAvailabilityOverrideResponse$json = {
+  '1': 'UpsertAvailabilityOverrideResponse',
+};
+
+/// Descriptor for `UpsertAvailabilityOverrideResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List upsertAvailabilityOverrideResponseDescriptor = $convert.base64Decode(
+    'CiJVcHNlcnRBdmFpbGFiaWxpdHlPdmVycmlkZVJlc3BvbnNl');
+

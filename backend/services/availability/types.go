@@ -21,13 +21,22 @@ type Resource struct {
 }
 
 type Availability struct {
-	ID        uuid.UUID
+	ID uuid.UUID
+	Bits
+	StartAt *time.Time
+	EndAt   *time.Time
+}
+
+type Bits struct {
 	PartOne   uint64
 	PartTwo   uint64
 	PartThree uint64
 	PartFour  uint64
 	PartFive  uint64
 	PartSix   uint64
-	StartAt   *time.Time
-	EndAt     *time.Time
+}
+
+type Reservation struct {
+	StartAt time.Time
+	EndAt   time.Time
 }

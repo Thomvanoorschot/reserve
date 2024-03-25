@@ -19,7 +19,7 @@ var ignoreList = []string{
 	"/proto.TenantService/RegisterTenant",
 	"/proto.TestService/TestUnaryRPC",
 	"/proto.AvailabilityService/GetStartTimes",
-	"/proto.AvailabilityService/UpsertResource",
+	"/proto.AvailabilityService/UpsertAvailabilityOverride",
 }
 
 func ValidateToken(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {

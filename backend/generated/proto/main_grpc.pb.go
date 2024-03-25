@@ -23,6 +23,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AvailabilityServiceClient interface {
 	GetStartTimes(ctx context.Context, in *GetStartTimesRequest, opts ...grpc.CallOption) (*GetStartTimesResponse, error)
+	UpsertAvailabilityOverride(ctx context.Context, in *UpsertAvailabilityOverrideRequest, opts ...grpc.CallOption) (*UpsertAvailabilityOverrideResponse, error)
 }
 
 type availabilityServiceClient struct {
@@ -42,11 +43,21 @@ func (c *availabilityServiceClient) GetStartTimes(ctx context.Context, in *GetSt
 	return out, nil
 }
 
+func (c *availabilityServiceClient) UpsertAvailabilityOverride(ctx context.Context, in *UpsertAvailabilityOverrideRequest, opts ...grpc.CallOption) (*UpsertAvailabilityOverrideResponse, error) {
+	out := new(UpsertAvailabilityOverrideResponse)
+	err := c.cc.Invoke(ctx, "/proto.AvailabilityService/UpsertAvailabilityOverride", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AvailabilityServiceServer is the server API for AvailabilityService service.
 // All implementations must embed UnimplementedAvailabilityServiceServer
 // for forward compatibility
 type AvailabilityServiceServer interface {
 	GetStartTimes(context.Context, *GetStartTimesRequest) (*GetStartTimesResponse, error)
+	UpsertAvailabilityOverride(context.Context, *UpsertAvailabilityOverrideRequest) (*UpsertAvailabilityOverrideResponse, error)
 	mustEmbedUnimplementedAvailabilityServiceServer()
 }
 
@@ -56,6 +67,9 @@ type UnimplementedAvailabilityServiceServer struct {
 
 func (UnimplementedAvailabilityServiceServer) GetStartTimes(context.Context, *GetStartTimesRequest) (*GetStartTimesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetStartTimes not implemented")
+}
+func (UnimplementedAvailabilityServiceServer) UpsertAvailabilityOverride(context.Context, *UpsertAvailabilityOverrideRequest) (*UpsertAvailabilityOverrideResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpsertAvailabilityOverride not implemented")
 }
 func (UnimplementedAvailabilityServiceServer) mustEmbedUnimplementedAvailabilityServiceServer() {}
 
@@ -88,6 +102,24 @@ func _AvailabilityService_GetStartTimes_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _AvailabilityService_UpsertAvailabilityOverride_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpsertAvailabilityOverrideRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AvailabilityServiceServer).UpsertAvailabilityOverride(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AvailabilityService/UpsertAvailabilityOverride",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AvailabilityServiceServer).UpsertAvailabilityOverride(ctx, req.(*UpsertAvailabilityOverrideRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // AvailabilityService_ServiceDesc is the grpc.ServiceDesc for AvailabilityService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -98,6 +130,10 @@ var AvailabilityService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetStartTimes",
 			Handler:    _AvailabilityService_GetStartTimes_Handler,
+		},
+		{
+			MethodName: "UpsertAvailabilityOverride",
+			Handler:    _AvailabilityService_UpsertAvailabilityOverride_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

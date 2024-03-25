@@ -107,15 +107,17 @@ func (r *Repository) GetAvailabilityRequirements(
 				Availability[len(resp.Resources[len(resp.Resources)-1].
 				Availability)-1].ID != availabilityID {
 			resp.Resources[len(resp.Resources)-1].Availability = append(resp.Resources[len(resp.Resources)-1].Availability, availability.Availability{
-				ID:        availabilityID,
-				PartOne:   availabilityPartOne,
-				PartTwo:   availabilityPartTwo,
-				PartThree: availabilityPartThree,
-				PartFour:  availabilityPartFour,
-				PartFive:  availabilityPartFive,
-				PartSix:   availabilityPartSix,
-				StartAt:   aStartAt,
-				EndAt:     aEndAt,
+				ID: availabilityID,
+				Bits: availability.Bits{
+					PartOne:   availabilityPartOne,
+					PartTwo:   availabilityPartTwo,
+					PartThree: availabilityPartThree,
+					PartFour:  availabilityPartFour,
+					PartFive:  availabilityPartFive,
+					PartSix:   availabilityPartSix,
+				},
+				StartAt: aStartAt,
+				EndAt:   aEndAt,
 			})
 		}
 		if err != nil {

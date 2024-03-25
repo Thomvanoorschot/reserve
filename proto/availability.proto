@@ -19,6 +19,27 @@ message GetStartTimesResponse {
   string tz = 2;
 }
 
+message AvailabilityRange {
+  google.protobuf.Timestamp startAt = 1;
+  google.protobuf.Timestamp endAt = 2;
+}
+
+message UpsertAvailabilityOverrideRequest {
+  string id = 1;
+  string resourceId = 2 [(buf.validate.field).string.uuid = true];
+  string name = 4;
+  google.protobuf.Timestamp startAt = 5;
+  google.protobuf.Timestamp endAt = 6;
+
+  string availabilityId = 7;
+  repeated AvailabilityRange availabilityRanges = 8;
+}
+
+message UpsertAvailabilityOverrideResponse{
+
+}
+
+
 //message UpsertResourceRequest {
 //  string id = 1 [(buf.validate.field).string.uuid = true];;
 //  string name = 2;

@@ -3,28 +3,9 @@ package availability
 import (
 	"math"
 	"time"
+
+	"reserve/generated/proto"
 )
-
-type DayBits struct {
-	PartOne   uint64
-	PartTwo   uint64
-	PartThree uint64
-	PartFour  uint64
-	PartFive  uint64
-	PartSix   uint64
-}
-
-type Day struct {
-	Date time.Time
-	DayBits
-}
-type ReservationBits struct {
-	DayBits
-}
-type Reservation struct {
-	StartAt time.Time
-	EndAt   time.Time
-}
 
 const (
 	MinutesInSegment        = 5
@@ -35,7 +16,23 @@ const (
 	OneSixthBitRange        = 0b111111111111111111111111111111111111111111111111
 )
 
-func GetReservationBits(startAt, endAt time.Time, tz *time.Location) ReservationBits {
+func RangesToBits(availabilityRanges []*proto.AvailabilityRange) Bits {
+	var b Bits
+	for _, ar := range availabilityRanges {
+		ab := GetAvailabilityBits(ar.StartAt.AsTime(), ar.EndAt.AsTime(), tz)
+		b.PartOne |= ab.PartOne
+		b.PartTwo |= ab.PartTwo
+		b.PartThree |= ab.PartThree
+		b.PartFour |= ab.PartFour
+		b.PartFive |= ab.PartFive
+		b.PartSix |= ab.PartSix
+	}
+	return b
+}
+
+func GetAvailabilityBits(startAt, endAt time.Time, tz *time.Location) Bits {
+	startAt = startAt.In(tz)
+	endAt = endAt.In(tz)
 	startOfDay := time.Date(startAt.Year(), startAt.Month(), startAt.Day(), 0, 0, 0, 0, tz)
 
 	minutesSinceStartOfDay := startAt.Sub(startOfDay).Minutes()
@@ -51,60 +48,68 @@ func GetReservationBits(startAt, endAt time.Time, tz *time.Location) Reservation
 	if rangeLength != maxRangeLength {
 		bitRangeRemainder = int(rangeLength) - int(maxRangeLength) + relativeStartIndex
 	}
-
-	r := ReservationBits{}
+	var canSpendRemainder bool
+	b := Bits{}
 
 	if startIndex < 48 {
-		r.PartOne = bitRange
+		b.PartOne = bitRange
+		canSpendRemainder = true
 	}
-	if startIndex < 96 && startIndex >= 48 || bitRangeRemainder > 0 {
-		if bitRangeRemainder > 0 {
-			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
-			bitRange = createBitRange(int32(remainderRangeLength))
-			bitRangeRemainder -= int(remainderRangeLength)
-		}
-		r.PartTwo = bitRange
-	}
-	if startIndex < 144 && startIndex >= 96 || bitRangeRemainder > 0 {
-		if bitRangeRemainder > 0 {
-			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
-			bitRange = createBitRange(int32(remainderRangeLength))
-			bitRangeRemainder -= int(remainderRangeLength)
-		}
-		r.PartThree = bitRange
-	}
-	if startIndex < 192 && startIndex >= 144 || bitRangeRemainder > 0 {
-		if bitRangeRemainder > 0 {
-			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
-			bitRange = createBitRange(int32(remainderRangeLength))
-			bitRangeRemainder -= int(remainderRangeLength)
-		}
-		r.PartFour = bitRange
-	}
-	if startIndex < 240 && startIndex >= 192 || bitRangeRemainder > 0 {
-		if bitRangeRemainder > 0 {
-			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
-			bitRange = createBitRange(int32(remainderRangeLength))
-			bitRangeRemainder -= int(remainderRangeLength)
-		}
-		r.PartFive = bitRange
-	}
-	if startIndex < 288 && startIndex >= 240 || bitRangeRemainder > 0 {
-		if bitRangeRemainder > 0 {
-			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
-			bitRange = createBitRange(int32(remainderRangeLength))
-			bitRangeRemainder -= int(remainderRangeLength)
-		}
-		r.PartSix = bitRange
-	}
-	//fmt.Printf("PartOne   : %064b\n", r.PartOne)
-	//fmt.Printf("PartTwo   : %064b\n", r.PartTwo)
-	//fmt.Printf("PartThree : %064b\n", r.PartThree)
-	//fmt.Printf("PartFour  : %064b\n", r.PartFour)
-	//fmt.Printf("PartFive  : %064b\n", r.PartFive)
-	//fmt.Printf("PartSix   : %064b\n", r.PartSix)
 
-	return r
+	// TODO Improve this logic
+	if startIndex < 96 && startIndex >= 48 || canSpendRemainder && bitRangeRemainder > 0 {
+		if canSpendRemainder && bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int32(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		b.PartTwo = bitRange
+		canSpendRemainder = true
+	}
+	if startIndex < 144 && startIndex >= 96 || canSpendRemainder && bitRangeRemainder > 0 {
+		if canSpendRemainder && bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int32(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		b.PartThree = bitRange
+		canSpendRemainder = true
+	}
+	if startIndex < 192 && startIndex >= 144 || canSpendRemainder && bitRangeRemainder > 0 {
+		if canSpendRemainder && bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int32(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		b.PartFour = bitRange
+		canSpendRemainder = true
+	}
+	if startIndex < 240 && startIndex >= 192 || canSpendRemainder && bitRangeRemainder > 0 {
+		if canSpendRemainder && bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int32(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		b.PartFive = bitRange
+		canSpendRemainder = true
+	}
+	if startIndex < 288 && startIndex >= 240 || canSpendRemainder && bitRangeRemainder > 0 {
+		if canSpendRemainder && bitRangeRemainder > 0 {
+			remainderRangeLength := math.Min(float64(bitRangeRemainder), float64(SegmentsInOneSixthDay))
+			bitRange = createBitRange(int32(remainderRangeLength))
+			bitRangeRemainder -= int(remainderRangeLength)
+		}
+		b.PartSix = bitRange
+		canSpendRemainder = true
+	}
+	//fmt.Printf("PartOne   : %064b\n", b.PartOne)
+	//fmt.Printf("PartTwo   : %064b\n", b.PartTwo)
+	//fmt.Printf("PartThree : %064b\n", b.PartThree)
+	//fmt.Printf("PartFour  : %064b\n", b.PartFour)
+	//fmt.Printf("PartFive  : %064b\n", b.PartFive)
+	//fmt.Printf("PartSix   : %064b\n", b.PartSix)
+
+	return b
 }
 
 // TODO Move this to some place better, this should NEVER be done inside the loop. Significantly reduces performance
@@ -133,7 +138,7 @@ func GetTimeSlotStarts(startAt, endAt time.Time, requirements Requirements, rvsM
 			rvs, ok := rvsMap[startAtCursor.Unix()]
 			if ok {
 				for _, rv := range rvs {
-					rvBits := GetReservationBits(rv.StartAt, rv.EndAt, tz)
+					rvBits := GetAvailabilityBits(rv.StartAt, rv.EndAt, tz)
 
 					// The "Bit clear assignment" operator gets used here to disable all flipped availability bits
 					// wherever the reservation had bits flipped. It looks something like this:

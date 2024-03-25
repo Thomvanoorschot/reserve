@@ -27,6 +27,10 @@ class AvailabilityServiceClient extends $grpc.Client {
       '/proto.AvailabilityService/GetStartTimes',
       ($0.GetStartTimesRequest value) => value.writeToBuffer(),
       ($core.List<$core.int> value) => $0.GetStartTimesResponse.fromBuffer(value));
+  static final _$upsertAvailabilityOverride = $grpc.ClientMethod<$0.UpsertAvailabilityOverrideRequest, $0.UpsertAvailabilityOverrideResponse>(
+      '/proto.AvailabilityService/UpsertAvailabilityOverride',
+      ($0.UpsertAvailabilityOverrideRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $0.UpsertAvailabilityOverrideResponse.fromBuffer(value));
 
   AvailabilityServiceClient($grpc.ClientChannel channel,
       {$grpc.CallOptions? options,
@@ -36,6 +40,10 @@ class AvailabilityServiceClient extends $grpc.Client {
 
   $grpc.ResponseFuture<$0.GetStartTimesResponse> getStartTimes($0.GetStartTimesRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$getStartTimes, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$0.UpsertAvailabilityOverrideResponse> upsertAvailabilityOverride($0.UpsertAvailabilityOverrideRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$upsertAvailabilityOverride, request, options: options);
   }
 }
 
@@ -51,13 +59,25 @@ abstract class AvailabilityServiceBase extends $grpc.Service {
         false,
         ($core.List<$core.int> value) => $0.GetStartTimesRequest.fromBuffer(value),
         ($0.GetStartTimesResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$0.UpsertAvailabilityOverrideRequest, $0.UpsertAvailabilityOverrideResponse>(
+        'UpsertAvailabilityOverride',
+        upsertAvailabilityOverride_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $0.UpsertAvailabilityOverrideRequest.fromBuffer(value),
+        ($0.UpsertAvailabilityOverrideResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<$0.GetStartTimesResponse> getStartTimes_Pre($grpc.ServiceCall call, $async.Future<$0.GetStartTimesRequest> request) async {
     return getStartTimes(call, await request);
   }
 
+  $async.Future<$0.UpsertAvailabilityOverrideResponse> upsertAvailabilityOverride_Pre($grpc.ServiceCall call, $async.Future<$0.UpsertAvailabilityOverrideRequest> request) async {
+    return upsertAvailabilityOverride(call, await request);
+  }
+
   $async.Future<$0.GetStartTimesResponse> getStartTimes($grpc.ServiceCall call, $0.GetStartTimesRequest request);
+  $async.Future<$0.UpsertAvailabilityOverrideResponse> upsertAvailabilityOverride($grpc.ServiceCall call, $0.UpsertAvailabilityOverrideRequest request);
 }
 @$pb.GrpcServiceName('proto.TenantService')
 class TenantServiceClient extends $grpc.Client {

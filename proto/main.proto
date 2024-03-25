@@ -10,6 +10,7 @@ message Empty { }
 
 service AvailabilityService {
   rpc GetStartTimes(GetStartTimesRequest) returns (GetStartTimesResponse);
+  rpc UpsertAvailabilityOverride(UpsertAvailabilityOverrideRequest) returns (UpsertAvailabilityOverrideResponse);
 //  rpc UpsertResource(UpsertResourceRequest) returns (UpsertResourceResponse);
 }
 

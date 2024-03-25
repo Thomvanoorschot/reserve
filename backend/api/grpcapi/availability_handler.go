@@ -11,6 +11,7 @@ import (
 
 type AvailabilityService interface {
 	GetStartTimes(ctx context.Context, req *proto.GetStartTimesRequest) (*proto.GetStartTimesResponse, error)
+	UpsertAvailabilityOverride(ctx context.Context, req *proto.UpsertAvailabilityOverrideRequest) (*proto.UpsertAvailabilityOverrideResponse, error)
 	//UpsertResource(ctx context.Context, req *proto.UpsertResourceRequest) (*proto.UpsertResourceResponse, error)
 }
 
@@ -42,19 +43,19 @@ func (h *AvailabilityHandler) GetStartTimes(ctx context.Context, req *proto.GetS
 	return resp, nil
 }
 
-//func (h *AvailabilityHandler) UpsertResource(ctx context.Context, req *proto.UpsertResourceRequest) (*proto.UpsertResourceResponse, error) {
-//	if req == nil {
-//		return nil, status.Error(
-//			codes.InvalidArgument, "no request found",
-//		)
-//	}
-//
-//	resp, err := h.availabilityService.UpsertResource(ctx, req)
-//	if err != nil {
-//		return nil, status.Error(
-//			codes.Unknown, err.Error(),
-//		)
-//	}
-//
-//	return resp, nil
-//}
+func (h *AvailabilityHandler) UpsertAvailabilityOverride(ctx context.Context, req *proto.UpsertAvailabilityOverrideRequest) (*proto.UpsertAvailabilityOverrideResponse, error) {
+	if req == nil {
+		return nil, status.Error(
+			codes.InvalidArgument, "no request found",
+		)
+	}
+
+	resp, err := h.availabilityService.UpsertAvailabilityOverride(ctx, req)
+	if err != nil {
+		return nil, status.Error(
+			codes.Unknown, err.Error(),
+		)
+	}
+
+	return resp, nil
+}

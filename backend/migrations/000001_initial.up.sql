@@ -29,6 +29,8 @@ CREATE TABLE resource (
 );
 
 CREATE TABLE resource_availability_override (
+    id UUID PRIMARY KEY DEFAULT (uuid4()) NOT NULL,
+
     resource_id UUID NOT NULL,
     availability_id UUID NOT NULL,
 
