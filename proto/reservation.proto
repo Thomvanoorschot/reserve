@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package proto;
+
+import "buf/validate/validate.proto";
+import "google/protobuf/timestamp.proto";
+
+option go_package = "./proto";
+
+
+message UpsertReservationRequest {
+  string reservationId = 1 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
+  string resourceId = 2 [(buf.validate.field).string.uuid = true];
+  google.protobuf.Timestamp startAt = 3;
+  google.protobuf.Timestamp endAt = 4;
+}
+message UpsertReservationResponse {
+
+}

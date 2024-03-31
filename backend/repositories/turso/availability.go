@@ -1,26 +1,60 @@
 package turso
 
 import (
-	"context"
 	"time"
 
+	"reserve/generated/jet_gen/model"
 	. "reserve/generated/jet_gen/table"
+	"reserve/services"
 	"reserve/services/availability"
 
 	. "github.com/go-jet/jet/v2/sqlite"
 	"github.com/google/uuid"
 )
 
-func (r *Repository) GetAvailabilityRequirements(
-	ctx context.Context,
-	locationID uuid.UUID,
-	startAt, endAt time.Time,
-) (resp availability.Requirements, err error) {
-	db, err := r.Db(ctx)
+func (r *Repository) UpsertAvailability(db services.QueryExecutor, m model.Availability) (resp uuid.UUID, err error) {
+	sql, args := Availability.
+		INSERT(
+			Availability.ID,
+			Availability.PartOne,
+			Availability.PartTwo,
+			Availability.PartThree,
+			Availability.PartFour,
+			Availability.PartFive,
+			Availability.PartSix,
+		).
+		ON_CONFLICT(Availability.ID).
+		DO_UPDATE(
+			SET(
+				Availability.PartOne.SET(Availability.EXCLUDED.PartOne),
+				Availability.PartTwo.SET(Availability.EXCLUDED.PartTwo),
+				Availability.PartThree.SET(Availability.EXCLUDED.PartThree),
+				Availability.PartFour.SET(Availability.EXCLUDED.PartFour),
+				Availability.PartFive.SET(Availability.EXCLUDED.PartFive),
+				Availability.PartSix.SET(Availability.EXCLUDED.PartSix),
+			),
+		).
+		MODEL(m).
+		RETURNING(Availability.ID).
+		Sql()
+
+	row := db.QueryRow(sql, args...)
+
+	if row.Err() != nil {
+		return resp, row.Err()
+	}
+	err = row.Scan(&resp)
 	if err != nil {
 		return resp, err
 	}
+	return resp, nil
+}
 
+func (r *Repository) GetAvailabilityRequirements(
+	db services.QueryExecutor,
+	locationID uuid.UUID,
+	startAt, endAt time.Time,
+) (resp availability.Requirements, err error) {
 	sql, args := SELECT(
 		Location.ID,
 		Location.Tz,

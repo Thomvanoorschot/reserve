@@ -8,6 +8,7 @@ import (
 	"reserve/migrations"
 	repo "reserve/repositories/turso"
 	"reserve/services/availability"
+	"reserve/services/reservation"
 
 	"github.com/bufbuild/protovalidate-go"
 	protovalidatemiddleware "github.com/grpc-ecosystem/go-grpc-middleware/v2/interceptors/protovalidate"
@@ -76,6 +77,10 @@ func main() {
 
 	testHandler := grpcapi.NewTestHandler()
 	proto.RegisterTestServiceServer(s, testHandler)
+
+	reservationService := reservation.NewService(repository)
+	reservationHandler := grpcapi.NewReservationHandler(reservationService)
+	proto.RegisterReservationServiceServer(s, reservationHandler)
 
 	if err := s.Serve(listener); err != nil {
 		log.Fatal().Msgf("failed to serve:%s", err)

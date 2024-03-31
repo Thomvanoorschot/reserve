@@ -13,6 +13,7 @@ import (
 )
 
 type ResourceAvailabilityOverride struct {
+	ID             uuid.UUID `sql:"primary_key"`
 	ResourceID     uuid.UUID
 	AvailabilityID uuid.UUID
 	Name           *string

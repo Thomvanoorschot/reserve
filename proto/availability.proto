@@ -25,13 +25,13 @@ message AvailabilityRange {
 }
 
 message UpsertAvailabilityOverrideRequest {
-  string id = 1;
+  string id = 1 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
   string resourceId = 2 [(buf.validate.field).string.uuid = true];
   string name = 4;
   google.protobuf.Timestamp startAt = 5;
   google.protobuf.Timestamp endAt = 6;
 
-  string availabilityId = 7;
+  string availabilityId = 7 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
   repeated AvailabilityRange availabilityRanges = 8;
 }
 

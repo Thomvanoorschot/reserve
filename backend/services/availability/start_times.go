@@ -12,7 +12,12 @@ import (
 func (s *Service) GetStartTimes(ctx context.Context, req *proto.GetStartTimesRequest) (*proto.GetStartTimesResponse, error) {
 	startAt := req.StartAt.AsTime()
 	endAt := req.EndAt.AsTime()
-	requirements, err := s.repository.GetAvailabilityRequirements(ctx, uuid.MustParse(req.LocationId), startAt, endAt)
+
+	db, err := s.repository.Db(ctx)
+	if err != nil {
+		return nil, err
+	}
+	requirements, err := s.repository.GetAvailabilityRequirements(db, uuid.MustParse(req.LocationId), startAt, endAt)
 	if err != nil {
 		return nil, err
 	}

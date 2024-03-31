@@ -64,24 +64,25 @@ final $typed_data.Uint8List availabilityRangeDescriptor = $convert.base64Decode(
 const UpsertAvailabilityOverrideRequest$json = {
   '1': 'UpsertAvailabilityOverrideRequest',
   '2': [
-    {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'id'},
     {'1': 'resourceId', '3': 2, '4': 1, '5': 9, '8': {}, '10': 'resourceId'},
     {'1': 'name', '3': 4, '4': 1, '5': 9, '10': 'name'},
     {'1': 'startAt', '3': 5, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startAt'},
     {'1': 'endAt', '3': 6, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'endAt'},
-    {'1': 'availabilityId', '3': 7, '4': 1, '5': 9, '10': 'availabilityId'},
+    {'1': 'availabilityId', '3': 7, '4': 1, '5': 9, '8': {}, '10': 'availabilityId'},
     {'1': 'availabilityRanges', '3': 8, '4': 3, '5': 11, '6': '.proto.AvailabilityRange', '10': 'availabilityRanges'},
   ],
 };
 
 /// Descriptor for `UpsertAvailabilityOverrideRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List upsertAvailabilityOverrideRequestDescriptor = $convert.base64Decode(
-    'CiFVcHNlcnRBdmFpbGFiaWxpdHlPdmVycmlkZVJlcXVlc3QSDgoCaWQYASABKAlSAmlkEigKCn'
-    'Jlc291cmNlSWQYAiABKAlCCLpIBXIDsAEBUgpyZXNvdXJjZUlkEhIKBG5hbWUYBCABKAlSBG5h'
-    'bWUSNAoHc3RhcnRBdBgFIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSB3N0YXJ0QX'
-    'QSMAoFZW5kQXQYBiABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgVlbmRBdBImCg5h'
-    'dmFpbGFiaWxpdHlJZBgHIAEoCVIOYXZhaWxhYmlsaXR5SWQSSAoSYXZhaWxhYmlsaXR5UmFuZ2'
-    'VzGAggAygLMhgucHJvdG8uQXZhaWxhYmlsaXR5UmFuZ2VSEmF2YWlsYWJpbGl0eVJhbmdlcw==');
+    'CiFVcHNlcnRBdmFpbGFiaWxpdHlPdmVycmlkZVJlcXVlc3QSGAoCaWQYASABKAlCCLpIBXIDsA'
+    'EBUgJpZBIoCgpyZXNvdXJjZUlkGAIgASgJQgi6SAVyA7ABAVIKcmVzb3VyY2VJZBISCgRuYW1l'
+    'GAQgASgJUgRuYW1lEjQKB3N0YXJ0QXQYBSABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW'
+    '1wUgdzdGFydEF0EjAKBWVuZEF0GAYgASgLMhouZ29vZ2xlLnByb3RvYnVmLlRpbWVzdGFtcFIF'
+    'ZW5kQXQSMAoOYXZhaWxhYmlsaXR5SWQYByABKAlCCLpIBXIDsAEBUg5hdmFpbGFiaWxpdHlJZB'
+    'JIChJhdmFpbGFiaWxpdHlSYW5nZXMYCCADKAsyGC5wcm90by5BdmFpbGFiaWxpdHlSYW5nZVIS'
+    'YXZhaWxhYmlsaXR5UmFuZ2Vz');
 
 @$core.Deprecated('Use upsertAvailabilityOverrideResponseDescriptor instead')
 const UpsertAvailabilityOverrideResponse$json = {

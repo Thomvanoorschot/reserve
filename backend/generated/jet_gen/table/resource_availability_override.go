@@ -17,6 +17,7 @@ type resourceAvailabilityOverrideTable struct {
 	sqlite.Table
 
 	// Columns
+	ID             sqlite.ColumnString
 	ResourceID     sqlite.ColumnString
 	AvailabilityID sqlite.ColumnString
 	Name           sqlite.ColumnString
@@ -64,6 +65,7 @@ func newResourceAvailabilityOverrideTable(schemaName, tableName, alias string) *
 
 func newResourceAvailabilityOverrideTableImpl(schemaName, tableName, alias string) resourceAvailabilityOverrideTable {
 	var (
+		IDColumn             = sqlite.StringColumn("id")
 		ResourceIDColumn     = sqlite.StringColumn("resource_id")
 		AvailabilityIDColumn = sqlite.StringColumn("availability_id")
 		NameColumn           = sqlite.StringColumn("name")
@@ -71,7 +73,7 @@ func newResourceAvailabilityOverrideTableImpl(schemaName, tableName, alias strin
 		EndAtColumn          = sqlite.TimestampColumn("end_at")
 		CreatedAtColumn      = sqlite.TimestampColumn("created_at")
 		UpdatedAtColumn      = sqlite.TimestampColumn("updated_at")
-		allColumns           = sqlite.ColumnList{ResourceIDColumn, AvailabilityIDColumn, NameColumn, StartAtColumn, EndAtColumn, CreatedAtColumn, UpdatedAtColumn}
+		allColumns           = sqlite.ColumnList{IDColumn, ResourceIDColumn, AvailabilityIDColumn, NameColumn, StartAtColumn, EndAtColumn, CreatedAtColumn, UpdatedAtColumn}
 		mutableColumns       = sqlite.ColumnList{ResourceIDColumn, AvailabilityIDColumn, NameColumn, StartAtColumn, EndAtColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
@@ -79,6 +81,7 @@ func newResourceAvailabilityOverrideTableImpl(schemaName, tableName, alias strin
 		Table: sqlite.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
+		ID:             IDColumn,
 		ResourceID:     ResourceIDColumn,
 		AvailabilityID: AvailabilityIDColumn,
 		Name:           NameColumn,

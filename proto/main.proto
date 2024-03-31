@@ -1,6 +1,7 @@
 syntax = "proto3";
 import "availability.proto";
 import "tenant.proto";
+import "reservation.proto";
 
 package proto;
 
@@ -12,6 +13,10 @@ service AvailabilityService {
   rpc GetStartTimes(GetStartTimesRequest) returns (GetStartTimesResponse);
   rpc UpsertAvailabilityOverride(UpsertAvailabilityOverrideRequest) returns (UpsertAvailabilityOverrideResponse);
 //  rpc UpsertResource(UpsertResourceRequest) returns (UpsertResourceResponse);
+}
+
+service ReservationService {
+  rpc UpsertReservation(UpsertReservationRequest) returns (UpsertReservationResponse);
 }
 
 service TenantService {

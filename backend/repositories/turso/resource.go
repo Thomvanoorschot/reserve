@@ -2,9 +2,11 @@ package turso
 
 import (
 	"reserve/generated/jet_gen/model"
+	"reserve/services"
 )
 
-func (r *Repository) UpsertResource(tenant string, m model.Resource) error {
+func (r *Repository) UpsertResource(db services.QueryExecutor,
+	m model.Resource) error {
 	//db, err := r.Db(tenant)
 	//if err != nil {
 	//	return err

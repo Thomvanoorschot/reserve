@@ -13,13 +13,13 @@ import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/timestamp.pb.dart' as $3;
+import 'google/protobuf/timestamp.pb.dart' as $4;
 
 class GetStartTimesRequest extends $pb.GeneratedMessage {
   factory GetStartTimesRequest({
     $core.String? locationId,
-    $3.Timestamp? startAt,
-    $3.Timestamp? endAt,
+    $4.Timestamp? startAt,
+    $4.Timestamp? endAt,
     $core.String? tz,
   }) {
     final $result = create();
@@ -43,8 +43,8 @@ class GetStartTimesRequest extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStartTimesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'locationId', protoName: 'locationId')
-    ..aOM<$3.Timestamp>(2, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $3.Timestamp.create)
-    ..aOM<$3.Timestamp>(3, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $3.Timestamp.create)
+    ..aOM<$4.Timestamp>(2, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $4.Timestamp.create)
+    ..aOM<$4.Timestamp>(3, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $4.Timestamp.create)
     ..aOS(4, _omitFieldNames ? '' : 'tz')
     ..hasRequiredFields = false
   ;
@@ -80,26 +80,26 @@ class GetStartTimesRequest extends $pb.GeneratedMessage {
   void clearLocationId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $3.Timestamp get startAt => $_getN(1);
+  $4.Timestamp get startAt => $_getN(1);
   @$pb.TagNumber(2)
-  set startAt($3.Timestamp v) { setField(2, v); }
+  set startAt($4.Timestamp v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasStartAt() => $_has(1);
   @$pb.TagNumber(2)
   void clearStartAt() => clearField(2);
   @$pb.TagNumber(2)
-  $3.Timestamp ensureStartAt() => $_ensure(1);
+  $4.Timestamp ensureStartAt() => $_ensure(1);
 
   @$pb.TagNumber(3)
-  $3.Timestamp get endAt => $_getN(2);
+  $4.Timestamp get endAt => $_getN(2);
   @$pb.TagNumber(3)
-  set endAt($3.Timestamp v) { setField(3, v); }
+  set endAt($4.Timestamp v) { setField(3, v); }
   @$pb.TagNumber(3)
   $core.bool hasEndAt() => $_has(2);
   @$pb.TagNumber(3)
   void clearEndAt() => clearField(3);
   @$pb.TagNumber(3)
-  $3.Timestamp ensureEndAt() => $_ensure(2);
+  $4.Timestamp ensureEndAt() => $_ensure(2);
 
   @$pb.TagNumber(4)
   $core.String get tz => $_getSZ(3);
@@ -113,7 +113,7 @@ class GetStartTimesRequest extends $pb.GeneratedMessage {
 
 class GetStartTimesResponse extends $pb.GeneratedMessage {
   factory GetStartTimesResponse({
-    $core.Iterable<$3.Timestamp>? startTimes,
+    $core.Iterable<$4.Timestamp>? startTimes,
     $core.String? tz,
   }) {
     final $result = create();
@@ -130,7 +130,7 @@ class GetStartTimesResponse extends $pb.GeneratedMessage {
   factory GetStartTimesResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStartTimesResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
-    ..pc<$3.Timestamp>(1, _omitFieldNames ? '' : 'startTimes', $pb.PbFieldType.PM, protoName: 'startTimes', subBuilder: $3.Timestamp.create)
+    ..pc<$4.Timestamp>(1, _omitFieldNames ? '' : 'startTimes', $pb.PbFieldType.PM, protoName: 'startTimes', subBuilder: $4.Timestamp.create)
     ..aOS(2, _omitFieldNames ? '' : 'tz')
     ..hasRequiredFields = false
   ;
@@ -157,7 +157,7 @@ class GetStartTimesResponse extends $pb.GeneratedMessage {
   static GetStartTimesResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<$3.Timestamp> get startTimes => $_getList(0);
+  $core.List<$4.Timestamp> get startTimes => $_getList(0);
 
   @$pb.TagNumber(2)
   $core.String get tz => $_getSZ(1);
@@ -171,8 +171,8 @@ class GetStartTimesResponse extends $pb.GeneratedMessage {
 
 class AvailabilityRange extends $pb.GeneratedMessage {
   factory AvailabilityRange({
-    $3.Timestamp? startAt,
-    $3.Timestamp? endAt,
+    $4.Timestamp? startAt,
+    $4.Timestamp? endAt,
   }) {
     final $result = create();
     if (startAt != null) {
@@ -188,8 +188,8 @@ class AvailabilityRange extends $pb.GeneratedMessage {
   factory AvailabilityRange.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AvailabilityRange', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
-    ..aOM<$3.Timestamp>(1, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $3.Timestamp.create)
-    ..aOM<$3.Timestamp>(2, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $3.Timestamp.create)
+    ..aOM<$4.Timestamp>(1, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $4.Timestamp.create)
+    ..aOM<$4.Timestamp>(2, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $4.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -215,26 +215,26 @@ class AvailabilityRange extends $pb.GeneratedMessage {
   static AvailabilityRange? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $3.Timestamp get startAt => $_getN(0);
+  $4.Timestamp get startAt => $_getN(0);
   @$pb.TagNumber(1)
-  set startAt($3.Timestamp v) { setField(1, v); }
+  set startAt($4.Timestamp v) { setField(1, v); }
   @$pb.TagNumber(1)
   $core.bool hasStartAt() => $_has(0);
   @$pb.TagNumber(1)
   void clearStartAt() => clearField(1);
   @$pb.TagNumber(1)
-  $3.Timestamp ensureStartAt() => $_ensure(0);
+  $4.Timestamp ensureStartAt() => $_ensure(0);
 
   @$pb.TagNumber(2)
-  $3.Timestamp get endAt => $_getN(1);
+  $4.Timestamp get endAt => $_getN(1);
   @$pb.TagNumber(2)
-  set endAt($3.Timestamp v) { setField(2, v); }
+  set endAt($4.Timestamp v) { setField(2, v); }
   @$pb.TagNumber(2)
   $core.bool hasEndAt() => $_has(1);
   @$pb.TagNumber(2)
   void clearEndAt() => clearField(2);
   @$pb.TagNumber(2)
-  $3.Timestamp ensureEndAt() => $_ensure(1);
+  $4.Timestamp ensureEndAt() => $_ensure(1);
 }
 
 class UpsertAvailabilityOverrideRequest extends $pb.GeneratedMessage {
@@ -242,8 +242,8 @@ class UpsertAvailabilityOverrideRequest extends $pb.GeneratedMessage {
     $core.String? id,
     $core.String? resourceId,
     $core.String? name,
-    $3.Timestamp? startAt,
-    $3.Timestamp? endAt,
+    $4.Timestamp? startAt,
+    $4.Timestamp? endAt,
     $core.String? availabilityId,
     $core.Iterable<AvailabilityRange>? availabilityRanges,
   }) {
@@ -279,8 +279,8 @@ class UpsertAvailabilityOverrideRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'resourceId', protoName: 'resourceId')
     ..aOS(4, _omitFieldNames ? '' : 'name')
-    ..aOM<$3.Timestamp>(5, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $3.Timestamp.create)
-    ..aOM<$3.Timestamp>(6, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $3.Timestamp.create)
+    ..aOM<$4.Timestamp>(5, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $4.Timestamp.create)
+    ..aOM<$4.Timestamp>(6, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $4.Timestamp.create)
     ..aOS(7, _omitFieldNames ? '' : 'availabilityId', protoName: 'availabilityId')
     ..pc<AvailabilityRange>(8, _omitFieldNames ? '' : 'availabilityRanges', $pb.PbFieldType.PM, protoName: 'availabilityRanges', subBuilder: AvailabilityRange.create)
     ..hasRequiredFields = false
@@ -335,26 +335,26 @@ class UpsertAvailabilityOverrideRequest extends $pb.GeneratedMessage {
   void clearName() => clearField(4);
 
   @$pb.TagNumber(5)
-  $3.Timestamp get startAt => $_getN(3);
+  $4.Timestamp get startAt => $_getN(3);
   @$pb.TagNumber(5)
-  set startAt($3.Timestamp v) { setField(5, v); }
+  set startAt($4.Timestamp v) { setField(5, v); }
   @$pb.TagNumber(5)
   $core.bool hasStartAt() => $_has(3);
   @$pb.TagNumber(5)
   void clearStartAt() => clearField(5);
   @$pb.TagNumber(5)
-  $3.Timestamp ensureStartAt() => $_ensure(3);
+  $4.Timestamp ensureStartAt() => $_ensure(3);
 
   @$pb.TagNumber(6)
-  $3.Timestamp get endAt => $_getN(4);
+  $4.Timestamp get endAt => $_getN(4);
   @$pb.TagNumber(6)
-  set endAt($3.Timestamp v) { setField(6, v); }
+  set endAt($4.Timestamp v) { setField(6, v); }
   @$pb.TagNumber(6)
   $core.bool hasEndAt() => $_has(4);
   @$pb.TagNumber(6)
   void clearEndAt() => clearField(6);
   @$pb.TagNumber(6)
-  $3.Timestamp ensureEndAt() => $_ensure(4);
+  $4.Timestamp ensureEndAt() => $_ensure(4);
 
   @$pb.TagNumber(7)
   $core.String get availabilityId => $_getSZ(5);

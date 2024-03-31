@@ -2,18 +2,18 @@ package tenant
 
 import (
 	"context"
-	"database/sql"
 	"fmt"
 	"time"
 
 	"reserve/clients/turso"
 	"reserve/generated/proto"
+	"reserve/services"
 )
 
 const Organization = "thomvanoorschot" // TODO Temporary
 
 type Migrator interface {
-	Migrate(db *sql.DB) error
+	Migrate(executor services.QueryExecutor) error
 }
 
 type DbProvider interface {
@@ -25,7 +25,7 @@ type IdentityProvider interface {
 	CreateAdmin(ctx context.Context, tenantID, email, password string) error
 }
 type Repository interface {
-	Db(ctx context.Context) (*sql.DB, error)
+	services.BaseRepository
 }
 
 type Service struct {

@@ -4,6 +4,7 @@ import (
 	"database/sql"
 
 	"reserve/config"
+	"reserve/services"
 
 	"github.com/golang-migrate/migrate/v4"
 	"github.com/golang-migrate/migrate/v4/database/sqlite3"
@@ -18,8 +19,8 @@ func NewMigrator() *Migrator {
 	return &Migrator{}
 }
 
-func (m *Migrator) Migrate(db *sql.DB) error {
-	driver, err := sqlite3.WithInstance(db, &sqlite3.Config{})
+func (m *Migrator) Migrate(executor services.QueryExecutor) error {
+	driver, err := sqlite3.WithInstance(executor.(*sql.DB), &sqlite3.Config{})
 	if err != nil {
 		return err
 	}

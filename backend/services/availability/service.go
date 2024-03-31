@@ -1,20 +1,20 @@
 package availability
 
 import (
-	"context"
-	"database/sql"
 	"time"
 
 	"reserve/generated/jet_gen/model"
+	"reserve/services"
 
 	"github.com/google/uuid"
 )
 
 type Repository interface {
-	GetAvailabilityRequirements(ctx context.Context, locationID uuid.UUID, startAt, endAt time.Time) (Requirements, error)
-	UpsertResource(tenant string, m model.Resource) error
-
-	Db(ctx context.Context) (*sql.DB, error)
+	services.BaseRepository
+	GetAvailabilityRequirements(db services.QueryExecutor, locationID uuid.UUID, startAt, endAt time.Time) (Requirements, error)
+	UpsertResource(db services.QueryExecutor, m model.Resource) error
+	UpsertAvailability(db services.QueryExecutor, m model.Availability) (uuid.UUID, error)
+	UpsertAvailabilityOverride(db services.QueryExecutor, m model.ResourceAvailabilityOverride) error
 }
 
 type Service struct {

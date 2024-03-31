@@ -52,6 +52,7 @@ CREATE TABLE reservation (
     start_at TIMESTAMP NOT NULL,
     end_at TIMESTAMP NOT NULL,
     resource_id UUID NOT NULL,
+    reserved_until TIMESTAMP,
 
     created_at TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     updated_at TIMESTAMP,
@@ -93,6 +94,40 @@ END;
 CREATE TRIGGER update_updated_at_resource_availability_override AFTER UPDATE ON resource_availability_override
 BEGIN
     UPDATE resource_availability_override SET updated_at=CURRENT_TIMESTAMP WHERE resource_id=NEW.resource_id AND availability_id=NEW.availability_id;
+END;
+
+CREATE TRIGGER prevent_overlapping_reservations_insert
+    BEFORE INSERT ON reservation
+    FOR EACH ROW
+    WHEN (
+             SELECT COUNT(*) FROM reservation
+             WHERE resource_id = NEW.resource_id
+               AND (reserved_until IS NULL OR reserved_until >= CURRENT_TIMESTAMP)
+               AND (
+                 (NEW.start_at <= start_at AND NEW.end_at > start_at) OR
+                 (NEW.start_at >= start_at AND NEW.end_at < end_at) OR
+                 (NEW.start_at < end_at AND NEW.end_at > end_at)
+                 )
+         ) > 0
+BEGIN
+    SELECT RAISE(FAIL, 'reservation times overlap');
+END;
+
+CREATE TRIGGER prevent_overlapping_reservations_update
+    BEFORE UPDATE ON reservation
+    FOR EACH ROW
+    WHEN (
+             SELECT COUNT(*) FROM reservation
+             WHERE resource_id = NEW.resource_id
+               AND (reserved_until IS NULL OR reserved_until >= CURRENT_TIMESTAMP)
+               AND (
+                 (NEW.start_at <= start_at AND NEW.end_at > start_at) OR
+                 (NEW.start_at >= start_at AND NEW.end_at < end_at) OR
+                 (NEW.start_at < end_at AND NEW.end_at > end_at)
+                 )
+         ) > 0
+BEGIN
+    SELECT RAISE(FAIL, 'reservation times overlap');
 END;
 
 

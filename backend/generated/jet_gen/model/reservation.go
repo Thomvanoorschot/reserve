@@ -13,11 +13,12 @@ import (
 )
 
 type Reservation struct {
-	ID         uuid.UUID `sql:"primary_key"`
-	UserID     string
-	StartAt    time.Time
-	EndAt      time.Time
-	ResourceID uuid.UUID
-	CreatedAt  time.Time
-	UpdatedAt  *time.Time
+	ID            uuid.UUID `sql:"primary_key"`
+	UserID        string
+	StartAt       time.Time
+	EndAt         time.Time
+	ResourceID    uuid.UUID
+	ReservedUntil *time.Time
+	CreatedAt     time.Time
+	UpdatedAt     *time.Time
 }
