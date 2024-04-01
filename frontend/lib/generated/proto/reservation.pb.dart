@@ -112,12 +112,26 @@ class UpsertReservationRequest extends $pb.GeneratedMessage {
 }
 
 class UpsertReservationResponse extends $pb.GeneratedMessage {
-  factory UpsertReservationResponse() => create();
+  factory UpsertReservationResponse({
+    $core.String? reservationId,
+    $4.Timestamp? reservedUntil,
+  }) {
+    final $result = create();
+    if (reservationId != null) {
+      $result.reservationId = reservationId;
+    }
+    if (reservedUntil != null) {
+      $result.reservedUntil = reservedUntil;
+    }
+    return $result;
+  }
   UpsertReservationResponse._() : super();
   factory UpsertReservationResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
   factory UpsertReservationResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpsertReservationResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'reservationId', protoName: 'reservationId')
+    ..aOM<$4.Timestamp>(2, _omitFieldNames ? '' : 'reservedUntil', protoName: 'reservedUntil', subBuilder: $4.Timestamp.create)
     ..hasRequiredFields = false
   ;
 
@@ -141,6 +155,26 @@ class UpsertReservationResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static UpsertReservationResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpsertReservationResponse>(create);
   static UpsertReservationResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get reservationId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set reservationId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasReservationId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearReservationId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $4.Timestamp get reservedUntil => $_getN(1);
+  @$pb.TagNumber(2)
+  set reservedUntil($4.Timestamp v) { setField(2, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasReservedUntil() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearReservedUntil() => clearField(2);
+  @$pb.TagNumber(2)
+  $4.Timestamp ensureReservedUntil() => $_ensure(1);
 }
 
 

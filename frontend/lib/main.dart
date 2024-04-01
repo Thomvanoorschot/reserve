@@ -129,6 +129,11 @@ class _MyHomePageState extends State<MyHomePage> {
           // wireframe for each widget.
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            DatePickerDialog(
+              firstDate: DateTime.now(),
+              lastDate: DateTime.now().add(const Duration(days: 31)),
+              selectableDayPredicate: (day) => day.,
+            ),
             Text(
               subtext,
             ),

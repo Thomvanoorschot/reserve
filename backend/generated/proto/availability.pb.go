@@ -336,6 +336,100 @@ func (*UpsertAvailabilityOverrideResponse) Descriptor() ([]byte, []int) {
 	return file_availability_proto_rawDescGZIP(), []int{4}
 }
 
+type Test struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	Availability map[int64]*TestSlice `protobuf:"bytes,1,rep,name=availability,proto3" json:"availability,omitempty" protobuf_key:"varint,1,opt,name=key,proto3" protobuf_val:"bytes,2,opt,name=value,proto3"`
+}
+
+func (x *Test) Reset() {
+	*x = Test{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_availability_proto_msgTypes[5]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *Test) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*Test) ProtoMessage() {}
+
+func (x *Test) ProtoReflect() protoreflect.Message {
+	mi := &file_availability_proto_msgTypes[5]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use Test.ProtoReflect.Descriptor instead.
+func (*Test) Descriptor() ([]byte, []int) {
+	return file_availability_proto_rawDescGZIP(), []int{5}
+}
+
+func (x *Test) GetAvailability() map[int64]*TestSlice {
+	if x != nil {
+		return x.Availability
+	}
+	return nil
+}
+
+type TestSlice struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	StartTimes []*timestamppb.Timestamp `protobuf:"bytes,1,rep,name=startTimes,proto3" json:"startTimes,omitempty"`
+}
+
+func (x *TestSlice) Reset() {
+	*x = TestSlice{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_availability_proto_msgTypes[6]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *TestSlice) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TestSlice) ProtoMessage() {}
+
+func (x *TestSlice) ProtoReflect() protoreflect.Message {
+	mi := &file_availability_proto_msgTypes[6]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TestSlice.ProtoReflect.Descriptor instead.
+func (*TestSlice) Descriptor() ([]byte, []int) {
+	return file_availability_proto_rawDescGZIP(), []int{6}
+}
+
+func (x *TestSlice) GetStartTimes() []*timestamppb.Timestamp {
+	if x != nil {
+		return x.StartTimes
+	}
+	return nil
+}
+
 var File_availability_proto protoreflect.FileDescriptor
 
 var file_availability_proto_rawDesc = []byte{
@@ -394,9 +488,23 @@ var file_availability_proto_rawDesc = []byte{
 	0x61, 0x6e, 0x67, 0x65, 0x52, 0x12, 0x61, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x69, 0x6c, 0x69,
 	0x74, 0x79, 0x52, 0x61, 0x6e, 0x67, 0x65, 0x73, 0x22, 0x24, 0x0a, 0x22, 0x55, 0x70, 0x73, 0x65,
 	0x72, 0x74, 0x41, 0x76, 0x61, 0x69, 0x6c, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x4f, 0x76,
-	0x65, 0x72, 0x72, 0x69, 0x64, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x09,
-	0x5a, 0x07, 0x2e, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x65, 0x72, 0x72, 0x69, 0x64, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x22, 0x9c,
+	0x01, 0x0a, 0x04, 0x54, 0x65, 0x73, 0x74, 0x12, 0x41, 0x0a, 0x0c, 0x61, 0x76, 0x61, 0x69, 0x6c,
+	0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1d, 0x2e,
+	0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x54, 0x65, 0x73, 0x74, 0x2e, 0x41, 0x76, 0x61, 0x69, 0x6c,
+	0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x52, 0x0c, 0x61, 0x76,
+	0x61, 0x69, 0x6c, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x1a, 0x51, 0x0a, 0x11, 0x41, 0x76,
+	0x61, 0x69, 0x6c, 0x61, 0x62, 0x69, 0x6c, 0x69, 0x74, 0x79, 0x45, 0x6e, 0x74, 0x72, 0x79, 0x12,
+	0x10, 0x0a, 0x03, 0x6b, 0x65, 0x79, 0x18, 0x01, 0x20, 0x01, 0x28, 0x03, 0x52, 0x03, 0x6b, 0x65,
+	0x79, 0x12, 0x26, 0x0a, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
+	0x32, 0x10, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x2e, 0x54, 0x65, 0x73, 0x74, 0x53, 0x6c, 0x69,
+	0x63, 0x65, 0x52, 0x05, 0x76, 0x61, 0x6c, 0x75, 0x65, 0x3a, 0x02, 0x38, 0x01, 0x22, 0x47, 0x0a,
+	0x09, 0x54, 0x65, 0x73, 0x74, 0x53, 0x6c, 0x69, 0x63, 0x65, 0x12, 0x3a, 0x0a, 0x0a, 0x73, 0x74,
+	0x61, 0x72, 0x74, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x1a,
+	0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66,
+	0x2e, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x74, 0x61, 0x6d, 0x70, 0x52, 0x0a, 0x73, 0x74, 0x61, 0x72,
+	0x74, 0x54, 0x69, 0x6d, 0x65, 0x73, 0x42, 0x09, 0x5a, 0x07, 0x2e, 0x2f, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -411,29 +519,35 @@ func file_availability_proto_rawDescGZIP() []byte {
 	return file_availability_proto_rawDescData
 }
 
-var file_availability_proto_msgTypes = make([]protoimpl.MessageInfo, 5)
+var file_availability_proto_msgTypes = make([]protoimpl.MessageInfo, 8)
 var file_availability_proto_goTypes = []interface{}{
 	(*GetStartTimesRequest)(nil),               // 0: proto.GetStartTimesRequest
 	(*GetStartTimesResponse)(nil),              // 1: proto.GetStartTimesResponse
 	(*AvailabilityRange)(nil),                  // 2: proto.AvailabilityRange
 	(*UpsertAvailabilityOverrideRequest)(nil),  // 3: proto.UpsertAvailabilityOverrideRequest
 	(*UpsertAvailabilityOverrideResponse)(nil), // 4: proto.UpsertAvailabilityOverrideResponse
-	(*timestamppb.Timestamp)(nil),              // 5: google.protobuf.Timestamp
+	(*Test)(nil),                  // 5: proto.Test
+	(*TestSlice)(nil),             // 6: proto.TestSlice
+	nil,                           // 7: proto.Test.AvailabilityEntry
+	(*timestamppb.Timestamp)(nil), // 8: google.protobuf.Timestamp
 }
 var file_availability_proto_depIdxs = []int32{
-	5, // 0: proto.GetStartTimesRequest.startAt:type_name -> google.protobuf.Timestamp
-	5, // 1: proto.GetStartTimesRequest.endAt:type_name -> google.protobuf.Timestamp
-	5, // 2: proto.GetStartTimesResponse.startTimes:type_name -> google.protobuf.Timestamp
-	5, // 3: proto.AvailabilityRange.startAt:type_name -> google.protobuf.Timestamp
-	5, // 4: proto.AvailabilityRange.endAt:type_name -> google.protobuf.Timestamp
-	5, // 5: proto.UpsertAvailabilityOverrideRequest.startAt:type_name -> google.protobuf.Timestamp
-	5, // 6: proto.UpsertAvailabilityOverrideRequest.endAt:type_name -> google.protobuf.Timestamp
-	2, // 7: proto.UpsertAvailabilityOverrideRequest.availabilityRanges:type_name -> proto.AvailabilityRange
-	8, // [8:8] is the sub-list for method output_type
-	8, // [8:8] is the sub-list for method input_type
-	8, // [8:8] is the sub-list for extension type_name
-	8, // [8:8] is the sub-list for extension extendee
-	0, // [0:8] is the sub-list for field type_name
+	8,  // 0: proto.GetStartTimesRequest.startAt:type_name -> google.protobuf.Timestamp
+	8,  // 1: proto.GetStartTimesRequest.endAt:type_name -> google.protobuf.Timestamp
+	8,  // 2: proto.GetStartTimesResponse.startTimes:type_name -> google.protobuf.Timestamp
+	8,  // 3: proto.AvailabilityRange.startAt:type_name -> google.protobuf.Timestamp
+	8,  // 4: proto.AvailabilityRange.endAt:type_name -> google.protobuf.Timestamp
+	8,  // 5: proto.UpsertAvailabilityOverrideRequest.startAt:type_name -> google.protobuf.Timestamp
+	8,  // 6: proto.UpsertAvailabilityOverrideRequest.endAt:type_name -> google.protobuf.Timestamp
+	2,  // 7: proto.UpsertAvailabilityOverrideRequest.availabilityRanges:type_name -> proto.AvailabilityRange
+	7,  // 8: proto.Test.availability:type_name -> proto.Test.AvailabilityEntry
+	8,  // 9: proto.TestSlice.startTimes:type_name -> google.protobuf.Timestamp
+	6,  // 10: proto.Test.AvailabilityEntry.value:type_name -> proto.TestSlice
+	11, // [11:11] is the sub-list for method output_type
+	11, // [11:11] is the sub-list for method input_type
+	11, // [11:11] is the sub-list for extension type_name
+	11, // [11:11] is the sub-list for extension extendee
+	0,  // [0:11] is the sub-list for field type_name
 }
 
 func init() { file_availability_proto_init() }
@@ -502,6 +616,30 @@ func file_availability_proto_init() {
 				return nil
 			}
 		}
+		file_availability_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*Test); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_availability_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*TestSlice); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
@@ -509,7 +647,7 @@ func file_availability_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_availability_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   5,
+			NumMessages:   8,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

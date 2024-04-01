@@ -93,3 +93,41 @@ const UpsertAvailabilityOverrideResponse$json = {
 final $typed_data.Uint8List upsertAvailabilityOverrideResponseDescriptor = $convert.base64Decode(
     'CiJVcHNlcnRBdmFpbGFiaWxpdHlPdmVycmlkZVJlc3BvbnNl');
 
+@$core.Deprecated('Use testDescriptor instead')
+const Test$json = {
+  '1': 'Test',
+  '2': [
+    {'1': 'availability', '3': 1, '4': 3, '5': 11, '6': '.proto.Test.AvailabilityEntry', '10': 'availability'},
+  ],
+  '3': [Test_AvailabilityEntry$json],
+};
+
+@$core.Deprecated('Use testDescriptor instead')
+const Test_AvailabilityEntry$json = {
+  '1': 'AvailabilityEntry',
+  '2': [
+    {'1': 'key', '3': 1, '4': 1, '5': 3, '10': 'key'},
+    {'1': 'value', '3': 2, '4': 1, '5': 11, '6': '.proto.TestSlice', '10': 'value'},
+  ],
+  '7': {'7': true},
+};
+
+/// Descriptor for `Test`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List testDescriptor = $convert.base64Decode(
+    'CgRUZXN0EkEKDGF2YWlsYWJpbGl0eRgBIAMoCzIdLnByb3RvLlRlc3QuQXZhaWxhYmlsaXR5RW'
+    '50cnlSDGF2YWlsYWJpbGl0eRpRChFBdmFpbGFiaWxpdHlFbnRyeRIQCgNrZXkYASABKANSA2tl'
+    'eRImCgV2YWx1ZRgCIAEoCzIQLnByb3RvLlRlc3RTbGljZVIFdmFsdWU6AjgB');
+
+@$core.Deprecated('Use testSliceDescriptor instead')
+const TestSlice$json = {
+  '1': 'TestSlice',
+  '2': [
+    {'1': 'startTimes', '3': 1, '4': 3, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startTimes'},
+  ],
+};
+
+/// Descriptor for `TestSlice`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List testSliceDescriptor = $convert.base64Decode(
+    'CglUZXN0U2xpY2USOgoKc3RhcnRUaW1lcxgBIAMoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3'
+    'RhbXBSCnN0YXJ0VGltZXM=');
+

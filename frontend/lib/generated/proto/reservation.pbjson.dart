@@ -34,9 +34,15 @@ final $typed_data.Uint8List upsertReservationRequestDescriptor = $convert.base64
 @$core.Deprecated('Use upsertReservationResponseDescriptor instead')
 const UpsertReservationResponse$json = {
   '1': 'UpsertReservationResponse',
+  '2': [
+    {'1': 'reservationId', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'reservationId'},
+    {'1': 'reservedUntil', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'reservedUntil'},
+  ],
 };
 
 /// Descriptor for `UpsertReservationResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List upsertReservationResponseDescriptor = $convert.base64Decode(
-    'ChlVcHNlcnRSZXNlcnZhdGlvblJlc3BvbnNl');
+    'ChlVcHNlcnRSZXNlcnZhdGlvblJlc3BvbnNlEi4KDXJlc2VydmF0aW9uSWQYASABKAlCCLpIBX'
+    'IDsAEBUg1yZXNlcnZhdGlvbklkEkAKDXJlc2VydmVkVW50aWwYAiABKAsyGi5nb29nbGUucHJv'
+    'dG9idWYuVGltZXN0YW1wUg1yZXNlcnZlZFVudGls');
 

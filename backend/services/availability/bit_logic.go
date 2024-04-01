@@ -119,6 +119,7 @@ func GetTimeSlotStarts(startAt, endAt time.Time, requirements Requirements, rvsM
 	startTimeMap := make(map[time.Time]struct{})
 	mask := createBitRange(requirements.MinimumSegments)
 	startAtCursor := startAt
+	availableDays := make([]time.Time, 0, 62)
 	for startAtCursor.Before(endAt) {
 		for _, resource := range requirements.Resources {
 			var relevantAvailability Availability
@@ -247,7 +248,7 @@ func GetTimeSlotStarts(startAt, endAt time.Time, requirements Requirements, rvsM
 				//startTimes = append(startTimes, )
 			}
 		}
-
+		availableDays = append(availableDays, startAtCursor)
 		// This function will result in an infinite loop without this
 		startAtCursor = startAtCursor.AddDate(0, 0, 1)
 	}

@@ -15,5 +15,6 @@ message UpsertReservationRequest {
   google.protobuf.Timestamp endAt = 4;
 }
 message UpsertReservationResponse {
-
+  string reservationId = 1 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
+  google.protobuf.Timestamp reservedUntil = 2;
 }

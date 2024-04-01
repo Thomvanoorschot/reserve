@@ -11,6 +11,7 @@
 
 import 'dart:core' as $core;
 
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'google/protobuf/timestamp.pb.dart' as $4;
@@ -399,6 +400,94 @@ class UpsertAvailabilityOverrideResponse extends $pb.GeneratedMessage {
   @$core.pragma('dart2js:noInline')
   static UpsertAvailabilityOverrideResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpsertAvailabilityOverrideResponse>(create);
   static UpsertAvailabilityOverrideResponse? _defaultInstance;
+}
+
+class Test extends $pb.GeneratedMessage {
+  factory Test({
+    $core.Map<$fixnum.Int64, TestSlice>? availability,
+  }) {
+    final $result = create();
+    if (availability != null) {
+      $result.availability.addAll(availability);
+    }
+    return $result;
+  }
+  Test._() : super();
+  factory Test.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory Test.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'Test', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..m<$fixnum.Int64, TestSlice>(1, _omitFieldNames ? '' : 'availability', entryClassName: 'Test.AvailabilityEntry', keyFieldType: $pb.PbFieldType.O6, valueFieldType: $pb.PbFieldType.OM, valueCreator: TestSlice.create, valueDefaultOrMaker: TestSlice.getDefault, packageName: const $pb.PackageName('proto'))
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  Test clone() => Test()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  Test copyWith(void Function(Test) updates) => super.copyWith((message) => updates(message as Test)) as Test;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static Test create() => Test._();
+  Test createEmptyInstance() => create();
+  static $pb.PbList<Test> createRepeated() => $pb.PbList<Test>();
+  @$core.pragma('dart2js:noInline')
+  static Test getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<Test>(create);
+  static Test? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.Map<$fixnum.Int64, TestSlice> get availability => $_getMap(0);
+}
+
+class TestSlice extends $pb.GeneratedMessage {
+  factory TestSlice({
+    $core.Iterable<$4.Timestamp>? startTimes,
+  }) {
+    final $result = create();
+    if (startTimes != null) {
+      $result.startTimes.addAll(startTimes);
+    }
+    return $result;
+  }
+  TestSlice._() : super();
+  factory TestSlice.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory TestSlice.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TestSlice', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..pc<$4.Timestamp>(1, _omitFieldNames ? '' : 'startTimes', $pb.PbFieldType.PM, protoName: 'startTimes', subBuilder: $4.Timestamp.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  TestSlice clone() => TestSlice()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  TestSlice copyWith(void Function(TestSlice) updates) => super.copyWith((message) => updates(message as TestSlice)) as TestSlice;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static TestSlice create() => TestSlice._();
+  TestSlice createEmptyInstance() => create();
+  static $pb.PbList<TestSlice> createRepeated() => $pb.PbList<TestSlice>();
+  @$core.pragma('dart2js:noInline')
+  static TestSlice getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<TestSlice>(create);
+  static TestSlice? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<$4.Timestamp> get startTimes => $_getList(0);
 }
 
 

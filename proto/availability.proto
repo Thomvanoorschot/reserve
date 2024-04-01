@@ -39,6 +39,13 @@ message UpsertAvailabilityOverrideResponse{
 
 }
 
+message Test {
+  map<int64, TestSlice> availability = 1;
+}
+
+message TestSlice {
+  repeated google.protobuf.Timestamp startTimes = 1;
+}
 
 //message UpsertResourceRequest {
 //  string id = 1 [(buf.validate.field).string.uuid = true];;
