@@ -8,7 +8,6 @@ import (
 	"reserve/generated/proto"
 
 	"github.com/google/uuid"
-	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 func (s *Service) UpsertReservation(ctx context.Context, req *proto.UpsertReservationRequest) (*proto.UpsertReservationResponse, error) {
@@ -24,13 +23,13 @@ func (s *Service) UpsertReservation(ctx context.Context, req *proto.UpsertReserv
 	_, err = s.repository.UpsertReservation(db, model.Reservation{
 		ID:            reservationID,
 		UserID:        "TODO userID",
-		StartAt:       req.StartAt.AsTime(),
-		EndAt:         req.EndAt.AsTime(),
+		StartAt:       time.Unix(req.StartAtUnix, 0),
+		EndAt:         time.Unix(req.EndAtUnix, 0),
 		ResourceID:    uuid.MustParse(req.ResourceId),
 		ReservedUntil: &reservedUntil,
 	})
 	return &proto.UpsertReservationResponse{
-		ReservationId: reservationID.String(),
-		ReservedUntil: timestamppb.New(reservedUntil),
+		ReservationId:     reservationID.String(),
+		ReservedUntilUnix: reservedUntil.Unix(),
 	}, err
 }

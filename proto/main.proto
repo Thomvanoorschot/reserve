@@ -10,7 +10,8 @@ option go_package = "./proto";
 message Empty { }
 
 service AvailabilityService {
-  rpc GetStartTimes(GetStartTimesRequest) returns (GetStartTimesResponse);
+  rpc GetAvailableTimeslots(GetAvailableTimeslotsRequest) returns (GetAvailableTimeslotsResponse);
+  rpc GetAvailableDays(GetAvailableDaysRequest) returns (GetAvailableDaysResponse);
   rpc UpsertAvailabilityOverride(UpsertAvailabilityOverrideRequest) returns (UpsertAvailabilityOverrideResponse);
 //  rpc UpsertResource(UpsertResourceRequest) returns (UpsertResourceResponse);
 }

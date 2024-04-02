@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:frontend/generated/proto/main.pbgrpc.dart';
 import 'package:grpc/grpc.dart';
 import 'package:grpc/grpc_or_grpcweb.dart';
+import 'package:fixnum/fixnum.dart' as $fixnum;
+
+import 'generated/proto/availability.pb.dart';
 
 void main() {
   runApp(const MyApp());
-
 }
 
 class MyApp extends StatelessWidget {
@@ -52,10 +54,6 @@ class MyHomePage extends StatefulWidget {
   // used by the build method of the State. Fields in a Widget subclass are
   // always marked "final".
 
-
-
-
-
   final String title;
 
   @override
@@ -63,7 +61,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TestServiceClient? _testServiceClient;
+  AvailabilityServiceClient? _availabilityServiceClient;
+  late Future<GetAvailableDaysResponse> availableDays;
+
   @override
   void initState() {
     super.initState();
@@ -75,21 +75,46 @@ class _MyHomePageState extends State<MyHomePage> {
       grpcWebTransportSecure: false,
     );
 
-    _testServiceClient = TestServiceClient(test);
+    _availabilityServiceClient = AvailabilityServiceClient(test);
+    availableDays = _getAvailableDays();
   }
+
   var subtext = 'You have pushed the button this many times:';
 
-  int _counter = 0;
+  Future<GetAvailableDaysResponse> _getAvailableDays() async {
+    return await _availabilityServiceClient!.getAvailableDays(
+      GetAvailableDaysRequest(
+        locationId: "b3b41d5e-27b9-40bb-9458-32b169693d5d",
+        startAtUnix: $fixnum.Int64(1711234800),
+        endAtUnix: $fixnum.Int64(1713909600),
+        tz: "Europe/Amsterdam",
+      ),
+    );
+  }
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
+  bool _isAvailable(DateTime day, GetAvailableDaysResponse availableDays) {
+    bool isAvailable = false;
+    availableDays.availableDaysUnix.forEach((element) {
+      if (day.millisecondsSinceEpoch / 1000 as int == element.toInt()) {
+        isAvailable = true;
+      }
     });
+
+    return isAvailable;
+  }
+
+  var test = DatePickerDialog(
+    firstDate: DateTime.now(),
+    lastDate: DateTime.now().add(const Duration(days: 31)),
+    selectableDayPredicate: (day) {
+      return _isAvailable(day, snapshot.data!);
+    },
+    initialDate: DateTime.now(),
+    // onDateChanged: (date){},
+  );
+
+  aaaa(){
+    test.
   }
 
   @override
@@ -110,49 +135,31 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            DatePickerDialog(
-              firstDate: DateTime.now(),
-              lastDate: DateTime.now().add(const Duration(days: 31)),
-              selectableDayPredicate: (day) => day.,
-            ),
-            Text(
-              subtext,
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: ()async{
-      var result = await _testServiceClient!.testUnaryRPC(TestRPCRequest(testField: "A test"));
-      subtext = result.testField;
-_incrementCounter();
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      body: FutureBuilder<GetAvailableDaysResponse>(
+          future: availableDays,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Row(
+                children: [
+                  // Container(
+                  //   width: 300,
+                  //   height: 300,
+                  //   child:
+                    DatePickerDialog(
+                      firstDate: DateTime.now(),
+                      lastDate: DateTime.now().add(const Duration(days: 31)),
+                      selectableDayPredicate: (day) {
+                        return _isAvailable(day, snapshot.data!);
+                      },
+                      initialDate: DateTime.now(),
+                      // onDateChanged: (date){},
+                    ),
+                  // ),
+                ],
+              );
+            }
+            return const Text("Waiting");
+          }),
     );
   }
 }

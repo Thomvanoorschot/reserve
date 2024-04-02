@@ -11,16 +11,15 @@
 
 import 'dart:core' as $core;
 
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
-
-import 'google/protobuf/timestamp.pb.dart' as $4;
 
 class UpsertReservationRequest extends $pb.GeneratedMessage {
   factory UpsertReservationRequest({
     $core.String? reservationId,
     $core.String? resourceId,
-    $4.Timestamp? startAt,
-    $4.Timestamp? endAt,
+    $fixnum.Int64? startAtUnix,
+    $fixnum.Int64? endAtUnix,
   }) {
     final $result = create();
     if (reservationId != null) {
@@ -29,11 +28,11 @@ class UpsertReservationRequest extends $pb.GeneratedMessage {
     if (resourceId != null) {
       $result.resourceId = resourceId;
     }
-    if (startAt != null) {
-      $result.startAt = startAt;
+    if (startAtUnix != null) {
+      $result.startAtUnix = startAtUnix;
     }
-    if (endAt != null) {
-      $result.endAt = endAt;
+    if (endAtUnix != null) {
+      $result.endAtUnix = endAtUnix;
     }
     return $result;
   }
@@ -44,8 +43,8 @@ class UpsertReservationRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpsertReservationRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'reservationId', protoName: 'reservationId')
     ..aOS(2, _omitFieldNames ? '' : 'resourceId', protoName: 'resourceId')
-    ..aOM<$4.Timestamp>(3, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $4.Timestamp.create)
-    ..aOM<$4.Timestamp>(4, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $4.Timestamp.create)
+    ..aInt64(3, _omitFieldNames ? '' : 'startAtUnix', protoName: 'startAtUnix')
+    ..aInt64(4, _omitFieldNames ? '' : 'endAtUnix', protoName: 'endAtUnix')
     ..hasRequiredFields = false
   ;
 
@@ -89,39 +88,35 @@ class UpsertReservationRequest extends $pb.GeneratedMessage {
   void clearResourceId() => clearField(2);
 
   @$pb.TagNumber(3)
-  $4.Timestamp get startAt => $_getN(2);
+  $fixnum.Int64 get startAtUnix => $_getI64(2);
   @$pb.TagNumber(3)
-  set startAt($4.Timestamp v) { setField(3, v); }
+  set startAtUnix($fixnum.Int64 v) { $_setInt64(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasStartAt() => $_has(2);
+  $core.bool hasStartAtUnix() => $_has(2);
   @$pb.TagNumber(3)
-  void clearStartAt() => clearField(3);
-  @$pb.TagNumber(3)
-  $4.Timestamp ensureStartAt() => $_ensure(2);
+  void clearStartAtUnix() => clearField(3);
 
   @$pb.TagNumber(4)
-  $4.Timestamp get endAt => $_getN(3);
+  $fixnum.Int64 get endAtUnix => $_getI64(3);
   @$pb.TagNumber(4)
-  set endAt($4.Timestamp v) { setField(4, v); }
+  set endAtUnix($fixnum.Int64 v) { $_setInt64(3, v); }
   @$pb.TagNumber(4)
-  $core.bool hasEndAt() => $_has(3);
+  $core.bool hasEndAtUnix() => $_has(3);
   @$pb.TagNumber(4)
-  void clearEndAt() => clearField(4);
-  @$pb.TagNumber(4)
-  $4.Timestamp ensureEndAt() => $_ensure(3);
+  void clearEndAtUnix() => clearField(4);
 }
 
 class UpsertReservationResponse extends $pb.GeneratedMessage {
   factory UpsertReservationResponse({
     $core.String? reservationId,
-    $4.Timestamp? reservedUntil,
+    $fixnum.Int64? reservedUntilUnix,
   }) {
     final $result = create();
     if (reservationId != null) {
       $result.reservationId = reservationId;
     }
-    if (reservedUntil != null) {
-      $result.reservedUntil = reservedUntil;
+    if (reservedUntilUnix != null) {
+      $result.reservedUntilUnix = reservedUntilUnix;
     }
     return $result;
   }
@@ -131,7 +126,7 @@ class UpsertReservationResponse extends $pb.GeneratedMessage {
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpsertReservationResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'reservationId', protoName: 'reservationId')
-    ..aOM<$4.Timestamp>(2, _omitFieldNames ? '' : 'reservedUntil', protoName: 'reservedUntil', subBuilder: $4.Timestamp.create)
+    ..aInt64(2, _omitFieldNames ? '' : 'reservedUntilUnix', protoName: 'reservedUntilUnix')
     ..hasRequiredFields = false
   ;
 
@@ -166,15 +161,13 @@ class UpsertReservationResponse extends $pb.GeneratedMessage {
   void clearReservationId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $4.Timestamp get reservedUntil => $_getN(1);
+  $fixnum.Int64 get reservedUntilUnix => $_getI64(1);
   @$pb.TagNumber(2)
-  set reservedUntil($4.Timestamp v) { setField(2, v); }
+  set reservedUntilUnix($fixnum.Int64 v) { $_setInt64(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasReservedUntil() => $_has(1);
+  $core.bool hasReservedUntilUnix() => $_has(1);
   @$pb.TagNumber(2)
-  void clearReservedUntil() => clearField(2);
-  @$pb.TagNumber(2)
-  $4.Timestamp ensureReservedUntil() => $_ensure(1);
+  void clearReservedUntilUnix() => clearField(2);
 }
 
 

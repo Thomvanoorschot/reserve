@@ -22,7 +22,7 @@ type tsExpectedResult struct {
 	length     int
 	startTimes []time.Time
 }
-type tsDefinition struct {
+type availabilityDefinition struct {
 	name           string
 	reservations   map[int64][]Reservation
 	startAt, endAt time.Time
@@ -30,7 +30,7 @@ type tsDefinition struct {
 	expectedResult tsExpectedResult
 }
 
-var tsDefinitions = []tsDefinition{
+var tsDefinitions = []availabilityDefinition{
 	{
 		name:    "end of part spills over to first part",
 		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
@@ -298,23 +298,23 @@ var tsDefinitions = []tsDefinition{
 	},
 }
 
-func BenchmarkGetTimeSlotStarts(b *testing.B) {
+func BenchmarkGetAvailableTimeslots(b *testing.B) {
 	for _, testCase := range tsDefinitions {
 		b.Run(testCase.name, func(b *testing.B) {
 			b.ReportAllocs()
 			for i := 0; i < b.N; i++ {
-				GetTimeSlotStarts(testCase.startAt, testCase.endAt, testCase.requirements, testCase.reservations)
+				GetAvailableTimeslots(testCase.startAt, testCase.endAt, testCase.requirements, testCase.reservations)
 			}
 		})
 	}
 }
 
-func TestGetTimeSlotStarts(t *testing.T) {
+func TestGetAvailableTimeslots(t *testing.T) {
 	t.Parallel()
 
 	for _, testCase := range tsDefinitions {
 		t.Run(testCase.name, func(t *testing.T) {
-			startTimes := GetTimeSlotStarts(testCase.startAt, testCase.endAt, testCase.requirements, testCase.reservations)
+			startTimes := GetAvailableTimeslots(testCase.startAt, testCase.endAt, testCase.requirements, testCase.reservations)
 			if len(startTimes) != testCase.expectedResult.length {
 				t.Errorf("expected %d of startTimes but got %d", testCase.expectedResult.length, len(startTimes))
 			}
@@ -331,6 +331,49 @@ func TestGetTimeSlotStarts(t *testing.T) {
 						t.Errorf("expected startTime was %s but could not find a match", expectedStartTime.String())
 					}
 				}
+			}
+		})
+	}
+}
+
+var adDefinitions = []availabilityDefinition{
+	{
+		name:    "able to handle a full month",
+		startAt: time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()),
+		endAt:   time.Date(today.Year(), today.Month(), today.Day(), 0, 0, 0, 0, today.Location()).Add(24 * time.Hour * 31),
+		requirements: Requirements{
+			MinimumSegments:      2,
+			MaximumSegments:      2,
+			AllowInvalidSegments: false,
+			TZ:                   europeAmsterdam,
+			Resources: []Resource{{
+				Availability: []Availability{
+					{
+						Bits: Bits{
+							PartOne:   0b100000000000000000000000000000000000000000000000,
+							PartTwo:   0b111111111111111111111111111111111111111111111111,
+							PartThree: 0b111111111111111111111111111111111111111111111111,
+							PartFour:  0b111111111111111111111111111111111111111111111111,
+							PartFive:  0b111111111111111111111111111111111111111111111111,
+							PartSix:   0b000000000000000000000000000000000000000000000000,
+						},
+					},
+				},
+			}},
+		},
+		expectedResult: tsExpectedResult{
+			length:     1,
+			startTimes: []time.Time{time.Date(today.Year(), today.Month(), today.Day(), 3, 55, 0, 0, today.Location())},
+		},
+	},
+}
+
+func BenchmarkGetAvailableDays(b *testing.B) {
+	for _, testCase := range adDefinitions {
+		b.Run(testCase.name, func(b *testing.B) {
+			b.ReportAllocs()
+			for i := 0; i < b.N; i++ {
+				GetAvailableDays(testCase.startAt, testCase.endAt, testCase.requirements, testCase.reservations)
 			}
 		})
 	}

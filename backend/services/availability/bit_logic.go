@@ -19,7 +19,7 @@ const (
 func RangesToBits(availabilityRanges []*proto.AvailabilityRange) Bits {
 	var b Bits
 	for _, ar := range availabilityRanges {
-		ab := GetAvailabilityBits(ar.StartAt.AsTime(), ar.EndAt.AsTime(), tz)
+		ab := GetAvailabilityBits(time.Unix(ar.StartAtUnix, 0), time.Unix(ar.EndAtUnix, 0), tz)
 		b.PartOne |= ab.PartOne
 		b.PartTwo |= ab.PartTwo
 		b.PartThree |= ab.PartThree
@@ -115,13 +115,32 @@ func GetAvailabilityBits(startAt, endAt time.Time, tz *time.Location) Bits {
 // TODO Move this to some place better, this should NEVER be done inside the loop. Significantly reduces performance
 var tz, _ = time.LoadLocation("Europe/Amsterdam")
 
-func GetTimeSlotStarts(startAt, endAt time.Time, requirements Requirements, rvsMap map[int64][]Reservation) []time.Time {
-	startTimeMap := make(map[time.Time]struct{})
+func GetAvailableDays(startAt, endAt time.Time, requirements Requirements, rvsMap map[int64][]Reservation) []time.Time {
+	return getAvailability(startAt, endAt, requirements, rvsMap, true)
+}
+
+func GetAvailableTimeslots(startAt, endAt time.Time, requirements Requirements, rvsMap map[int64][]Reservation) []time.Time {
+	return getAvailability(startAt, endAt, requirements, rvsMap, false)
+}
+
+func getAvailability(startAt, endAt time.Time, requirements Requirements, rvsMap map[int64][]Reservation, dateOnly bool) []time.Time {
+	var startTimes []time.Time
+	if dateOnly {
+		startTimes = make([]time.Time, 0, int(math.Round(endAt.Sub(startAt).Hours()/24)))
+	} else {
+		startTimes = make([]time.Time, 0, SegmentsInDay/requirements.MinimumSegments)
+	}
+
 	mask := createBitRange(requirements.MinimumSegments)
 	startAtCursor := startAt
-	availableDays := make([]time.Time, 0, 62)
 	for startAtCursor.Before(endAt) {
+
+		var foundAvailabilityInDay bool
+		hasCheckedAvailabilities := [SegmentsInDay]bool{}
 		for _, resource := range requirements.Resources {
+			if foundAvailabilityInDay && dateOnly {
+				break
+			}
 			var relevantAvailability Availability
 			for _, availability := range resource.Availability {
 				// TODO Improve this
@@ -177,6 +196,13 @@ func GetTimeSlotStarts(startAt, endAt time.Time, requirements Requirements, rvsM
 			// The for loop starts at 1 instead of 0, this is done so that it can use the "SegmentsInX" variables without
 			// subtracting one each time. This makes debugging a lot easier.
 			for si := 1; si <= SegmentsInDay; si++ {
+				if foundAvailabilityInDay && dateOnly {
+					break
+				}
+				if hasCheckedAvailabilities[si-1] {
+					break
+				}
+
 				// It does not make sense to shift the mask in the first iteration, not shifting for the first iteration
 				// checks if it matches in the initial position. After the first iteration the bitmask is shifted to
 				// the left each iteration. This is how it determines if it should add an availability time slot.
@@ -244,21 +270,20 @@ func GetTimeSlotStarts(startAt, endAt time.Time, requirements Requirements, rvsM
 				if !requirements.AllowInvalidSegments && (flippedBits+lostFlippedBits)%requirements.MinimumSegments != 0 {
 					continue
 				}
-				startTimeMap[startAtCursor.Add(MinutesInSegment*time.Minute*time.Duration(si-1))] = struct{}{}
-				//startTimes = append(startTimes, )
+				foundAvailabilityInDay = true
+				hasCheckedAvailabilities[si-1] = true
+				startTimes = append(startTimes, startAtCursor.Add(MinutesInSegment*time.Minute*time.Duration(si-1)))
 			}
 		}
-		availableDays = append(availableDays, startAtCursor)
 		// This function will result in an infinite loop without this
 		startAtCursor = startAtCursor.AddDate(0, 0, 1)
 	}
-	startTimes := make([]time.Time, len(startTimeMap), len(startTimeMap))
 
-	mapIndex := 0
-	for k, _ := range startTimeMap {
-		startTimes[mapIndex] = k
-		mapIndex++
-	}
+	//mapIndex := 0
+	//for k, _ := range startTimeMap {
+	//	startTimes[mapIndex] = k
+	//	mapIndex++
+	//}
 	return startTimes
 }
 

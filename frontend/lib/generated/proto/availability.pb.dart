@@ -14,38 +14,36 @@ import 'dart:core' as $core;
 import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'google/protobuf/timestamp.pb.dart' as $4;
-
-class GetStartTimesRequest extends $pb.GeneratedMessage {
-  factory GetStartTimesRequest({
+class GetAvailableDaysRequest extends $pb.GeneratedMessage {
+  factory GetAvailableDaysRequest({
     $core.String? locationId,
-    $4.Timestamp? startAt,
-    $4.Timestamp? endAt,
+    $fixnum.Int64? startAtUnix,
+    $fixnum.Int64? endAtUnix,
     $core.String? tz,
   }) {
     final $result = create();
     if (locationId != null) {
       $result.locationId = locationId;
     }
-    if (startAt != null) {
-      $result.startAt = startAt;
+    if (startAtUnix != null) {
+      $result.startAtUnix = startAtUnix;
     }
-    if (endAt != null) {
-      $result.endAt = endAt;
+    if (endAtUnix != null) {
+      $result.endAtUnix = endAtUnix;
     }
     if (tz != null) {
       $result.tz = tz;
     }
     return $result;
   }
-  GetStartTimesRequest._() : super();
-  factory GetStartTimesRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetStartTimesRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetAvailableDaysRequest._() : super();
+  factory GetAvailableDaysRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetAvailableDaysRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStartTimesRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAvailableDaysRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
     ..aOS(1, _omitFieldNames ? '' : 'locationId', protoName: 'locationId')
-    ..aOM<$4.Timestamp>(2, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $4.Timestamp.create)
-    ..aOM<$4.Timestamp>(3, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $4.Timestamp.create)
+    ..aInt64(2, _omitFieldNames ? '' : 'startAtUnix', protoName: 'startAtUnix')
+    ..aInt64(3, _omitFieldNames ? '' : 'endAtUnix', protoName: 'endAtUnix')
     ..aOS(4, _omitFieldNames ? '' : 'tz')
     ..hasRequiredFields = false
   ;
@@ -54,22 +52,22 @@ class GetStartTimesRequest extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetStartTimesRequest clone() => GetStartTimesRequest()..mergeFromMessage(this);
+  GetAvailableDaysRequest clone() => GetAvailableDaysRequest()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetStartTimesRequest copyWith(void Function(GetStartTimesRequest) updates) => super.copyWith((message) => updates(message as GetStartTimesRequest)) as GetStartTimesRequest;
+  GetAvailableDaysRequest copyWith(void Function(GetAvailableDaysRequest) updates) => super.copyWith((message) => updates(message as GetAvailableDaysRequest)) as GetAvailableDaysRequest;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetStartTimesRequest create() => GetStartTimesRequest._();
-  GetStartTimesRequest createEmptyInstance() => create();
-  static $pb.PbList<GetStartTimesRequest> createRepeated() => $pb.PbList<GetStartTimesRequest>();
+  static GetAvailableDaysRequest create() => GetAvailableDaysRequest._();
+  GetAvailableDaysRequest createEmptyInstance() => create();
+  static $pb.PbList<GetAvailableDaysRequest> createRepeated() => $pb.PbList<GetAvailableDaysRequest>();
   @$core.pragma('dart2js:noInline')
-  static GetStartTimesRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStartTimesRequest>(create);
-  static GetStartTimesRequest? _defaultInstance;
+  static GetAvailableDaysRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAvailableDaysRequest>(create);
+  static GetAvailableDaysRequest? _defaultInstance;
 
   @$pb.TagNumber(1)
   $core.String get locationId => $_getSZ(0);
@@ -81,26 +79,22 @@ class GetStartTimesRequest extends $pb.GeneratedMessage {
   void clearLocationId() => clearField(1);
 
   @$pb.TagNumber(2)
-  $4.Timestamp get startAt => $_getN(1);
+  $fixnum.Int64 get startAtUnix => $_getI64(1);
   @$pb.TagNumber(2)
-  set startAt($4.Timestamp v) { setField(2, v); }
+  set startAtUnix($fixnum.Int64 v) { $_setInt64(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasStartAt() => $_has(1);
+  $core.bool hasStartAtUnix() => $_has(1);
   @$pb.TagNumber(2)
-  void clearStartAt() => clearField(2);
-  @$pb.TagNumber(2)
-  $4.Timestamp ensureStartAt() => $_ensure(1);
+  void clearStartAtUnix() => clearField(2);
 
   @$pb.TagNumber(3)
-  $4.Timestamp get endAt => $_getN(2);
+  $fixnum.Int64 get endAtUnix => $_getI64(2);
   @$pb.TagNumber(3)
-  set endAt($4.Timestamp v) { setField(3, v); }
+  set endAtUnix($fixnum.Int64 v) { $_setInt64(2, v); }
   @$pb.TagNumber(3)
-  $core.bool hasEndAt() => $_has(2);
+  $core.bool hasEndAtUnix() => $_has(2);
   @$pb.TagNumber(3)
-  void clearEndAt() => clearField(3);
-  @$pb.TagNumber(3)
-  $4.Timestamp ensureEndAt() => $_ensure(2);
+  void clearEndAtUnix() => clearField(3);
 
   @$pb.TagNumber(4)
   $core.String get tz => $_getSZ(3);
@@ -112,26 +106,26 @@ class GetStartTimesRequest extends $pb.GeneratedMessage {
   void clearTz() => clearField(4);
 }
 
-class GetStartTimesResponse extends $pb.GeneratedMessage {
-  factory GetStartTimesResponse({
-    $core.Iterable<$4.Timestamp>? startTimes,
+class GetAvailableDaysResponse extends $pb.GeneratedMessage {
+  factory GetAvailableDaysResponse({
+    $core.Iterable<$fixnum.Int64>? availableDaysUnix,
     $core.String? tz,
   }) {
     final $result = create();
-    if (startTimes != null) {
-      $result.startTimes.addAll(startTimes);
+    if (availableDaysUnix != null) {
+      $result.availableDaysUnix.addAll(availableDaysUnix);
     }
     if (tz != null) {
       $result.tz = tz;
     }
     return $result;
   }
-  GetStartTimesResponse._() : super();
-  factory GetStartTimesResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
-  factory GetStartTimesResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+  GetAvailableDaysResponse._() : super();
+  factory GetAvailableDaysResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetAvailableDaysResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
-  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetStartTimesResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
-    ..pc<$4.Timestamp>(1, _omitFieldNames ? '' : 'startTimes', $pb.PbFieldType.PM, protoName: 'startTimes', subBuilder: $4.Timestamp.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAvailableDaysResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..p<$fixnum.Int64>(1, _omitFieldNames ? '' : 'availableDaysUnix', $pb.PbFieldType.K6, protoName: 'availableDaysUnix')
     ..aOS(2, _omitFieldNames ? '' : 'tz')
     ..hasRequiredFields = false
   ;
@@ -140,25 +134,161 @@ class GetStartTimesResponse extends $pb.GeneratedMessage {
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
   'Will be removed in next major version')
-  GetStartTimesResponse clone() => GetStartTimesResponse()..mergeFromMessage(this);
+  GetAvailableDaysResponse clone() => GetAvailableDaysResponse()..mergeFromMessage(this);
   @$core.Deprecated(
   'Using this can add significant overhead to your binary. '
   'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
   'Will be removed in next major version')
-  GetStartTimesResponse copyWith(void Function(GetStartTimesResponse) updates) => super.copyWith((message) => updates(message as GetStartTimesResponse)) as GetStartTimesResponse;
+  GetAvailableDaysResponse copyWith(void Function(GetAvailableDaysResponse) updates) => super.copyWith((message) => updates(message as GetAvailableDaysResponse)) as GetAvailableDaysResponse;
 
   $pb.BuilderInfo get info_ => _i;
 
   @$core.pragma('dart2js:noInline')
-  static GetStartTimesResponse create() => GetStartTimesResponse._();
-  GetStartTimesResponse createEmptyInstance() => create();
-  static $pb.PbList<GetStartTimesResponse> createRepeated() => $pb.PbList<GetStartTimesResponse>();
+  static GetAvailableDaysResponse create() => GetAvailableDaysResponse._();
+  GetAvailableDaysResponse createEmptyInstance() => create();
+  static $pb.PbList<GetAvailableDaysResponse> createRepeated() => $pb.PbList<GetAvailableDaysResponse>();
   @$core.pragma('dart2js:noInline')
-  static GetStartTimesResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetStartTimesResponse>(create);
-  static GetStartTimesResponse? _defaultInstance;
+  static GetAvailableDaysResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAvailableDaysResponse>(create);
+  static GetAvailableDaysResponse? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<$4.Timestamp> get startTimes => $_getList(0);
+  $core.List<$fixnum.Int64> get availableDaysUnix => $_getList(0);
+
+  @$pb.TagNumber(2)
+  $core.String get tz => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set tz($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasTz() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearTz() => clearField(2);
+}
+
+class GetAvailableTimeslotsRequest extends $pb.GeneratedMessage {
+  factory GetAvailableTimeslotsRequest({
+    $core.String? locationId,
+    $fixnum.Int64? dayUnix,
+    $core.String? tz,
+  }) {
+    final $result = create();
+    if (locationId != null) {
+      $result.locationId = locationId;
+    }
+    if (dayUnix != null) {
+      $result.dayUnix = dayUnix;
+    }
+    if (tz != null) {
+      $result.tz = tz;
+    }
+    return $result;
+  }
+  GetAvailableTimeslotsRequest._() : super();
+  factory GetAvailableTimeslotsRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetAvailableTimeslotsRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAvailableTimeslotsRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'locationId', protoName: 'locationId')
+    ..aInt64(2, _omitFieldNames ? '' : 'dayUnix', protoName: 'dayUnix')
+    ..aOS(3, _omitFieldNames ? '' : 'tz')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetAvailableTimeslotsRequest clone() => GetAvailableTimeslotsRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetAvailableTimeslotsRequest copyWith(void Function(GetAvailableTimeslotsRequest) updates) => super.copyWith((message) => updates(message as GetAvailableTimeslotsRequest)) as GetAvailableTimeslotsRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableTimeslotsRequest create() => GetAvailableTimeslotsRequest._();
+  GetAvailableTimeslotsRequest createEmptyInstance() => create();
+  static $pb.PbList<GetAvailableTimeslotsRequest> createRepeated() => $pb.PbList<GetAvailableTimeslotsRequest>();
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableTimeslotsRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAvailableTimeslotsRequest>(create);
+  static GetAvailableTimeslotsRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get locationId => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set locationId($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasLocationId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearLocationId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get dayUnix => $_getI64(1);
+  @$pb.TagNumber(2)
+  set dayUnix($fixnum.Int64 v) { $_setInt64(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasDayUnix() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearDayUnix() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.String get tz => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set tz($core.String v) { $_setString(2, v); }
+  @$pb.TagNumber(3)
+  $core.bool hasTz() => $_has(2);
+  @$pb.TagNumber(3)
+  void clearTz() => clearField(3);
+}
+
+class GetAvailableTimeslotsResponse extends $pb.GeneratedMessage {
+  factory GetAvailableTimeslotsResponse({
+    $core.Iterable<$fixnum.Int64>? startTimesUnix,
+    $core.String? tz,
+  }) {
+    final $result = create();
+    if (startTimesUnix != null) {
+      $result.startTimesUnix.addAll(startTimesUnix);
+    }
+    if (tz != null) {
+      $result.tz = tz;
+    }
+    return $result;
+  }
+  GetAvailableTimeslotsResponse._() : super();
+  factory GetAvailableTimeslotsResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory GetAvailableTimeslotsResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'GetAvailableTimeslotsResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..p<$fixnum.Int64>(1, _omitFieldNames ? '' : 'startTimesUnix', $pb.PbFieldType.K6, protoName: 'startTimesUnix')
+    ..aOS(2, _omitFieldNames ? '' : 'tz')
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  GetAvailableTimeslotsResponse clone() => GetAvailableTimeslotsResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  GetAvailableTimeslotsResponse copyWith(void Function(GetAvailableTimeslotsResponse) updates) => super.copyWith((message) => updates(message as GetAvailableTimeslotsResponse)) as GetAvailableTimeslotsResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableTimeslotsResponse create() => GetAvailableTimeslotsResponse._();
+  GetAvailableTimeslotsResponse createEmptyInstance() => create();
+  static $pb.PbList<GetAvailableTimeslotsResponse> createRepeated() => $pb.PbList<GetAvailableTimeslotsResponse>();
+  @$core.pragma('dart2js:noInline')
+  static GetAvailableTimeslotsResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<GetAvailableTimeslotsResponse>(create);
+  static GetAvailableTimeslotsResponse? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.List<$fixnum.Int64> get startTimesUnix => $_getList(0);
 
   @$pb.TagNumber(2)
   $core.String get tz => $_getSZ(1);
@@ -172,15 +302,15 @@ class GetStartTimesResponse extends $pb.GeneratedMessage {
 
 class AvailabilityRange extends $pb.GeneratedMessage {
   factory AvailabilityRange({
-    $4.Timestamp? startAt,
-    $4.Timestamp? endAt,
+    $fixnum.Int64? startAtUnix,
+    $fixnum.Int64? endAtUnix,
   }) {
     final $result = create();
-    if (startAt != null) {
-      $result.startAt = startAt;
+    if (startAtUnix != null) {
+      $result.startAtUnix = startAtUnix;
     }
-    if (endAt != null) {
-      $result.endAt = endAt;
+    if (endAtUnix != null) {
+      $result.endAtUnix = endAtUnix;
     }
     return $result;
   }
@@ -189,8 +319,8 @@ class AvailabilityRange extends $pb.GeneratedMessage {
   factory AvailabilityRange.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'AvailabilityRange', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
-    ..aOM<$4.Timestamp>(1, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $4.Timestamp.create)
-    ..aOM<$4.Timestamp>(2, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $4.Timestamp.create)
+    ..aInt64(1, _omitFieldNames ? '' : 'startAtUnix', protoName: 'startAtUnix')
+    ..aInt64(2, _omitFieldNames ? '' : 'endAtUnix', protoName: 'endAtUnix')
     ..hasRequiredFields = false
   ;
 
@@ -216,26 +346,22 @@ class AvailabilityRange extends $pb.GeneratedMessage {
   static AvailabilityRange? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $4.Timestamp get startAt => $_getN(0);
+  $fixnum.Int64 get startAtUnix => $_getI64(0);
   @$pb.TagNumber(1)
-  set startAt($4.Timestamp v) { setField(1, v); }
+  set startAtUnix($fixnum.Int64 v) { $_setInt64(0, v); }
   @$pb.TagNumber(1)
-  $core.bool hasStartAt() => $_has(0);
+  $core.bool hasStartAtUnix() => $_has(0);
   @$pb.TagNumber(1)
-  void clearStartAt() => clearField(1);
-  @$pb.TagNumber(1)
-  $4.Timestamp ensureStartAt() => $_ensure(0);
+  void clearStartAtUnix() => clearField(1);
 
   @$pb.TagNumber(2)
-  $4.Timestamp get endAt => $_getN(1);
+  $fixnum.Int64 get endAtUnix => $_getI64(1);
   @$pb.TagNumber(2)
-  set endAt($4.Timestamp v) { setField(2, v); }
+  set endAtUnix($fixnum.Int64 v) { $_setInt64(1, v); }
   @$pb.TagNumber(2)
-  $core.bool hasEndAt() => $_has(1);
+  $core.bool hasEndAtUnix() => $_has(1);
   @$pb.TagNumber(2)
-  void clearEndAt() => clearField(2);
-  @$pb.TagNumber(2)
-  $4.Timestamp ensureEndAt() => $_ensure(1);
+  void clearEndAtUnix() => clearField(2);
 }
 
 class UpsertAvailabilityOverrideRequest extends $pb.GeneratedMessage {
@@ -243,8 +369,8 @@ class UpsertAvailabilityOverrideRequest extends $pb.GeneratedMessage {
     $core.String? id,
     $core.String? resourceId,
     $core.String? name,
-    $4.Timestamp? startAt,
-    $4.Timestamp? endAt,
+    $fixnum.Int64? startAtUnix,
+    $fixnum.Int64? endAtUnix,
     $core.String? availabilityId,
     $core.Iterable<AvailabilityRange>? availabilityRanges,
   }) {
@@ -258,11 +384,11 @@ class UpsertAvailabilityOverrideRequest extends $pb.GeneratedMessage {
     if (name != null) {
       $result.name = name;
     }
-    if (startAt != null) {
-      $result.startAt = startAt;
+    if (startAtUnix != null) {
+      $result.startAtUnix = startAtUnix;
     }
-    if (endAt != null) {
-      $result.endAt = endAt;
+    if (endAtUnix != null) {
+      $result.endAtUnix = endAtUnix;
     }
     if (availabilityId != null) {
       $result.availabilityId = availabilityId;
@@ -280,8 +406,8 @@ class UpsertAvailabilityOverrideRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'resourceId', protoName: 'resourceId')
     ..aOS(4, _omitFieldNames ? '' : 'name')
-    ..aOM<$4.Timestamp>(5, _omitFieldNames ? '' : 'startAt', protoName: 'startAt', subBuilder: $4.Timestamp.create)
-    ..aOM<$4.Timestamp>(6, _omitFieldNames ? '' : 'endAt', protoName: 'endAt', subBuilder: $4.Timestamp.create)
+    ..aInt64(5, _omitFieldNames ? '' : 'startAtUnix', protoName: 'startAtUnix')
+    ..aInt64(6, _omitFieldNames ? '' : 'endAtUnix', protoName: 'endAtUnix')
     ..aOS(7, _omitFieldNames ? '' : 'availabilityId', protoName: 'availabilityId')
     ..pc<AvailabilityRange>(8, _omitFieldNames ? '' : 'availabilityRanges', $pb.PbFieldType.PM, protoName: 'availabilityRanges', subBuilder: AvailabilityRange.create)
     ..hasRequiredFields = false
@@ -336,26 +462,22 @@ class UpsertAvailabilityOverrideRequest extends $pb.GeneratedMessage {
   void clearName() => clearField(4);
 
   @$pb.TagNumber(5)
-  $4.Timestamp get startAt => $_getN(3);
+  $fixnum.Int64 get startAtUnix => $_getI64(3);
   @$pb.TagNumber(5)
-  set startAt($4.Timestamp v) { setField(5, v); }
+  set startAtUnix($fixnum.Int64 v) { $_setInt64(3, v); }
   @$pb.TagNumber(5)
-  $core.bool hasStartAt() => $_has(3);
+  $core.bool hasStartAtUnix() => $_has(3);
   @$pb.TagNumber(5)
-  void clearStartAt() => clearField(5);
-  @$pb.TagNumber(5)
-  $4.Timestamp ensureStartAt() => $_ensure(3);
+  void clearStartAtUnix() => clearField(5);
 
   @$pb.TagNumber(6)
-  $4.Timestamp get endAt => $_getN(4);
+  $fixnum.Int64 get endAtUnix => $_getI64(4);
   @$pb.TagNumber(6)
-  set endAt($4.Timestamp v) { setField(6, v); }
+  set endAtUnix($fixnum.Int64 v) { $_setInt64(4, v); }
   @$pb.TagNumber(6)
-  $core.bool hasEndAt() => $_has(4);
+  $core.bool hasEndAtUnix() => $_has(4);
   @$pb.TagNumber(6)
-  void clearEndAt() => clearField(6);
-  @$pb.TagNumber(6)
-  $4.Timestamp ensureEndAt() => $_ensure(4);
+  void clearEndAtUnix() => clearField(6);
 
   @$pb.TagNumber(7)
   $core.String get availabilityId => $_getSZ(5);
@@ -448,11 +570,11 @@ class Test extends $pb.GeneratedMessage {
 
 class TestSlice extends $pb.GeneratedMessage {
   factory TestSlice({
-    $core.Iterable<$4.Timestamp>? startTimes,
+    $core.Iterable<$fixnum.Int64>? startTimeUnix,
   }) {
     final $result = create();
-    if (startTimes != null) {
-      $result.startTimes.addAll(startTimes);
+    if (startTimeUnix != null) {
+      $result.startTimeUnix.addAll(startTimeUnix);
     }
     return $result;
   }
@@ -461,7 +583,7 @@ class TestSlice extends $pb.GeneratedMessage {
   factory TestSlice.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
 
   static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'TestSlice', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
-    ..pc<$4.Timestamp>(1, _omitFieldNames ? '' : 'startTimes', $pb.PbFieldType.PM, protoName: 'startTimes', subBuilder: $4.Timestamp.create)
+    ..p<$fixnum.Int64>(1, _omitFieldNames ? '' : 'startTimeUnix', $pb.PbFieldType.K6, protoName: 'startTimeUnix')
     ..hasRequiredFields = false
   ;
 
@@ -487,7 +609,7 @@ class TestSlice extends $pb.GeneratedMessage {
   static TestSlice? _defaultInstance;
 
   @$pb.TagNumber(1)
-  $core.List<$4.Timestamp> get startTimes => $_getList(0);
+  $core.List<$fixnum.Int64> get startTimeUnix => $_getList(0);
 }
 
 

@@ -19,8 +19,8 @@ const UpsertReservationRequest$json = {
   '2': [
     {'1': 'reservationId', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'reservationId'},
     {'1': 'resourceId', '3': 2, '4': 1, '5': 9, '8': {}, '10': 'resourceId'},
-    {'1': 'startAt', '3': 3, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'startAt'},
-    {'1': 'endAt', '3': 4, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'endAt'},
+    {'1': 'startAtUnix', '3': 3, '4': 1, '5': 3, '10': 'startAtUnix'},
+    {'1': 'endAtUnix', '3': 4, '4': 1, '5': 3, '10': 'endAtUnix'},
   ],
 };
 
@@ -28,21 +28,21 @@ const UpsertReservationRequest$json = {
 final $typed_data.Uint8List upsertReservationRequestDescriptor = $convert.base64Decode(
     'ChhVcHNlcnRSZXNlcnZhdGlvblJlcXVlc3QSLgoNcmVzZXJ2YXRpb25JZBgBIAEoCUIIukgFcg'
     'OwAQFSDXJlc2VydmF0aW9uSWQSKAoKcmVzb3VyY2VJZBgCIAEoCUIIukgFcgOwAQFSCnJlc291'
-    'cmNlSWQSNAoHc3RhcnRBdBgDIAEoCzIaLmdvb2dsZS5wcm90b2J1Zi5UaW1lc3RhbXBSB3N0YX'
-    'J0QXQSMAoFZW5kQXQYBCABKAsyGi5nb29nbGUucHJvdG9idWYuVGltZXN0YW1wUgVlbmRBdA==');
+    'cmNlSWQSIAoLc3RhcnRBdFVuaXgYAyABKANSC3N0YXJ0QXRVbml4EhwKCWVuZEF0VW5peBgEIA'
+    'EoA1IJZW5kQXRVbml4');
 
 @$core.Deprecated('Use upsertReservationResponseDescriptor instead')
 const UpsertReservationResponse$json = {
   '1': 'UpsertReservationResponse',
   '2': [
     {'1': 'reservationId', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'reservationId'},
-    {'1': 'reservedUntil', '3': 2, '4': 1, '5': 11, '6': '.google.protobuf.Timestamp', '10': 'reservedUntil'},
+    {'1': 'reservedUntilUnix', '3': 2, '4': 1, '5': 3, '10': 'reservedUntilUnix'},
   ],
 };
 
 /// Descriptor for `UpsertReservationResponse`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List upsertReservationResponseDescriptor = $convert.base64Decode(
     'ChlVcHNlcnRSZXNlcnZhdGlvblJlc3BvbnNlEi4KDXJlc2VydmF0aW9uSWQYASABKAlCCLpIBX'
-    'IDsAEBUg1yZXNlcnZhdGlvbklkEkAKDXJlc2VydmVkVW50aWwYAiABKAsyGi5nb29nbGUucHJv'
-    'dG9idWYuVGltZXN0YW1wUg1yZXNlcnZlZFVudGls');
+    'IDsAEBUg1yZXNlcnZhdGlvbklkEiwKEXJlc2VydmVkVW50aWxVbml4GAIgASgDUhFyZXNlcnZl'
+    'ZFVudGlsVW5peA==');
 

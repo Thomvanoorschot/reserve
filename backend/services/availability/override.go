@@ -2,6 +2,7 @@ package availability
 
 import (
 	"context"
+	"time"
 
 	"reserve/generated/jet_gen/model"
 	"reserve/generated/proto"
@@ -51,8 +52,8 @@ func (s *Service) UpsertAvailabilityOverride(ctx context.Context, req *proto.Ups
 		ResourceID:     uuid.MustParse(req.ResourceId),
 		AvailabilityID: availabilityId,
 		Name:           overrideName,
-		StartAt:        req.StartAt.AsTime(),
-		EndAt:          req.EndAt.AsTime(),
+		StartAt:        time.Unix(req.StartAtUnix, 0),
+		EndAt:          time.Unix(req.EndAtUnix, 0),
 	})
 	if err != nil {
 		return nil, err

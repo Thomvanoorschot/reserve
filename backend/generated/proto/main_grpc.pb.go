@@ -22,7 +22,8 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AvailabilityServiceClient interface {
-	GetStartTimes(ctx context.Context, in *GetStartTimesRequest, opts ...grpc.CallOption) (*GetStartTimesResponse, error)
+	GetAvailableTimeslots(ctx context.Context, in *GetAvailableTimeslotsRequest, opts ...grpc.CallOption) (*GetAvailableTimeslotsResponse, error)
+	GetAvailableDays(ctx context.Context, in *GetAvailableDaysRequest, opts ...grpc.CallOption) (*GetAvailableDaysResponse, error)
 	UpsertAvailabilityOverride(ctx context.Context, in *UpsertAvailabilityOverrideRequest, opts ...grpc.CallOption) (*UpsertAvailabilityOverrideResponse, error)
 }
 
@@ -34,9 +35,18 @@ func NewAvailabilityServiceClient(cc grpc.ClientConnInterface) AvailabilityServi
 	return &availabilityServiceClient{cc}
 }
 
-func (c *availabilityServiceClient) GetStartTimes(ctx context.Context, in *GetStartTimesRequest, opts ...grpc.CallOption) (*GetStartTimesResponse, error) {
-	out := new(GetStartTimesResponse)
-	err := c.cc.Invoke(ctx, "/proto.AvailabilityService/GetStartTimes", in, out, opts...)
+func (c *availabilityServiceClient) GetAvailableTimeslots(ctx context.Context, in *GetAvailableTimeslotsRequest, opts ...grpc.CallOption) (*GetAvailableTimeslotsResponse, error) {
+	out := new(GetAvailableTimeslotsResponse)
+	err := c.cc.Invoke(ctx, "/proto.AvailabilityService/GetAvailableTimeslots", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *availabilityServiceClient) GetAvailableDays(ctx context.Context, in *GetAvailableDaysRequest, opts ...grpc.CallOption) (*GetAvailableDaysResponse, error) {
+	out := new(GetAvailableDaysResponse)
+	err := c.cc.Invoke(ctx, "/proto.AvailabilityService/GetAvailableDays", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,7 +66,8 @@ func (c *availabilityServiceClient) UpsertAvailabilityOverride(ctx context.Conte
 // All implementations must embed UnimplementedAvailabilityServiceServer
 // for forward compatibility
 type AvailabilityServiceServer interface {
-	GetStartTimes(context.Context, *GetStartTimesRequest) (*GetStartTimesResponse, error)
+	GetAvailableTimeslots(context.Context, *GetAvailableTimeslotsRequest) (*GetAvailableTimeslotsResponse, error)
+	GetAvailableDays(context.Context, *GetAvailableDaysRequest) (*GetAvailableDaysResponse, error)
 	UpsertAvailabilityOverride(context.Context, *UpsertAvailabilityOverrideRequest) (*UpsertAvailabilityOverrideResponse, error)
 	mustEmbedUnimplementedAvailabilityServiceServer()
 }
@@ -65,8 +76,11 @@ type AvailabilityServiceServer interface {
 type UnimplementedAvailabilityServiceServer struct {
 }
 
-func (UnimplementedAvailabilityServiceServer) GetStartTimes(context.Context, *GetStartTimesRequest) (*GetStartTimesResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetStartTimes not implemented")
+func (UnimplementedAvailabilityServiceServer) GetAvailableTimeslots(context.Context, *GetAvailableTimeslotsRequest) (*GetAvailableTimeslotsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAvailableTimeslots not implemented")
+}
+func (UnimplementedAvailabilityServiceServer) GetAvailableDays(context.Context, *GetAvailableDaysRequest) (*GetAvailableDaysResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAvailableDays not implemented")
 }
 func (UnimplementedAvailabilityServiceServer) UpsertAvailabilityOverride(context.Context, *UpsertAvailabilityOverrideRequest) (*UpsertAvailabilityOverrideResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpsertAvailabilityOverride not implemented")
@@ -84,20 +98,38 @@ func RegisterAvailabilityServiceServer(s grpc.ServiceRegistrar, srv Availability
 	s.RegisterService(&AvailabilityService_ServiceDesc, srv)
 }
 
-func _AvailabilityService_GetStartTimes_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetStartTimesRequest)
+func _AvailabilityService_GetAvailableTimeslots_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAvailableTimeslotsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AvailabilityServiceServer).GetStartTimes(ctx, in)
+		return srv.(AvailabilityServiceServer).GetAvailableTimeslots(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/proto.AvailabilityService/GetStartTimes",
+		FullMethod: "/proto.AvailabilityService/GetAvailableTimeslots",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AvailabilityServiceServer).GetStartTimes(ctx, req.(*GetStartTimesRequest))
+		return srv.(AvailabilityServiceServer).GetAvailableTimeslots(ctx, req.(*GetAvailableTimeslotsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AvailabilityService_GetAvailableDays_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetAvailableDaysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AvailabilityServiceServer).GetAvailableDays(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AvailabilityService/GetAvailableDays",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AvailabilityServiceServer).GetAvailableDays(ctx, req.(*GetAvailableDaysRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -128,8 +160,12 @@ var AvailabilityService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AvailabilityServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "GetStartTimes",
-			Handler:    _AvailabilityService_GetStartTimes_Handler,
+			MethodName: "GetAvailableTimeslots",
+			Handler:    _AvailabilityService_GetAvailableTimeslots_Handler,
+		},
+		{
+			MethodName: "GetAvailableDays",
+			Handler:    _AvailabilityService_GetAvailableDays_Handler,
 		},
 		{
 			MethodName: "UpsertAvailabilityOverride",

@@ -18,7 +18,8 @@ var (
 var ignoreList = []string{
 	"/proto.TenantService/RegisterTenant",
 	"/proto.TestService/TestUnaryRPC",
-	"/proto.AvailabilityService/GetStartTimes",
+	"/proto.AvailabilityService/GetAvailableDays",
+	"/proto.AvailabilityService/GetAvailableTimeslots",
 	"/proto.AvailabilityService/UpsertAvailabilityOverride",
 }
 
