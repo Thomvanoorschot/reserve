@@ -4,10 +4,42 @@ import (
 	"context"
 	"time"
 
+	"reserve/generated/jet_gen/model"
 	"reserve/generated/proto"
+	"reserve/services"
 
 	"github.com/google/uuid"
 )
+
+func (s *Service) UpdateLocationDefaultAvailability(
+	ctx context.Context,
+	req *proto.UpdateLocationDefaultAvailabilityRequest,
+) (*proto.UpdateLocationDefaultAvailabilityResponse, error) {
+	tx, err := s.repository.Tx(ctx)
+	defer func(tx services.TxQueryExecutor) {
+		err = tx.Rollback()
+	}(tx)
+
+	if err != nil {
+		return nil, err
+	}
+	b := RangesToBits(req.AvailabilityRanges)
+	_, err = s.repository.UpsertAvailability(tx, model.Availability{
+		ID:        uuid.MustParse(req.AvailabilityId),
+		PartOne:   b.PartOne,
+		PartTwo:   b.PartTwo,
+		PartThree: b.PartThree,
+		PartFour:  b.PartFour,
+		PartFive:  b.PartFive,
+		PartSix:   b.PartSix,
+	})
+	if err != nil {
+		return nil, err
+	}
+
+	err = tx.Commit()
+	return nil, err
+}
 
 func (s *Service) GetAvailableDays(ctx context.Context, req *proto.GetAvailableDaysRequest) (*proto.GetAvailableDaysResponse, error) {
 	startAt := time.Unix(req.StartAtUnix, 0)

@@ -120,6 +120,32 @@ const UpsertAvailabilityOverrideResponse$json = {
 final $typed_data.Uint8List upsertAvailabilityOverrideResponseDescriptor = $convert.base64Decode(
     'CiJVcHNlcnRBdmFpbGFiaWxpdHlPdmVycmlkZVJlc3BvbnNl');
 
+@$core.Deprecated('Use updateLocationDefaultAvailabilityRequestDescriptor instead')
+const UpdateLocationDefaultAvailabilityRequest$json = {
+  '1': 'UpdateLocationDefaultAvailabilityRequest',
+  '2': [
+    {'1': 'id', '3': 1, '4': 1, '5': 9, '8': {}, '10': 'id'},
+    {'1': 'availabilityId', '3': 2, '4': 1, '5': 9, '8': {}, '10': 'availabilityId'},
+    {'1': 'availabilityRanges', '3': 3, '4': 3, '5': 11, '6': '.proto.AvailabilityRange', '10': 'availabilityRanges'},
+  ],
+};
+
+/// Descriptor for `UpdateLocationDefaultAvailabilityRequest`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List updateLocationDefaultAvailabilityRequestDescriptor = $convert.base64Decode(
+    'CihVcGRhdGVMb2NhdGlvbkRlZmF1bHRBdmFpbGFiaWxpdHlSZXF1ZXN0EhgKAmlkGAEgASgJQg'
+    'i6SAVyA7ABAVICaWQSMAoOYXZhaWxhYmlsaXR5SWQYAiABKAlCCLpIBXIDsAEBUg5hdmFpbGFi'
+    'aWxpdHlJZBJIChJhdmFpbGFiaWxpdHlSYW5nZXMYAyADKAsyGC5wcm90by5BdmFpbGFiaWxpdH'
+    'lSYW5nZVISYXZhaWxhYmlsaXR5UmFuZ2Vz');
+
+@$core.Deprecated('Use updateLocationDefaultAvailabilityResponseDescriptor instead')
+const UpdateLocationDefaultAvailabilityResponse$json = {
+  '1': 'UpdateLocationDefaultAvailabilityResponse',
+};
+
+/// Descriptor for `UpdateLocationDefaultAvailabilityResponse`. Decode as a `google.protobuf.DescriptorProto`.
+final $typed_data.Uint8List updateLocationDefaultAvailabilityResponseDescriptor = $convert.base64Decode(
+    'CilVcGRhdGVMb2NhdGlvbkRlZmF1bHRBdmFpbGFiaWxpdHlSZXNwb25zZQ==');
+
 @$core.Deprecated('Use testDescriptor instead')
 const Test$json = {
   '1': 'Test',

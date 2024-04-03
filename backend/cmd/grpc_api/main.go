@@ -8,6 +8,7 @@ import (
 	"reserve/migrations"
 	repo "reserve/repositories/turso"
 	"reserve/services/availability"
+	"reserve/services/location"
 	"reserve/services/reservation"
 
 	"github.com/bufbuild/protovalidate-go"
@@ -81,6 +82,10 @@ func main() {
 	reservationService := reservation.NewService(repository)
 	reservationHandler := grpcapi.NewReservationHandler(reservationService)
 	proto.RegisterReservationServiceServer(s, reservationHandler)
+
+	locationService := location.NewService(repository)
+	locationHandler := grpcapi.NewLocationHandler(locationService)
+	proto.RegisterLocationServiceServer(s, locationHandler)
 
 	if err := s.Serve(listener); err != nil {
 		log.Fatal().Msgf("failed to serve:%s", err)

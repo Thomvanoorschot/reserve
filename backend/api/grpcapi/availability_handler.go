@@ -10,10 +10,10 @@ import (
 )
 
 type AvailabilityService interface {
+	UpdateLocationDefaultAvailability(ctx context.Context, req *proto.UpdateLocationDefaultAvailabilityRequest) (*proto.UpdateLocationDefaultAvailabilityResponse, error)
 	GetAvailableDays(ctx context.Context, req *proto.GetAvailableDaysRequest) (*proto.GetAvailableDaysResponse, error)
 	GetAvailableTimeslots(ctx context.Context, req *proto.GetAvailableTimeslotsRequest) (*proto.GetAvailableTimeslotsResponse, error)
 	UpsertAvailabilityOverride(ctx context.Context, req *proto.UpsertAvailabilityOverrideRequest) (*proto.UpsertAvailabilityOverrideResponse, error)
-	//UpsertResource(ctx context.Context, req *proto.UpsertResourceRequest) (*proto.UpsertResourceResponse, error)
 }
 
 type AvailabilityHandler struct {
@@ -69,6 +69,23 @@ func (h *AvailabilityHandler) UpsertAvailabilityOverride(ctx context.Context, re
 	}
 
 	resp, err := h.availabilityService.UpsertAvailabilityOverride(ctx, req)
+	if err != nil {
+		return nil, status.Error(
+			codes.Unknown, err.Error(),
+		)
+	}
+
+	return resp, nil
+}
+
+func (h *AvailabilityHandler) UpdateLocationDefaultAvailability(ctx context.Context, req *proto.UpdateLocationDefaultAvailabilityRequest) (*proto.UpdateLocationDefaultAvailabilityResponse, error) {
+	if req == nil {
+		return nil, status.Error(
+			codes.InvalidArgument, "no request found",
+		)
+	}
+
+	resp, err := h.availabilityService.UpdateLocationDefaultAvailability(ctx, req)
 	if err != nil {
 		return nil, status.Error(
 			codes.Unknown, err.Error(),

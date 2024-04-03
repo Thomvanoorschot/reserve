@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AvailabilityServiceClient interface {
+	UpdateLocationDefaultAvailability(ctx context.Context, in *UpdateLocationDefaultAvailabilityRequest, opts ...grpc.CallOption) (*UpdateLocationDefaultAvailabilityResponse, error)
 	GetAvailableTimeslots(ctx context.Context, in *GetAvailableTimeslotsRequest, opts ...grpc.CallOption) (*GetAvailableTimeslotsResponse, error)
 	GetAvailableDays(ctx context.Context, in *GetAvailableDaysRequest, opts ...grpc.CallOption) (*GetAvailableDaysResponse, error)
 	UpsertAvailabilityOverride(ctx context.Context, in *UpsertAvailabilityOverrideRequest, opts ...grpc.CallOption) (*UpsertAvailabilityOverrideResponse, error)
@@ -33,6 +34,15 @@ type availabilityServiceClient struct {
 
 func NewAvailabilityServiceClient(cc grpc.ClientConnInterface) AvailabilityServiceClient {
 	return &availabilityServiceClient{cc}
+}
+
+func (c *availabilityServiceClient) UpdateLocationDefaultAvailability(ctx context.Context, in *UpdateLocationDefaultAvailabilityRequest, opts ...grpc.CallOption) (*UpdateLocationDefaultAvailabilityResponse, error) {
+	out := new(UpdateLocationDefaultAvailabilityResponse)
+	err := c.cc.Invoke(ctx, "/proto.AvailabilityService/UpdateLocationDefaultAvailability", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *availabilityServiceClient) GetAvailableTimeslots(ctx context.Context, in *GetAvailableTimeslotsRequest, opts ...grpc.CallOption) (*GetAvailableTimeslotsResponse, error) {
@@ -66,6 +76,7 @@ func (c *availabilityServiceClient) UpsertAvailabilityOverride(ctx context.Conte
 // All implementations must embed UnimplementedAvailabilityServiceServer
 // for forward compatibility
 type AvailabilityServiceServer interface {
+	UpdateLocationDefaultAvailability(context.Context, *UpdateLocationDefaultAvailabilityRequest) (*UpdateLocationDefaultAvailabilityResponse, error)
 	GetAvailableTimeslots(context.Context, *GetAvailableTimeslotsRequest) (*GetAvailableTimeslotsResponse, error)
 	GetAvailableDays(context.Context, *GetAvailableDaysRequest) (*GetAvailableDaysResponse, error)
 	UpsertAvailabilityOverride(context.Context, *UpsertAvailabilityOverrideRequest) (*UpsertAvailabilityOverrideResponse, error)
@@ -76,6 +87,9 @@ type AvailabilityServiceServer interface {
 type UnimplementedAvailabilityServiceServer struct {
 }
 
+func (UnimplementedAvailabilityServiceServer) UpdateLocationDefaultAvailability(context.Context, *UpdateLocationDefaultAvailabilityRequest) (*UpdateLocationDefaultAvailabilityResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateLocationDefaultAvailability not implemented")
+}
 func (UnimplementedAvailabilityServiceServer) GetAvailableTimeslots(context.Context, *GetAvailableTimeslotsRequest) (*GetAvailableTimeslotsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAvailableTimeslots not implemented")
 }
@@ -96,6 +110,24 @@ type UnsafeAvailabilityServiceServer interface {
 
 func RegisterAvailabilityServiceServer(s grpc.ServiceRegistrar, srv AvailabilityServiceServer) {
 	s.RegisterService(&AvailabilityService_ServiceDesc, srv)
+}
+
+func _AvailabilityService_UpdateLocationDefaultAvailability_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateLocationDefaultAvailabilityRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AvailabilityServiceServer).UpdateLocationDefaultAvailability(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AvailabilityService/UpdateLocationDefaultAvailability",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AvailabilityServiceServer).UpdateLocationDefaultAvailability(ctx, req.(*UpdateLocationDefaultAvailabilityRequest))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _AvailabilityService_GetAvailableTimeslots_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -160,6 +192,10 @@ var AvailabilityService_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AvailabilityServiceServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
+			MethodName: "UpdateLocationDefaultAvailability",
+			Handler:    _AvailabilityService_UpdateLocationDefaultAvailability_Handler,
+		},
+		{
 			MethodName: "GetAvailableTimeslots",
 			Handler:    _AvailabilityService_GetAvailableTimeslots_Handler,
 		},
@@ -170,6 +206,92 @@ var AvailabilityService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpsertAvailabilityOverride",
 			Handler:    _AvailabilityService_UpsertAvailabilityOverride_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "main.proto",
+}
+
+// LocationServiceClient is the client API for LocationService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type LocationServiceClient interface {
+	UpsertLocation(ctx context.Context, in *UpsertLocationRequest, opts ...grpc.CallOption) (*UpsertLocationResponse, error)
+}
+
+type locationServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewLocationServiceClient(cc grpc.ClientConnInterface) LocationServiceClient {
+	return &locationServiceClient{cc}
+}
+
+func (c *locationServiceClient) UpsertLocation(ctx context.Context, in *UpsertLocationRequest, opts ...grpc.CallOption) (*UpsertLocationResponse, error) {
+	out := new(UpsertLocationResponse)
+	err := c.cc.Invoke(ctx, "/proto.LocationService/UpsertLocation", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// LocationServiceServer is the server API for LocationService service.
+// All implementations must embed UnimplementedLocationServiceServer
+// for forward compatibility
+type LocationServiceServer interface {
+	UpsertLocation(context.Context, *UpsertLocationRequest) (*UpsertLocationResponse, error)
+	mustEmbedUnimplementedLocationServiceServer()
+}
+
+// UnimplementedLocationServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedLocationServiceServer struct {
+}
+
+func (UnimplementedLocationServiceServer) UpsertLocation(context.Context, *UpsertLocationRequest) (*UpsertLocationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpsertLocation not implemented")
+}
+func (UnimplementedLocationServiceServer) mustEmbedUnimplementedLocationServiceServer() {}
+
+// UnsafeLocationServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to LocationServiceServer will
+// result in compilation errors.
+type UnsafeLocationServiceServer interface {
+	mustEmbedUnimplementedLocationServiceServer()
+}
+
+func RegisterLocationServiceServer(s grpc.ServiceRegistrar, srv LocationServiceServer) {
+	s.RegisterService(&LocationService_ServiceDesc, srv)
+}
+
+func _LocationService_UpsertLocation_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpsertLocationRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(LocationServiceServer).UpsertLocation(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.LocationService/UpsertLocation",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(LocationServiceServer).UpsertLocation(ctx, req.(*UpsertLocationRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// LocationService_ServiceDesc is the grpc.ServiceDesc for LocationService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var LocationService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.LocationService",
+	HandlerType: (*LocationServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "UpsertLocation",
+			Handler:    _LocationService_UpsertLocation_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

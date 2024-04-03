@@ -39,5 +39,21 @@ final availabilityServiceProvider =
 
 typedef AvailabilityServiceRef
     = AutoDisposeProviderRef<AvailabilityServiceClient>;
+String _$locationServiceHash() => r'1b9b29022e9620085cc1e98e05e554c96ad151f4';
+
+/// See also [locationService].
+@ProviderFor(locationService)
+final locationServiceProvider =
+    AutoDisposeProvider<LocationServiceClient>.internal(
+  locationService,
+  name: r'locationServiceProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$locationServiceHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef LocationServiceRef = AutoDisposeProviderRef<LocationServiceClient>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

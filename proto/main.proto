@@ -2,6 +2,7 @@ syntax = "proto3";
 import "availability.proto";
 import "tenant.proto";
 import "reservation.proto";
+import "location.proto";
 
 package proto;
 
@@ -10,10 +11,14 @@ option go_package = "./proto";
 message Empty { }
 
 service AvailabilityService {
+  rpc UpdateLocationDefaultAvailability(UpdateLocationDefaultAvailabilityRequest) returns (UpdateLocationDefaultAvailabilityResponse);
   rpc GetAvailableTimeslots(GetAvailableTimeslotsRequest) returns (GetAvailableTimeslotsResponse);
   rpc GetAvailableDays(GetAvailableDaysRequest) returns (GetAvailableDaysResponse);
   rpc UpsertAvailabilityOverride(UpsertAvailabilityOverrideRequest) returns (UpsertAvailabilityOverrideResponse);
-//  rpc UpsertResource(UpsertResourceRequest) returns (UpsertResourceResponse);
+}
+
+service LocationService {
+  rpc UpsertLocation(UpsertLocationRequest) returns (UpsertLocationResponse);
 }
 
 service ReservationService {

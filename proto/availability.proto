@@ -48,6 +48,16 @@ message UpsertAvailabilityOverrideResponse{
 
 }
 
+message UpdateLocationDefaultAvailabilityRequest {
+  string id = 1 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
+  string availabilityId = 2 [(buf.validate.field).required = true, (buf.validate.field).string.uuid = true];
+  repeated AvailabilityRange availabilityRanges = 3;
+}
+
+message UpdateLocationDefaultAvailabilityResponse{
+
+}
+
 message Test {
   map<int64, TestSlice> availability = 1;
 }

@@ -21,11 +21,11 @@ class GRPCAvailabilityServiceClient {
   final GrpcOrGrpcWebClientChannel grpcClient;
 }
 
-// @riverpod
-// GRPCAvailabilityServiceClient availabilityServiceClient(AvailabilityServiceClientRef ref) => GRPCAvailabilityServiceClient(
-//   grpcClient: ref.watch(grpcClientProvider),
-// );
 
 @riverpod
 AvailabilityServiceClient availabilityService(AvailabilityServiceRef ref) =>
     AvailabilityServiceClient(ref.watch(grpcClientProvider));
+
+@riverpod
+LocationServiceClient locationService(LocationServiceRef ref) =>
+    LocationServiceClient(ref.watch(grpcClientProvider));

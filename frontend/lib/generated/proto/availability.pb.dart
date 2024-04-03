@@ -524,6 +524,110 @@ class UpsertAvailabilityOverrideResponse extends $pb.GeneratedMessage {
   static UpsertAvailabilityOverrideResponse? _defaultInstance;
 }
 
+class UpdateLocationDefaultAvailabilityRequest extends $pb.GeneratedMessage {
+  factory UpdateLocationDefaultAvailabilityRequest({
+    $core.String? id,
+    $core.String? availabilityId,
+    $core.Iterable<AvailabilityRange>? availabilityRanges,
+  }) {
+    final $result = create();
+    if (id != null) {
+      $result.id = id;
+    }
+    if (availabilityId != null) {
+      $result.availabilityId = availabilityId;
+    }
+    if (availabilityRanges != null) {
+      $result.availabilityRanges.addAll(availabilityRanges);
+    }
+    return $result;
+  }
+  UpdateLocationDefaultAvailabilityRequest._() : super();
+  factory UpdateLocationDefaultAvailabilityRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UpdateLocationDefaultAvailabilityRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateLocationDefaultAvailabilityRequest', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..aOS(1, _omitFieldNames ? '' : 'id')
+    ..aOS(2, _omitFieldNames ? '' : 'availabilityId', protoName: 'availabilityId')
+    ..pc<AvailabilityRange>(3, _omitFieldNames ? '' : 'availabilityRanges', $pb.PbFieldType.PM, protoName: 'availabilityRanges', subBuilder: AvailabilityRange.create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  UpdateLocationDefaultAvailabilityRequest clone() => UpdateLocationDefaultAvailabilityRequest()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  UpdateLocationDefaultAvailabilityRequest copyWith(void Function(UpdateLocationDefaultAvailabilityRequest) updates) => super.copyWith((message) => updates(message as UpdateLocationDefaultAvailabilityRequest)) as UpdateLocationDefaultAvailabilityRequest;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static UpdateLocationDefaultAvailabilityRequest create() => UpdateLocationDefaultAvailabilityRequest._();
+  UpdateLocationDefaultAvailabilityRequest createEmptyInstance() => create();
+  static $pb.PbList<UpdateLocationDefaultAvailabilityRequest> createRepeated() => $pb.PbList<UpdateLocationDefaultAvailabilityRequest>();
+  @$core.pragma('dart2js:noInline')
+  static UpdateLocationDefaultAvailabilityRequest getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateLocationDefaultAvailabilityRequest>(create);
+  static UpdateLocationDefaultAvailabilityRequest? _defaultInstance;
+
+  @$pb.TagNumber(1)
+  $core.String get id => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set id($core.String v) { $_setString(0, v); }
+  @$pb.TagNumber(1)
+  $core.bool hasId() => $_has(0);
+  @$pb.TagNumber(1)
+  void clearId() => clearField(1);
+
+  @$pb.TagNumber(2)
+  $core.String get availabilityId => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set availabilityId($core.String v) { $_setString(1, v); }
+  @$pb.TagNumber(2)
+  $core.bool hasAvailabilityId() => $_has(1);
+  @$pb.TagNumber(2)
+  void clearAvailabilityId() => clearField(2);
+
+  @$pb.TagNumber(3)
+  $core.List<AvailabilityRange> get availabilityRanges => $_getList(2);
+}
+
+class UpdateLocationDefaultAvailabilityResponse extends $pb.GeneratedMessage {
+  factory UpdateLocationDefaultAvailabilityResponse() => create();
+  UpdateLocationDefaultAvailabilityResponse._() : super();
+  factory UpdateLocationDefaultAvailabilityResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromBuffer(i, r);
+  factory UpdateLocationDefaultAvailabilityResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) => create()..mergeFromJson(i, r);
+
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(_omitMessageNames ? '' : 'UpdateLocationDefaultAvailabilityResponse', package: const $pb.PackageName(_omitMessageNames ? '' : 'proto'), createEmptyInstance: create)
+    ..hasRequiredFields = false
+  ;
+
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+  'Will be removed in next major version')
+  UpdateLocationDefaultAvailabilityResponse clone() => UpdateLocationDefaultAvailabilityResponse()..mergeFromMessage(this);
+  @$core.Deprecated(
+  'Using this can add significant overhead to your binary. '
+  'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+  'Will be removed in next major version')
+  UpdateLocationDefaultAvailabilityResponse copyWith(void Function(UpdateLocationDefaultAvailabilityResponse) updates) => super.copyWith((message) => updates(message as UpdateLocationDefaultAvailabilityResponse)) as UpdateLocationDefaultAvailabilityResponse;
+
+  $pb.BuilderInfo get info_ => _i;
+
+  @$core.pragma('dart2js:noInline')
+  static UpdateLocationDefaultAvailabilityResponse create() => UpdateLocationDefaultAvailabilityResponse._();
+  UpdateLocationDefaultAvailabilityResponse createEmptyInstance() => create();
+  static $pb.PbList<UpdateLocationDefaultAvailabilityResponse> createRepeated() => $pb.PbList<UpdateLocationDefaultAvailabilityResponse>();
+  @$core.pragma('dart2js:noInline')
+  static UpdateLocationDefaultAvailabilityResponse getDefault() => _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<UpdateLocationDefaultAvailabilityResponse>(create);
+  static UpdateLocationDefaultAvailabilityResponse? _defaultInstance;
+}
+
 class Test extends $pb.GeneratedMessage {
   factory Test({
     $core.Map<$fixnum.Int64, TestSlice>? availability,
