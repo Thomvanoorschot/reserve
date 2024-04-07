@@ -12,6 +12,7 @@ package table
 func UseSchema(schema string) {
 	Availability = Availability.FromSchema(schema)
 	Location = Location.FromSchema(schema)
+	LocationAvailabilityOverride = LocationAvailabilityOverride.FromSchema(schema)
 	Reservation = Reservation.FromSchema(schema)
 	Resource = Resource.FromSchema(schema)
 	ResourceAvailabilityOverride = ResourceAvailabilityOverride.FromSchema(schema)

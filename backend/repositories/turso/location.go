@@ -15,7 +15,13 @@ func (r *Repository) UpsertLocation(db services.QueryExecutor, m model.Location)
 			Location.ID,
 			Location.Name,
 			Location.Tz,
-			Location.DefaultAvailabilityID,
+			Location.DefaultMondayAvailabilityID,
+			Location.DefaultTuesdayAvailabilityID,
+			Location.DefaultWednesdayAvailabilityID,
+			Location.DefaultThursdayAvailabilityID,
+			Location.DefaultFridayAvailabilityID,
+			Location.DefaultSaturdayAvailabilityID,
+			Location.DefaultSundayAvailabilityID,
 		).
 		ON_CONFLICT(Location.ID).
 		DO_UPDATE(

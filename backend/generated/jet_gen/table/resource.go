@@ -17,15 +17,21 @@ type resourceTable struct {
 	sqlite.Table
 
 	// Columns
-	ID                    sqlite.ColumnString
-	Name                  sqlite.ColumnString
-	LocationID            sqlite.ColumnString
-	MinimumSegments       sqlite.ColumnInteger
-	MaximumSegments       sqlite.ColumnInteger
-	AllowInvalidSegments  sqlite.ColumnBool
-	DefaultAvailabilityID sqlite.ColumnString
-	CreatedAt             sqlite.ColumnTimestamp
-	UpdatedAt             sqlite.ColumnTimestamp
+	ID                             sqlite.ColumnString
+	Name                           sqlite.ColumnString
+	LocationID                     sqlite.ColumnString
+	MinimumSegments                sqlite.ColumnInteger
+	MaximumSegments                sqlite.ColumnInteger
+	AllowInvalidSegments           sqlite.ColumnBool
+	DefaultMondayAvailabilityID    sqlite.ColumnString
+	DefaultTuesdayAvailabilityID   sqlite.ColumnString
+	DefaultWednesdayAvailabilityID sqlite.ColumnString
+	DefaultThursdayAvailabilityID  sqlite.ColumnString
+	DefaultFridayAvailabilityID    sqlite.ColumnString
+	DefaultSaturdayAvailabilityID  sqlite.ColumnString
+	DefaultSundayAvailabilityID    sqlite.ColumnString
+	CreatedAt                      sqlite.ColumnTimestamp
+	UpdatedAt                      sqlite.ColumnTimestamp
 
 	AllColumns     sqlite.ColumnList
 	MutableColumns sqlite.ColumnList
@@ -66,32 +72,44 @@ func newResourceTable(schemaName, tableName, alias string) *ResourceTable {
 
 func newResourceTableImpl(schemaName, tableName, alias string) resourceTable {
 	var (
-		IDColumn                    = sqlite.StringColumn("id")
-		NameColumn                  = sqlite.StringColumn("name")
-		LocationIDColumn            = sqlite.StringColumn("location_id")
-		MinimumSegmentsColumn       = sqlite.IntegerColumn("minimum_segments")
-		MaximumSegmentsColumn       = sqlite.IntegerColumn("maximum_segments")
-		AllowInvalidSegmentsColumn  = sqlite.BoolColumn("allow_invalid_segments")
-		DefaultAvailabilityIDColumn = sqlite.StringColumn("default_availability_id")
-		CreatedAtColumn             = sqlite.TimestampColumn("created_at")
-		UpdatedAtColumn             = sqlite.TimestampColumn("updated_at")
-		allColumns                  = sqlite.ColumnList{IDColumn, NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultAvailabilityIDColumn, CreatedAtColumn, UpdatedAtColumn}
-		mutableColumns              = sqlite.ColumnList{NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultAvailabilityIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		IDColumn                             = sqlite.StringColumn("id")
+		NameColumn                           = sqlite.StringColumn("name")
+		LocationIDColumn                     = sqlite.StringColumn("location_id")
+		MinimumSegmentsColumn                = sqlite.IntegerColumn("minimum_segments")
+		MaximumSegmentsColumn                = sqlite.IntegerColumn("maximum_segments")
+		AllowInvalidSegmentsColumn           = sqlite.BoolColumn("allow_invalid_segments")
+		DefaultMondayAvailabilityIDColumn    = sqlite.StringColumn("default_monday_availability_id")
+		DefaultTuesdayAvailabilityIDColumn   = sqlite.StringColumn("default_tuesday_availability_id")
+		DefaultWednesdayAvailabilityIDColumn = sqlite.StringColumn("default_wednesday_availability_id")
+		DefaultThursdayAvailabilityIDColumn  = sqlite.StringColumn("default_thursday_availability_id")
+		DefaultFridayAvailabilityIDColumn    = sqlite.StringColumn("default_friday_availability_id")
+		DefaultSaturdayAvailabilityIDColumn  = sqlite.StringColumn("default_saturday_availability_id")
+		DefaultSundayAvailabilityIDColumn    = sqlite.StringColumn("default_sunday_availability_id")
+		CreatedAtColumn                      = sqlite.TimestampColumn("created_at")
+		UpdatedAtColumn                      = sqlite.TimestampColumn("updated_at")
+		allColumns                           = sqlite.ColumnList{IDColumn, NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultMondayAvailabilityIDColumn, DefaultTuesdayAvailabilityIDColumn, DefaultWednesdayAvailabilityIDColumn, DefaultThursdayAvailabilityIDColumn, DefaultFridayAvailabilityIDColumn, DefaultSaturdayAvailabilityIDColumn, DefaultSundayAvailabilityIDColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns                       = sqlite.ColumnList{NameColumn, LocationIDColumn, MinimumSegmentsColumn, MaximumSegmentsColumn, AllowInvalidSegmentsColumn, DefaultMondayAvailabilityIDColumn, DefaultTuesdayAvailabilityIDColumn, DefaultWednesdayAvailabilityIDColumn, DefaultThursdayAvailabilityIDColumn, DefaultFridayAvailabilityIDColumn, DefaultSaturdayAvailabilityIDColumn, DefaultSundayAvailabilityIDColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return resourceTable{
 		Table: sqlite.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:                    IDColumn,
-		Name:                  NameColumn,
-		LocationID:            LocationIDColumn,
-		MinimumSegments:       MinimumSegmentsColumn,
-		MaximumSegments:       MaximumSegmentsColumn,
-		AllowInvalidSegments:  AllowInvalidSegmentsColumn,
-		DefaultAvailabilityID: DefaultAvailabilityIDColumn,
-		CreatedAt:             CreatedAtColumn,
-		UpdatedAt:             UpdatedAtColumn,
+		ID:                             IDColumn,
+		Name:                           NameColumn,
+		LocationID:                     LocationIDColumn,
+		MinimumSegments:                MinimumSegmentsColumn,
+		MaximumSegments:                MaximumSegmentsColumn,
+		AllowInvalidSegments:           AllowInvalidSegmentsColumn,
+		DefaultMondayAvailabilityID:    DefaultMondayAvailabilityIDColumn,
+		DefaultTuesdayAvailabilityID:   DefaultTuesdayAvailabilityIDColumn,
+		DefaultWednesdayAvailabilityID: DefaultWednesdayAvailabilityIDColumn,
+		DefaultThursdayAvailabilityID:  DefaultThursdayAvailabilityIDColumn,
+		DefaultFridayAvailabilityID:    DefaultFridayAvailabilityIDColumn,
+		DefaultSaturdayAvailabilityID:  DefaultSaturdayAvailabilityIDColumn,
+		DefaultSundayAvailabilityID:    DefaultSundayAvailabilityIDColumn,
+		CreatedAt:                      CreatedAtColumn,
+		UpdatedAt:                      UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

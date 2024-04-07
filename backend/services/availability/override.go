@@ -17,27 +17,28 @@ func (s *Service) UpsertAvailabilityOverride(ctx context.Context, req *proto.Ups
 		err = tx.Rollback()
 	}(tx)
 
+	// TODO Fix this
 	if err != nil {
 		return nil, err
 	}
-	var availabilityId uuid.UUID
+	//var availabilityId uuid.UUID
 	if req.AvailabilityId == "" {
-		b := RangesToBits(req.AvailabilityRanges)
-		newAvailabilityId, err := s.repository.UpsertAvailability(tx, model.Availability{
-			ID:        uuid.New(),
-			PartOne:   b.PartOne,
-			PartTwo:   b.PartTwo,
-			PartThree: b.PartThree,
-			PartFour:  b.PartFour,
-			PartFive:  b.PartFive,
-			PartSix:   b.PartSix,
-		})
-		if err != nil {
-			return nil, err
-		}
-		availabilityId = newAvailabilityId
+		//b := RangesToBits(req.AvailabilityRanges)
+		//newAvailabilityId, err := s.repository.UpsertAvailability(tx, model.Availability{
+		//	ID:        uuid.New(),
+		//	PartOne:   b.PartOne,
+		//	PartTwo:   b.PartTwo,
+		//	PartThree: b.PartThree,
+		//	PartFour:  b.PartFour,
+		//	PartFive:  b.PartFive,
+		//	PartSix:   b.PartSix,
+		//})
+		//if err != nil {
+		//	return nil, err
+		//}
+		//availabilityId = newAvailabilityId
 	} else {
-		availabilityId = uuid.MustParse(req.AvailabilityId)
+		//availabilityId = uuid.MustParse(req.AvailabilityId)
 	}
 	var overrideName *string
 	if req.Name != "" {
@@ -47,13 +48,13 @@ func (s *Service) UpsertAvailabilityOverride(ctx context.Context, req *proto.Ups
 	if parseErr != nil {
 		availabilityOverrideID = uuid.New()
 	}
-	err = s.repository.UpsertAvailabilityOverride(tx, model.ResourceAvailabilityOverride{
-		ID:             availabilityOverrideID,
-		ResourceID:     uuid.MustParse(req.ResourceId),
-		AvailabilityID: availabilityId,
-		Name:           overrideName,
-		StartAt:        time.Unix(req.StartAtUnix, 0),
-		EndAt:          time.Unix(req.EndAtUnix, 0),
+	err = s.repository.UpsertResourceAvailabilityOverride(tx, model.ResourceAvailabilityOverride{
+		ID:         availabilityOverrideID,
+		ResourceID: uuid.MustParse(req.ResourceId),
+		//AvailabilityID: availabilityId,
+		Name:    overrideName,
+		StartAt: time.Unix(req.StartAtUnix, 0),
+		EndAt:   time.Unix(req.EndAtUnix, 0),
 	})
 	if err != nil {
 		return nil, err

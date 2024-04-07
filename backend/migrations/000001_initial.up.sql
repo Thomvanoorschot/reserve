@@ -2,13 +2,25 @@ CREATE TABLE location (
     id UUID PRIMARY KEY DEFAULT (uuid4()) NOT NULL,
 
     name TEXT NOT NULL,
-    default_availability_id UUID,
+    default_monday_availability_id UUID,
+    default_tuesday_availability_id UUID,
+    default_wednesday_availability_id UUID,
+    default_thursday_availability_id UUID,
+    default_friday_availability_id UUID,
+    default_saturday_availability_id UUID,
+    default_sunday_availability_id UUID,
     tz TEXT NOT NULL,
 
     created_at TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     updated_at TIMESTAMP,
 
-    FOREIGN KEY(default_availability_id) REFERENCES availability (id)
+    FOREIGN KEY(default_monday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_tuesday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_wednesday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_thursday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_friday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_saturday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_sunday_availability_id) REFERENCES availability (id)
 );
 
 CREATE TABLE resource (
@@ -19,20 +31,32 @@ CREATE TABLE resource (
     minimum_segments INTEGER  NOT NULL,
     maximum_segments INTEGER  NOT NULL,
     allow_invalid_segments BOOLEAN NOT NULL,
-    default_availability_id UUID NOT NULL,
+
+    default_monday_availability_id UUID,
+    default_tuesday_availability_id UUID,
+    default_wednesday_availability_id UUID,
+    default_thursday_availability_id UUID,
+    default_friday_availability_id UUID,
+    default_saturday_availability_id UUID,
+    default_sunday_availability_id UUID,
 
     created_at TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     updated_at TIMESTAMP,
 
     FOREIGN KEY(location_id) REFERENCES location(id),
-    FOREIGN KEY(default_availability_id) REFERENCES availability (id)
+    FOREIGN KEY(default_monday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_tuesday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_wednesday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_thursday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_friday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_saturday_availability_id) REFERENCES availability (id),
+    FOREIGN KEY(default_sunday_availability_id) REFERENCES availability (id)
 );
 
 CREATE TABLE resource_availability_override (
     id UUID PRIMARY KEY DEFAULT (uuid4()) NOT NULL,
 
     resource_id UUID NOT NULL,
-    availability_id UUID NOT NULL,
 
     name TEXT,
     start_at TIMESTAMP NOT NULL,
@@ -41,8 +65,21 @@ CREATE TABLE resource_availability_override (
     created_at TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
     updated_at TIMESTAMP,
 
-    FOREIGN KEY(resource_id) REFERENCES resource(id),
-    FOREIGN KEY(availability_id) REFERENCES availability (id)
+    FOREIGN KEY(resource_id) REFERENCES resource(id)
+);
+CREATE TABLE location_availability_override (
+    id UUID PRIMARY KEY DEFAULT (uuid4()) NOT NULL,
+
+    location_id UUID NOT NULL,
+
+    name TEXT,
+    start_at TIMESTAMP NOT NULL,
+    end_at TIMESTAMP NOT NULL,
+
+    created_at TIMESTAMP NOT NULL DEFAULT (CURRENT_TIMESTAMP),
+    updated_at TIMESTAMP,
+
+    FOREIGN KEY(location_id) REFERENCES resource(id)
 );
 
 CREATE TABLE reservation (
@@ -93,7 +130,7 @@ BEGIN
 END;
 CREATE TRIGGER update_updated_at_resource_availability_override AFTER UPDATE ON resource_availability_override
 BEGIN
-    UPDATE resource_availability_override SET updated_at=CURRENT_TIMESTAMP WHERE resource_id=NEW.resource_id AND availability_id=NEW.availability_id;
+    UPDATE resource_availability_override SET updated_at=CURRENT_TIMESTAMP WHERE resource_id=NEW.resource_id;
 END;
 
 CREATE TRIGGER prevent_overlapping_reservations_insert
@@ -129,12 +166,3 @@ CREATE TRIGGER prevent_overlapping_reservations_update
 BEGIN
     SELECT RAISE(FAIL, 'reservation times overlap');
 END;
-
-
-INSERT INTO availability (part_one, part_two, part_three, part_four, part_five, part_six)
-VALUES (0,281474976710655,281474976710655,281474976710655,281474976710655,0);
-
-INSERT INTO location (name, tz, default_availability_id) SELECT 'testlocation', 'Europe/Amsterdam', id from availability;
-
-INSERT INTO resource(name, location_id, minimum_segments, maximum_segments, allow_invalid_segments, default_availability_id)
-VALUES('testresource', (select id FROM location), 12, 24, false, (select id from availability))

@@ -17,14 +17,13 @@ type resourceAvailabilityOverrideTable struct {
 	sqlite.Table
 
 	// Columns
-	ID             sqlite.ColumnString
-	ResourceID     sqlite.ColumnString
-	AvailabilityID sqlite.ColumnString
-	Name           sqlite.ColumnString
-	StartAt        sqlite.ColumnTimestamp
-	EndAt          sqlite.ColumnTimestamp
-	CreatedAt      sqlite.ColumnTimestamp
-	UpdatedAt      sqlite.ColumnTimestamp
+	ID         sqlite.ColumnString
+	ResourceID sqlite.ColumnString
+	Name       sqlite.ColumnString
+	StartAt    sqlite.ColumnTimestamp
+	EndAt      sqlite.ColumnTimestamp
+	CreatedAt  sqlite.ColumnTimestamp
+	UpdatedAt  sqlite.ColumnTimestamp
 
 	AllColumns     sqlite.ColumnList
 	MutableColumns sqlite.ColumnList
@@ -65,30 +64,28 @@ func newResourceAvailabilityOverrideTable(schemaName, tableName, alias string) *
 
 func newResourceAvailabilityOverrideTableImpl(schemaName, tableName, alias string) resourceAvailabilityOverrideTable {
 	var (
-		IDColumn             = sqlite.StringColumn("id")
-		ResourceIDColumn     = sqlite.StringColumn("resource_id")
-		AvailabilityIDColumn = sqlite.StringColumn("availability_id")
-		NameColumn           = sqlite.StringColumn("name")
-		StartAtColumn        = sqlite.TimestampColumn("start_at")
-		EndAtColumn          = sqlite.TimestampColumn("end_at")
-		CreatedAtColumn      = sqlite.TimestampColumn("created_at")
-		UpdatedAtColumn      = sqlite.TimestampColumn("updated_at")
-		allColumns           = sqlite.ColumnList{IDColumn, ResourceIDColumn, AvailabilityIDColumn, NameColumn, StartAtColumn, EndAtColumn, CreatedAtColumn, UpdatedAtColumn}
-		mutableColumns       = sqlite.ColumnList{ResourceIDColumn, AvailabilityIDColumn, NameColumn, StartAtColumn, EndAtColumn, CreatedAtColumn, UpdatedAtColumn}
+		IDColumn         = sqlite.StringColumn("id")
+		ResourceIDColumn = sqlite.StringColumn("resource_id")
+		NameColumn       = sqlite.StringColumn("name")
+		StartAtColumn    = sqlite.TimestampColumn("start_at")
+		EndAtColumn      = sqlite.TimestampColumn("end_at")
+		CreatedAtColumn  = sqlite.TimestampColumn("created_at")
+		UpdatedAtColumn  = sqlite.TimestampColumn("updated_at")
+		allColumns       = sqlite.ColumnList{IDColumn, ResourceIDColumn, NameColumn, StartAtColumn, EndAtColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns   = sqlite.ColumnList{ResourceIDColumn, NameColumn, StartAtColumn, EndAtColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return resourceAvailabilityOverrideTable{
 		Table: sqlite.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:             IDColumn,
-		ResourceID:     ResourceIDColumn,
-		AvailabilityID: AvailabilityIDColumn,
-		Name:           NameColumn,
-		StartAt:        StartAtColumn,
-		EndAt:          EndAtColumn,
-		CreatedAt:      CreatedAtColumn,
-		UpdatedAt:      UpdatedAtColumn,
+		ID:         IDColumn,
+		ResourceID: ResourceIDColumn,
+		Name:       NameColumn,
+		StartAt:    StartAtColumn,
+		EndAt:      EndAtColumn,
+		CreatedAt:  CreatedAtColumn,
+		UpdatedAt:  UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

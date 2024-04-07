@@ -27,29 +27,47 @@ func (s *Service) UpsertLocation(ctx context.Context, req *proto.UpsertLocationR
 		locationID = uuid.New()
 	}
 
-	b := availability.RangesToBits(req.AvailabilityRanges)
-	availabilityID, err := s.repository.UpsertAvailability(tx, model.Availability{
-		ID:        uuid.New(),
-		PartOne:   b.PartOne,
-		PartTwo:   b.PartTwo,
-		PartThree: b.PartThree,
-		PartFour:  b.PartFour,
-		PartFive:  b.PartFive,
-		PartSix:   b.PartSix,
+	availabilityIDs := [7]uuid.UUID{}
+	for i, r := range [][]*proto.AvailabilityRange{
+		req.DefaultMondayAvailability,
+		req.DefaultTuesdayAvailability,
+		req.DefaultWednesdayAvailability,
+		req.DefaultThursdayAvailability,
+		req.DefaultFridayAvailability,
+		req.DefaultSaturdayAvailability,
+		req.DefaultSundayAvailability,
+	} {
+		b := availability.RangesToBits(r)
+		availabilityID, err := s.repository.UpsertAvailability(tx, model.Availability{
+			ID:        uuid.New(),
+			PartOne:   b.PartOne,
+			PartTwo:   b.PartTwo,
+			PartThree: b.PartThree,
+			PartFour:  b.PartFour,
+			PartFive:  b.PartFive,
+			PartSix:   b.PartSix,
+		})
+		if err != nil {
+			return nil, err
+		}
+		availabilityIDs[i] = availabilityID
+	}
+	_, err = s.repository.UpsertLocation(tx, model.Location{
+		ID:                             locationID,
+		Name:                           req.Name,
+		DefaultMondayAvailabilityID:    &availabilityIDs[0],
+		DefaultTuesdayAvailabilityID:   &availabilityIDs[0],
+		DefaultWednesdayAvailabilityID: &availabilityIDs[0],
+		DefaultThursdayAvailabilityID:  &availabilityIDs[0],
+		DefaultFridayAvailabilityID:    &availabilityIDs[0],
+		DefaultSaturdayAvailabilityID:  &availabilityIDs[0],
+		DefaultSundayAvailabilityID:    &availabilityIDs[0],
+		Tz:                             req.Tz,
 	})
 	if err != nil {
 		return nil, err
 	}
 
-	_, err = s.repository.UpsertLocation(tx, model.Location{
-		ID:                    locationID,
-		Name:                  req.Name,
-		DefaultAvailabilityID: &availabilityID,
-		Tz:                    req.Tz,
-	})
-	if err != nil {
-		return nil, err
-	}
 	err = tx.Commit()
 	if err != nil {
 		return nil, err

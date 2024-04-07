@@ -20,7 +20,7 @@ var ignoreList = []string{
 	"/proto.TestService/TestUnaryRPC",
 	"/proto.AvailabilityService/GetAvailableDays",
 	"/proto.AvailabilityService/GetAvailableTimeslots",
-	"/proto.AvailabilityService/UpsertAvailabilityOverride",
+	"/proto.AvailabilityService/UpsertResourceAvailabilityOverride",
 	"/proto.AvailabilityService/UpdateLocationDefaultAvailability",
 	"/proto.LocationService/UpsertLocation",
 }

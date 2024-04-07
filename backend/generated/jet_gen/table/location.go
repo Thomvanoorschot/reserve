@@ -17,12 +17,18 @@ type locationTable struct {
 	sqlite.Table
 
 	// Columns
-	ID                    sqlite.ColumnString
-	Name                  sqlite.ColumnString
-	DefaultAvailabilityID sqlite.ColumnString
-	Tz                    sqlite.ColumnString
-	CreatedAt             sqlite.ColumnTimestamp
-	UpdatedAt             sqlite.ColumnTimestamp
+	ID                             sqlite.ColumnString
+	Name                           sqlite.ColumnString
+	DefaultMondayAvailabilityID    sqlite.ColumnString
+	DefaultTuesdayAvailabilityID   sqlite.ColumnString
+	DefaultWednesdayAvailabilityID sqlite.ColumnString
+	DefaultThursdayAvailabilityID  sqlite.ColumnString
+	DefaultFridayAvailabilityID    sqlite.ColumnString
+	DefaultSaturdayAvailabilityID  sqlite.ColumnString
+	DefaultSundayAvailabilityID    sqlite.ColumnString
+	Tz                             sqlite.ColumnString
+	CreatedAt                      sqlite.ColumnTimestamp
+	UpdatedAt                      sqlite.ColumnTimestamp
 
 	AllColumns     sqlite.ColumnList
 	MutableColumns sqlite.ColumnList
@@ -63,26 +69,38 @@ func newLocationTable(schemaName, tableName, alias string) *LocationTable {
 
 func newLocationTableImpl(schemaName, tableName, alias string) locationTable {
 	var (
-		IDColumn                    = sqlite.StringColumn("id")
-		NameColumn                  = sqlite.StringColumn("name")
-		DefaultAvailabilityIDColumn = sqlite.StringColumn("default_availability_id")
-		TzColumn                    = sqlite.StringColumn("tz")
-		CreatedAtColumn             = sqlite.TimestampColumn("created_at")
-		UpdatedAtColumn             = sqlite.TimestampColumn("updated_at")
-		allColumns                  = sqlite.ColumnList{IDColumn, NameColumn, DefaultAvailabilityIDColumn, TzColumn, CreatedAtColumn, UpdatedAtColumn}
-		mutableColumns              = sqlite.ColumnList{NameColumn, DefaultAvailabilityIDColumn, TzColumn, CreatedAtColumn, UpdatedAtColumn}
+		IDColumn                             = sqlite.StringColumn("id")
+		NameColumn                           = sqlite.StringColumn("name")
+		DefaultMondayAvailabilityIDColumn    = sqlite.StringColumn("default_monday_availability_id")
+		DefaultTuesdayAvailabilityIDColumn   = sqlite.StringColumn("default_tuesday_availability_id")
+		DefaultWednesdayAvailabilityIDColumn = sqlite.StringColumn("default_wednesday_availability_id")
+		DefaultThursdayAvailabilityIDColumn  = sqlite.StringColumn("default_thursday_availability_id")
+		DefaultFridayAvailabilityIDColumn    = sqlite.StringColumn("default_friday_availability_id")
+		DefaultSaturdayAvailabilityIDColumn  = sqlite.StringColumn("default_saturday_availability_id")
+		DefaultSundayAvailabilityIDColumn    = sqlite.StringColumn("default_sunday_availability_id")
+		TzColumn                             = sqlite.StringColumn("tz")
+		CreatedAtColumn                      = sqlite.TimestampColumn("created_at")
+		UpdatedAtColumn                      = sqlite.TimestampColumn("updated_at")
+		allColumns                           = sqlite.ColumnList{IDColumn, NameColumn, DefaultMondayAvailabilityIDColumn, DefaultTuesdayAvailabilityIDColumn, DefaultWednesdayAvailabilityIDColumn, DefaultThursdayAvailabilityIDColumn, DefaultFridayAvailabilityIDColumn, DefaultSaturdayAvailabilityIDColumn, DefaultSundayAvailabilityIDColumn, TzColumn, CreatedAtColumn, UpdatedAtColumn}
+		mutableColumns                       = sqlite.ColumnList{NameColumn, DefaultMondayAvailabilityIDColumn, DefaultTuesdayAvailabilityIDColumn, DefaultWednesdayAvailabilityIDColumn, DefaultThursdayAvailabilityIDColumn, DefaultFridayAvailabilityIDColumn, DefaultSaturdayAvailabilityIDColumn, DefaultSundayAvailabilityIDColumn, TzColumn, CreatedAtColumn, UpdatedAtColumn}
 	)
 
 	return locationTable{
 		Table: sqlite.NewTable(schemaName, tableName, alias, allColumns...),
 
 		//Columns
-		ID:                    IDColumn,
-		Name:                  NameColumn,
-		DefaultAvailabilityID: DefaultAvailabilityIDColumn,
-		Tz:                    TzColumn,
-		CreatedAt:             CreatedAtColumn,
-		UpdatedAt:             UpdatedAtColumn,
+		ID:                             IDColumn,
+		Name:                           NameColumn,
+		DefaultMondayAvailabilityID:    DefaultMondayAvailabilityIDColumn,
+		DefaultTuesdayAvailabilityID:   DefaultTuesdayAvailabilityIDColumn,
+		DefaultWednesdayAvailabilityID: DefaultWednesdayAvailabilityIDColumn,
+		DefaultThursdayAvailabilityID:  DefaultThursdayAvailabilityIDColumn,
+		DefaultFridayAvailabilityID:    DefaultFridayAvailabilityIDColumn,
+		DefaultSaturdayAvailabilityID:  DefaultSaturdayAvailabilityIDColumn,
+		DefaultSundayAvailabilityID:    DefaultSundayAvailabilityIDColumn,
+		Tz:                             TzColumn,
+		CreatedAt:                      CreatedAtColumn,
+		UpdatedAt:                      UpdatedAtColumn,
 
 		AllColumns:     allColumns,
 		MutableColumns: mutableColumns,

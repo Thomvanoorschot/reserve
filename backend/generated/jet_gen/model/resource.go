@@ -13,13 +13,19 @@ import (
 )
 
 type Resource struct {
-	ID                    uuid.UUID `sql:"primary_key"`
-	Name                  string
-	LocationID            uuid.UUID
-	MinimumSegments       int32
-	MaximumSegments       int32
-	AllowInvalidSegments  bool
-	DefaultAvailabilityID uuid.UUID
-	CreatedAt             time.Time
-	UpdatedAt             *time.Time
+	ID                             uuid.UUID `sql:"primary_key"`
+	Name                           string
+	LocationID                     uuid.UUID
+	MinimumSegments                int32
+	MaximumSegments                int32
+	AllowInvalidSegments           bool
+	DefaultMondayAvailabilityID    *uuid.UUID
+	DefaultTuesdayAvailabilityID   *uuid.UUID
+	DefaultWednesdayAvailabilityID *uuid.UUID
+	DefaultThursdayAvailabilityID  *uuid.UUID
+	DefaultFridayAvailabilityID    *uuid.UUID
+	DefaultSaturdayAvailabilityID  *uuid.UUID
+	DefaultSundayAvailabilityID    *uuid.UUID
+	CreatedAt                      time.Time
+	UpdatedAt                      *time.Time
 }

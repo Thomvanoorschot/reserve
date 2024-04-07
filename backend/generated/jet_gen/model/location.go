@@ -13,10 +13,16 @@ import (
 )
 
 type Location struct {
-	ID                    uuid.UUID `sql:"primary_key"`
-	Name                  string
-	DefaultAvailabilityID *uuid.UUID
-	Tz                    string
-	CreatedAt             time.Time
-	UpdatedAt             *time.Time
+	ID                             uuid.UUID `sql:"primary_key"`
+	Name                           string
+	DefaultMondayAvailabilityID    *uuid.UUID
+	DefaultTuesdayAvailabilityID   *uuid.UUID
+	DefaultWednesdayAvailabilityID *uuid.UUID
+	DefaultThursdayAvailabilityID  *uuid.UUID
+	DefaultFridayAvailabilityID    *uuid.UUID
+	DefaultSaturdayAvailabilityID  *uuid.UUID
+	DefaultSundayAvailabilityID    *uuid.UUID
+	Tz                             string
+	CreatedAt                      time.Time
+	UpdatedAt                      *time.Time
 }

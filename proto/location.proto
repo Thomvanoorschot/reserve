@@ -13,7 +13,13 @@ message UpsertLocationRequest {
   string id = 1 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
   string name = 2;
   string tz = 3;
-  repeated AvailabilityRange availabilityRanges = 4;
+  repeated AvailabilityRange DefaultMondayAvailability = 4;
+  repeated AvailabilityRange DefaultTuesdayAvailability = 5;
+  repeated AvailabilityRange DefaultWednesdayAvailability = 6;
+  repeated AvailabilityRange DefaultThursdayAvailability = 7;
+  repeated AvailabilityRange DefaultFridayAvailability = 8;
+  repeated AvailabilityRange DefaultSaturdayAvailability = 9;
+  repeated AvailabilityRange DefaultSundayAvailability = 10;
 }
 
 message UpsertLocationResponse{

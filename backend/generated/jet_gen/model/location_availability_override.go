@@ -12,9 +12,9 @@ import (
 	"time"
 )
 
-type ResourceAvailabilityOverride struct {
+type LocationAvailabilityOverride struct {
 	ID         uuid.UUID `sql:"primary_key"`
-	ResourceID uuid.UUID
+	LocationID uuid.UUID
 	Name       *string
 	StartAt    time.Time
 	EndAt      time.Time

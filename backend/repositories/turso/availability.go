@@ -76,12 +76,13 @@ func (r *Repository) GetAvailabilityRequirements(
 			INNER_JOIN(Resource, Resource.LocationID.EQ(Location.ID)).
 			LEFT_JOIN(ResourceAvailabilityOverride, ResourceAvailabilityOverride.ResourceID.EQ(Resource.ID).
 				AND(ResourceAvailabilityOverride.StartAt.LT_EQ(JetTimestamp(endAt))).
-				AND(ResourceAvailabilityOverride.EndAt.GT_EQ(JetTimestamp(startAt)))).
-			INNER_JOIN(Availability, Availability.ID.EQ(Resource.DefaultAvailabilityID).OR(Availability.ID.EQ(ResourceAvailabilityOverride.AvailabilityID))),
+				AND(ResourceAvailabilityOverride.EndAt.GT_EQ(JetTimestamp(startAt)))),
+		//INNER_JOIN(Availability, Availability.ID.EQ(Resource.DefaultAvailabilityID).OR(Availability.ID.EQ(ResourceAvailabilityOverride.AvailabilityID))),
 		).
 		ORDER_BY(Resource.ID, ResourceAvailabilityOverride.StartAt.ASC()).
 		Sql()
 
+	// TODO Fix query
 	rows, _ := db.Query(sql, args...)
 
 	for rows.Next() {

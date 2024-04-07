@@ -133,9 +133,9 @@ const UpdateLocationDefaultAvailabilityRequest$json = {
 /// Descriptor for `UpdateLocationDefaultAvailabilityRequest`. Decode as a `google.protobuf.DescriptorProto`.
 final $typed_data.Uint8List updateLocationDefaultAvailabilityRequestDescriptor = $convert.base64Decode(
     'CihVcGRhdGVMb2NhdGlvbkRlZmF1bHRBdmFpbGFiaWxpdHlSZXF1ZXN0EhgKAmlkGAEgASgJQg'
-    'i6SAVyA7ABAVICaWQSMAoOYXZhaWxhYmlsaXR5SWQYAiABKAlCCLpIBXIDsAEBUg5hdmFpbGFi'
-    'aWxpdHlJZBJIChJhdmFpbGFiaWxpdHlSYW5nZXMYAyADKAsyGC5wcm90by5BdmFpbGFiaWxpdH'
-    'lSYW5nZVISYXZhaWxhYmlsaXR5UmFuZ2Vz');
+    'i6SAVyA7ABAVICaWQSMwoOYXZhaWxhYmlsaXR5SWQYAiABKAlCC7pICHIDsAEByAEBUg5hdmFp'
+    'bGFiaWxpdHlJZBJIChJhdmFpbGFiaWxpdHlSYW5nZXMYAyADKAsyGC5wcm90by5BdmFpbGFiaW'
+    'xpdHlSYW5nZVISYXZhaWxhYmlsaXR5UmFuZ2Vz');
 
 @$core.Deprecated('Use updateLocationDefaultAvailabilityResponseDescriptor instead')
 const UpdateLocationDefaultAvailabilityResponse$json = {

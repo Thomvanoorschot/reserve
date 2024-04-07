@@ -20,7 +20,13 @@ class UpsertLocationRequest extends $pb.GeneratedMessage {
     $core.String? id,
     $core.String? name,
     $core.String? tz,
-    $core.Iterable<$0.AvailabilityRange>? availabilityRanges,
+    $core.Iterable<$0.AvailabilityRange>? defaultMondayAvailability,
+    $core.Iterable<$0.AvailabilityRange>? defaultTuesdayAvailability,
+    $core.Iterable<$0.AvailabilityRange>? defaultWednesdayAvailability,
+    $core.Iterable<$0.AvailabilityRange>? defaultThursdayAvailability,
+    $core.Iterable<$0.AvailabilityRange>? defaultFridayAvailability,
+    $core.Iterable<$0.AvailabilityRange>? defaultSaturdayAvailability,
+    $core.Iterable<$0.AvailabilityRange>? defaultSundayAvailability,
   }) {
     final $result = create();
     if (id != null) {
@@ -32,8 +38,26 @@ class UpsertLocationRequest extends $pb.GeneratedMessage {
     if (tz != null) {
       $result.tz = tz;
     }
-    if (availabilityRanges != null) {
-      $result.availabilityRanges.addAll(availabilityRanges);
+    if (defaultMondayAvailability != null) {
+      $result.defaultMondayAvailability.addAll(defaultMondayAvailability);
+    }
+    if (defaultTuesdayAvailability != null) {
+      $result.defaultTuesdayAvailability.addAll(defaultTuesdayAvailability);
+    }
+    if (defaultWednesdayAvailability != null) {
+      $result.defaultWednesdayAvailability.addAll(defaultWednesdayAvailability);
+    }
+    if (defaultThursdayAvailability != null) {
+      $result.defaultThursdayAvailability.addAll(defaultThursdayAvailability);
+    }
+    if (defaultFridayAvailability != null) {
+      $result.defaultFridayAvailability.addAll(defaultFridayAvailability);
+    }
+    if (defaultSaturdayAvailability != null) {
+      $result.defaultSaturdayAvailability.addAll(defaultSaturdayAvailability);
+    }
+    if (defaultSundayAvailability != null) {
+      $result.defaultSundayAvailability.addAll(defaultSundayAvailability);
     }
     return $result;
   }
@@ -45,7 +69,13 @@ class UpsertLocationRequest extends $pb.GeneratedMessage {
     ..aOS(1, _omitFieldNames ? '' : 'id')
     ..aOS(2, _omitFieldNames ? '' : 'name')
     ..aOS(3, _omitFieldNames ? '' : 'tz')
-    ..pc<$0.AvailabilityRange>(4, _omitFieldNames ? '' : 'availabilityRanges', $pb.PbFieldType.PM, protoName: 'availabilityRanges', subBuilder: $0.AvailabilityRange.create)
+    ..pc<$0.AvailabilityRange>(4, _omitFieldNames ? '' : 'DefaultMondayAvailability', $pb.PbFieldType.PM, protoName: 'DefaultMondayAvailability', subBuilder: $0.AvailabilityRange.create)
+    ..pc<$0.AvailabilityRange>(5, _omitFieldNames ? '' : 'DefaultTuesdayAvailability', $pb.PbFieldType.PM, protoName: 'DefaultTuesdayAvailability', subBuilder: $0.AvailabilityRange.create)
+    ..pc<$0.AvailabilityRange>(6, _omitFieldNames ? '' : 'DefaultWednesdayAvailability', $pb.PbFieldType.PM, protoName: 'DefaultWednesdayAvailability', subBuilder: $0.AvailabilityRange.create)
+    ..pc<$0.AvailabilityRange>(7, _omitFieldNames ? '' : 'DefaultThursdayAvailability', $pb.PbFieldType.PM, protoName: 'DefaultThursdayAvailability', subBuilder: $0.AvailabilityRange.create)
+    ..pc<$0.AvailabilityRange>(8, _omitFieldNames ? '' : 'DefaultFridayAvailability', $pb.PbFieldType.PM, protoName: 'DefaultFridayAvailability', subBuilder: $0.AvailabilityRange.create)
+    ..pc<$0.AvailabilityRange>(9, _omitFieldNames ? '' : 'DefaultSaturdayAvailability', $pb.PbFieldType.PM, protoName: 'DefaultSaturdayAvailability', subBuilder: $0.AvailabilityRange.create)
+    ..pc<$0.AvailabilityRange>(10, _omitFieldNames ? '' : 'DefaultSundayAvailability', $pb.PbFieldType.PM, protoName: 'DefaultSundayAvailability', subBuilder: $0.AvailabilityRange.create)
     ..hasRequiredFields = false
   ;
 
@@ -98,7 +128,25 @@ class UpsertLocationRequest extends $pb.GeneratedMessage {
   void clearTz() => clearField(3);
 
   @$pb.TagNumber(4)
-  $core.List<$0.AvailabilityRange> get availabilityRanges => $_getList(3);
+  $core.List<$0.AvailabilityRange> get defaultMondayAvailability => $_getList(3);
+
+  @$pb.TagNumber(5)
+  $core.List<$0.AvailabilityRange> get defaultTuesdayAvailability => $_getList(4);
+
+  @$pb.TagNumber(6)
+  $core.List<$0.AvailabilityRange> get defaultWednesdayAvailability => $_getList(5);
+
+  @$pb.TagNumber(7)
+  $core.List<$0.AvailabilityRange> get defaultThursdayAvailability => $_getList(6);
+
+  @$pb.TagNumber(8)
+  $core.List<$0.AvailabilityRange> get defaultFridayAvailability => $_getList(7);
+
+  @$pb.TagNumber(9)
+  $core.List<$0.AvailabilityRange> get defaultSaturdayAvailability => $_getList(8);
+
+  @$pb.TagNumber(10)
+  $core.List<$0.AvailabilityRange> get defaultSundayAvailability => $_getList(9);
 }
 
 class UpsertLocationResponse extends $pb.GeneratedMessage {

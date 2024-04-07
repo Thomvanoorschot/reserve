@@ -8,7 +8,7 @@ import (
 	. "github.com/go-jet/jet/v2/sqlite"
 )
 
-func (r *Repository) UpsertAvailabilityOverride(
+func (r *Repository) UpsertResourceAvailabilityOverride(
 	db services.QueryExecutor,
 	m model.ResourceAvailabilityOverride,
 ) error {
@@ -16,7 +16,6 @@ func (r *Repository) UpsertAvailabilityOverride(
 		INSERT(
 			ResourceAvailabilityOverride.ID,
 			ResourceAvailabilityOverride.ResourceID,
-			ResourceAvailabilityOverride.AvailabilityID,
 			ResourceAvailabilityOverride.Name,
 			ResourceAvailabilityOverride.StartAt,
 			ResourceAvailabilityOverride.EndAt,

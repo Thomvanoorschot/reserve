@@ -1,45 +1,30 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:frontend/src/routing/app_router.dart';
+import 'package:go_router/go_router.dart';
 
-class LocationOverviewScreen extends ConsumerWidget {
+class LocationOverviewScreen extends StatelessWidget {
   const LocationOverviewScreen({super.key});
 
-  static const pageSize = 20;
-
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // final query = ref.watch(moviesSearchTextProvider);
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Locations'),
       ),
-      body: Column(
-        children: [
-          Flexible(
-            child: Column(
-              children: [for (int i = 0; i < 7; i++) const DayRange()],
-            ),
-          ),
-          Flexible(child: Text('data'))
-        ],
-      ),
-    );
-  }
-}
-
-class DayRange extends StatelessWidget {
-  const DayRange({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Flexible(
-      child: Container(
-        color: Colors.red,
-      ),
+      body: ListView.builder(
+          itemCount: 2,
+          itemBuilder: (context, index) {
+            return Card(
+              child: InkWell(
+                onTap: () => context.goNamed(AppRoute.locationCreate.name, pathParameters: {}),
+                child: const SizedBox(
+                  width: 150,
+                  height: 150,
+                  child: Center(child: Text("Add location")),
+                ),
+              ),
+            );
+          }),
     );
   }
 }
