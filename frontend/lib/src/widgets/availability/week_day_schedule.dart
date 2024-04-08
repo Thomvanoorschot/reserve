@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_multi_slider/flutter_multi_slider.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:frontend/generated/proto/availability.pb.dart';
 import 'package:frontend/src/utils/consts.dart';
-import 'package:intl/intl.dart';
+import 'package:frontend/src/utils/epoch.dart';
+import 'package:timezone/browser.dart' as tz;
+
+// TODO Fix
+Future<void> setup() async {
+  await tz.initializeTimeZone();
+  var detroit = tz.getLocation('America/Detroit');
+  var now = tz.TZDateTime.now(detroit);
+}
 
 class WeekDaySchedule extends StatelessWidget {
-  WeekDaySchedule({
+  const WeekDaySchedule({
     required this.values,
     required this.weekDay,
     required this.onChanged,
     required this.onToggle,
     required this.enabled,
-    required this.startOfDay,
     required this.addAvailabilityRange,
     super.key,
   });
@@ -23,10 +28,6 @@ class WeekDaySchedule extends StatelessWidget {
   final ValueChanged<bool> onToggle;
   final VoidCallback addAvailabilityRange;
   final bool enabled;
-  final DateTime startOfDay;
-
-
-  final f = DateFormat('HH:mm');
 
   @override
   Widget build(BuildContext context) {
@@ -85,8 +86,8 @@ class WeekDaySchedule extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(left: 8, bottom: 2),
                 child: Text(
-                  ''
-                  // 'Availability ${index ~/ 2 + 1} starts at ${f.format(startOfDay.add(Duration(minutes: (5.0 * values[index]) as int)))} and ends at  ${f.format(startOfDay.add(Duration(minutes: (5.0 * values[index + 1]) as int)))}.',
+                  'Availability ${index ~/ 2 + 1} starts at ${rangeDoubleToHourMinute(values[index])} '
+                      'and ends at  ${rangeDoubleToHourMinute(values[index + 1])}.',
                 ),
               ),
           ] else

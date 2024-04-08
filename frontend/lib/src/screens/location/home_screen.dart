@@ -2,7 +2,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/generated/proto/availability.pb.dart';
-import 'package:frontend/src/clients/grpc_client.dart';
+import 'package:frontend/src/repositories/grpc_client.dart';
 
 class MyHomePage extends ConsumerWidget {
   const MyHomePage({super.key});

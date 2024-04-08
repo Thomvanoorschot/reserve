@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'location_create_screen.dart';
+part of 'availability_day_model.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$AvailabilityDay {
+mixin _$AvailabilityDayModel {
   String get name => throw _privateConstructorUsedError;
   List<AvailabilityRange> get availabilityRanges =>
       throw _privateConstructorUsedError;
@@ -44,40 +44,41 @@ mixin _$AvailabilityDay {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AvailabilityDay value) def,
+    required TResult Function(_AvailabilityDayModel value) def,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AvailabilityDay value)? def,
+    TResult? Function(_AvailabilityDayModel value)? def,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AvailabilityDay value)? def,
+    TResult Function(_AvailabilityDayModel value)? def,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
-  $AvailabilityDayCopyWith<AvailabilityDay> get copyWith =>
+  $AvailabilityDayModelCopyWith<AvailabilityDayModel> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $AvailabilityDayCopyWith<$Res> {
-  factory $AvailabilityDayCopyWith(
-          AvailabilityDay value, $Res Function(AvailabilityDay) then) =
-      _$AvailabilityDayCopyWithImpl<$Res, AvailabilityDay>;
+abstract class $AvailabilityDayModelCopyWith<$Res> {
+  factory $AvailabilityDayModelCopyWith(AvailabilityDayModel value,
+          $Res Function(AvailabilityDayModel) then) =
+      _$AvailabilityDayModelCopyWithImpl<$Res, AvailabilityDayModel>;
   @useResult
   $Res call(
       {String name, List<AvailabilityRange> availabilityRanges, bool enabled});
 }
 
 /// @nodoc
-class _$AvailabilityDayCopyWithImpl<$Res, $Val extends AvailabilityDay>
-    implements $AvailabilityDayCopyWith<$Res> {
-  _$AvailabilityDayCopyWithImpl(this._value, this._then);
+class _$AvailabilityDayModelCopyWithImpl<$Res,
+        $Val extends AvailabilityDayModel>
+    implements $AvailabilityDayModelCopyWith<$Res> {
+  _$AvailabilityDayModelCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -109,11 +110,11 @@ class _$AvailabilityDayCopyWithImpl<$Res, $Val extends AvailabilityDay>
 }
 
 /// @nodoc
-abstract class _$$AvailabilityDayImplCopyWith<$Res>
-    implements $AvailabilityDayCopyWith<$Res> {
-  factory _$$AvailabilityDayImplCopyWith(_$AvailabilityDayImpl value,
-          $Res Function(_$AvailabilityDayImpl) then) =
-      __$$AvailabilityDayImplCopyWithImpl<$Res>;
+abstract class _$$AvailabilityDayModelImplCopyWith<$Res>
+    implements $AvailabilityDayModelCopyWith<$Res> {
+  factory _$$AvailabilityDayModelImplCopyWith(_$AvailabilityDayModelImpl value,
+          $Res Function(_$AvailabilityDayModelImpl) then) =
+      __$$AvailabilityDayModelImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -121,11 +122,11 @@ abstract class _$$AvailabilityDayImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$AvailabilityDayImplCopyWithImpl<$Res>
-    extends _$AvailabilityDayCopyWithImpl<$Res, _$AvailabilityDayImpl>
-    implements _$$AvailabilityDayImplCopyWith<$Res> {
-  __$$AvailabilityDayImplCopyWithImpl(
-      _$AvailabilityDayImpl _value, $Res Function(_$AvailabilityDayImpl) _then)
+class __$$AvailabilityDayModelImplCopyWithImpl<$Res>
+    extends _$AvailabilityDayModelCopyWithImpl<$Res, _$AvailabilityDayModelImpl>
+    implements _$$AvailabilityDayModelImplCopyWith<$Res> {
+  __$$AvailabilityDayModelImplCopyWithImpl(_$AvailabilityDayModelImpl _value,
+      $Res Function(_$AvailabilityDayModelImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -135,7 +136,7 @@ class __$$AvailabilityDayImplCopyWithImpl<$Res>
     Object? availabilityRanges = null,
     Object? enabled = null,
   }) {
-    return _then(_$AvailabilityDayImpl(
+    return _then(_$AvailabilityDayModelImpl(
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -154,8 +155,8 @@ class __$$AvailabilityDayImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$AvailabilityDayImpl implements _AvailabilityDay {
-  _$AvailabilityDayImpl(
+class _$AvailabilityDayModelImpl implements _AvailabilityDayModel {
+  _$AvailabilityDayModelImpl(
       {required this.name,
       required final List<AvailabilityRange> availabilityRanges,
       required this.enabled})
@@ -177,14 +178,14 @@ class _$AvailabilityDayImpl implements _AvailabilityDay {
 
   @override
   String toString() {
-    return 'AvailabilityDay.def(name: $name, availabilityRanges: $availabilityRanges, enabled: $enabled)';
+    return 'AvailabilityDayModel.def(name: $name, availabilityRanges: $availabilityRanges, enabled: $enabled)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$AvailabilityDayImpl &&
+            other is _$AvailabilityDayModelImpl &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
                 .equals(other._availabilityRanges, _availabilityRanges) &&
@@ -198,9 +199,10 @@ class _$AvailabilityDayImpl implements _AvailabilityDay {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$AvailabilityDayImplCopyWith<_$AvailabilityDayImpl> get copyWith =>
-      __$$AvailabilityDayImplCopyWithImpl<_$AvailabilityDayImpl>(
-          this, _$identity);
+  _$$AvailabilityDayModelImplCopyWith<_$AvailabilityDayModelImpl>
+      get copyWith =>
+          __$$AvailabilityDayModelImplCopyWithImpl<_$AvailabilityDayModelImpl>(
+              this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -239,7 +241,7 @@ class _$AvailabilityDayImpl implements _AvailabilityDay {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_AvailabilityDay value) def,
+    required TResult Function(_AvailabilityDayModel value) def,
   }) {
     return def(this);
   }
@@ -247,7 +249,7 @@ class _$AvailabilityDayImpl implements _AvailabilityDay {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_AvailabilityDay value)? def,
+    TResult? Function(_AvailabilityDayModel value)? def,
   }) {
     return def?.call(this);
   }
@@ -255,7 +257,7 @@ class _$AvailabilityDayImpl implements _AvailabilityDay {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_AvailabilityDay value)? def,
+    TResult Function(_AvailabilityDayModel value)? def,
     required TResult orElse(),
   }) {
     if (def != null) {
@@ -265,11 +267,11 @@ class _$AvailabilityDayImpl implements _AvailabilityDay {
   }
 }
 
-abstract class _AvailabilityDay implements AvailabilityDay {
-  factory _AvailabilityDay(
+abstract class _AvailabilityDayModel implements AvailabilityDayModel {
+  factory _AvailabilityDayModel(
       {required final String name,
       required final List<AvailabilityRange> availabilityRanges,
-      required final bool enabled}) = _$AvailabilityDayImpl;
+      required final bool enabled}) = _$AvailabilityDayModelImpl;
 
   @override
   String get name;
@@ -279,6 +281,6 @@ abstract class _AvailabilityDay implements AvailabilityDay {
   bool get enabled;
   @override
   @JsonKey(ignore: true)
-  _$$AvailabilityDayImplCopyWith<_$AvailabilityDayImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$AvailabilityDayModelImplCopyWith<_$AvailabilityDayModelImpl>
+      get copyWith => throw _privateConstructorUsedError;
 }
