@@ -6,7 +6,7 @@ part of 'location_create_screen.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$availabilityDaysHash() => r'90c2ac3ac87b86a541caf166ad9bbde4e8875548';
+String _$availabilityDaysHash() => r'e71a41e3da8dd1a319b23ceb61ea81095051f015';
 
 /// See also [AvailabilityDays].
 @ProviderFor(AvailabilityDays)

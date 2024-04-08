@@ -68,28 +68,15 @@ class AvailabilityDays extends _$AvailabilityDays {
     );
   }
 
-  void toggle(int index) {
+  void updateRange(int dayIndex, List<AvailabilityRange> availabilityRanges) {
     state = [
-
-      for (final availabilityDay in state)
-        availabilityDay.copyWith(
-          availabilityRanges: [
-            AvailabilityRange(
-              startAtUnix: Int64((DateTime.fromMicrosecondsSinceEpoch(0)
-                      .add(const Duration(hours: 2))
-                      .millisecondsSinceEpoch /
-                  1000) as int),
-              endAtUnix: Int64((DateTime.fromMicrosecondsSinceEpoch(0)
-                      .add(const Duration(hours: 18))
-                      .millisecondsSinceEpoch /
-                  1000) as int),
-            )
-          ],
-        )
-      // else
-      // // other todos are not modified
-      // availabilityDay
-      ,
+      for (final (i, availabilityDay) in state.indexed)
+        if (i == dayIndex)
+          availabilityDay.copyWith(
+            availabilityRanges: [...availabilityRanges],
+          )
+        else
+          availabilityDay
     ];
   }
 }
