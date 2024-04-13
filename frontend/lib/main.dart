@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/src/routing/app_router.dart';
+import 'package:timezone/data/latest.dart' as tz;
 
 Future<void> main() async {
+  tz.initializeTimeZones();
   runApp(const ProviderScope(child: MyApp()));
 }
 

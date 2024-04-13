@@ -3,12 +3,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:frontend/src/routing/scaffold_with_nested_navigation.dart';
 import 'package:frontend/src/screens/location/home_screen.dart';
 import 'package:frontend/src/screens/location/location_create_screen.dart';
+import 'package:frontend/src/screens/location/location_detail_screen.dart';
 import 'package:frontend/src/screens/location/location_overview_screen.dart';
 import 'package:go_router/go_router.dart';
 
 enum AppRoute {
   home,
   locationOverview,
+  locationDetail,
   locationCreate,
 }
 
@@ -56,12 +58,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 ),
                 routes: [
                   GoRoute(
+                    path: ':id',
+                    name: AppRoute.locationDetail.name,
+                    pageBuilder: (context, state) {
+                      final id =state.pathParameters['id'] as String;
+                      return MaterialPage(
+                        key: state.pageKey,
+                        child: LocationDetailScreen(id: id),
+                      );
+                    },
+                  ),
+                  GoRoute(
                     path: 'create',
                     name: AppRoute.locationCreate.name,
                     pageBuilder: (context, state) {
                       return MaterialPage(
                         key: state.pageKey,
-                        child: LocationCreateScreen(),
+                        child: const LocationCreateScreen(),
                       );
                     },
                   )

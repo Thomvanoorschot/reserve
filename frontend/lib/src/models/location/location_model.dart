@@ -7,6 +7,7 @@ part 'location_model.freezed.dart';
 @freezed
 class LocationModel with _$LocationModel {
   factory LocationModel({
+    required String id,
     required String name,
     required List<AvailabilityDayModel> availabilityRanges,
     required String tz,

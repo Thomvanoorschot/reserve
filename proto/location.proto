@@ -8,9 +8,33 @@ import "availability.proto";
 option go_package = "./proto";
 
 
+message GetLocationByIDRequest {
+  string id = 1 [(buf.validate.field).string.uuid = true];
+}
+
+message GetLocationsRequest {
+
+}
+
+message GetLocationsResponse {
+  repeated LocationResponse locations = 1;
+}
+
+message LocationResponse {
+  string id = 1 [(buf.validate.field).string.uuid = true];
+  string name = 2;
+  string tz = 3;
+  repeated AvailabilityRange DefaultMondayAvailability = 4;
+  repeated AvailabilityRange DefaultTuesdayAvailability = 5;
+  repeated AvailabilityRange DefaultWednesdayAvailability = 6;
+  repeated AvailabilityRange DefaultThursdayAvailability = 7;
+  repeated AvailabilityRange DefaultFridayAvailability = 8;
+  repeated AvailabilityRange DefaultSaturdayAvailability = 9;
+  repeated AvailabilityRange DefaultSundayAvailability = 10;
+}
 
 message UpsertLocationRequest {
-  string id = 1 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
+  string id = 1 [(buf.validate.field).ignore_empty = true, (buf.validate.field).string.uuid = true];
   string name = 2;
   string tz = 3;
   repeated AvailabilityRange DefaultMondayAvailability = 4;

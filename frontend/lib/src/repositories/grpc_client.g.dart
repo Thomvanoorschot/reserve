@@ -6,7 +6,7 @@ part of 'grpc_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$grpcClientHash() => r'95ae9382dbda6fd3a3f6a6928671f04c5844f3ca';
+String _$grpcClientHash() => r'0be7f99f84153e581406871e4d41166bea01d681';
 
 /// See also [grpcClient].
 @ProviderFor(grpcClient)

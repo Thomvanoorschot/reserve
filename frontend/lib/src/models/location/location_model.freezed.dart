@@ -16,6 +16,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$LocationModel {
+  String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   List<AvailabilityDayModel> get availabilityRanges =>
       throw _privateConstructorUsedError;
@@ -33,7 +34,10 @@ abstract class $LocationModelCopyWith<$Res> {
       _$LocationModelCopyWithImpl<$Res, LocationModel>;
   @useResult
   $Res call(
-      {String name, List<AvailabilityDayModel> availabilityRanges, String tz});
+      {String id,
+      String name,
+      List<AvailabilityDayModel> availabilityRanges,
+      String tz});
 }
 
 /// @nodoc
@@ -49,11 +53,16 @@ class _$LocationModelCopyWithImpl<$Res, $Val extends LocationModel>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? availabilityRanges = null,
     Object? tz = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -79,7 +88,10 @@ abstract class _$$LocationModelImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String name, List<AvailabilityDayModel> availabilityRanges, String tz});
+      {String id,
+      String name,
+      List<AvailabilityDayModel> availabilityRanges,
+      String tz});
 }
 
 /// @nodoc
@@ -93,11 +105,16 @@ class __$$LocationModelImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? name = null,
     Object? availabilityRanges = null,
     Object? tz = null,
   }) {
     return _then(_$LocationModelImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
       name: null == name
           ? _value.name
           : name // ignore: cast_nullable_to_non_nullable
@@ -118,11 +135,14 @@ class __$$LocationModelImplCopyWithImpl<$Res>
 
 class _$LocationModelImpl implements _LocationModel {
   _$LocationModelImpl(
-      {required this.name,
+      {required this.id,
+      required this.name,
       required final List<AvailabilityDayModel> availabilityRanges,
       required this.tz})
       : _availabilityRanges = availabilityRanges;
 
+  @override
+  final String id;
   @override
   final String name;
   final List<AvailabilityDayModel> _availabilityRanges;
@@ -139,7 +159,7 @@ class _$LocationModelImpl implements _LocationModel {
 
   @override
   String toString() {
-    return 'LocationModel(name: $name, availabilityRanges: $availabilityRanges, tz: $tz)';
+    return 'LocationModel(id: $id, name: $name, availabilityRanges: $availabilityRanges, tz: $tz)';
   }
 
   @override
@@ -147,6 +167,7 @@ class _$LocationModelImpl implements _LocationModel {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$LocationModelImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             const DeepCollectionEquality()
                 .equals(other._availabilityRanges, _availabilityRanges) &&
@@ -154,7 +175,7 @@ class _$LocationModelImpl implements _LocationModel {
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, name,
+  int get hashCode => Object.hash(runtimeType, id, name,
       const DeepCollectionEquality().hash(_availabilityRanges), tz);
 
   @JsonKey(ignore: true)
@@ -166,10 +187,13 @@ class _$LocationModelImpl implements _LocationModel {
 
 abstract class _LocationModel implements LocationModel {
   factory _LocationModel(
-      {required final String name,
+      {required final String id,
+      required final String name,
       required final List<AvailabilityDayModel> availabilityRanges,
       required final String tz}) = _$LocationModelImpl;
 
+  @override
+  String get id;
   @override
   String get name;
   @override

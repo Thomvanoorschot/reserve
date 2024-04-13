@@ -2,14 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_multi_slider/flutter_multi_slider.dart';
 import 'package:frontend/src/utils/consts.dart';
 import 'package:frontend/src/utils/epoch.dart';
-import 'package:timezone/browser.dart' as tz;
-
-// TODO Fix
-Future<void> setup() async {
-  await tz.initializeTimeZone();
-  var detroit = tz.getLocation('America/Detroit');
-  var now = tz.TZDateTime.now(detroit);
-}
 
 class WeekDaySchedule extends StatelessWidget {
   const WeekDaySchedule({

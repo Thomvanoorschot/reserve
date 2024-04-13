@@ -9,14 +9,14 @@ Future<(Map<String, tz.Location>, tz.Location)> getLocations() async {
   return (tz.timeZoneDatabase.locations, tz.getLocation("Europe/Amsterdam"));
 }
 
-class LocationCreateScreen extends ConsumerWidget {
-  const LocationCreateScreen({super.key});
+class LocationDetailScreen extends ConsumerWidget {
+  const LocationDetailScreen({super.key, required this.id});
 
-  static const pageSize = 20;
+  final String id;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final notifier = ref.watch(locationProvider("").notifier);
+    final notifier = ref.watch(locationProvider(id).notifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -50,8 +50,10 @@ class LocationCreateScreen extends ConsumerWidget {
               return DropdownButton(items: List.empty(), onChanged: (item) {});
             },
           ),
-          const Flexible(
-            child: WeekSchedule(id: "",),
+          Flexible(
+            child: WeekSchedule(
+              id: id,
+            ),
           ),
           ElevatedButton(
             onPressed: notifier.upsertLocation,

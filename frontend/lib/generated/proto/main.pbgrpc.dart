@@ -123,6 +123,14 @@ abstract class AvailabilityServiceBase extends $grpc.Service {
 }
 @$pb.GrpcServiceName('proto.LocationService')
 class LocationServiceClient extends $grpc.Client {
+  static final _$getLocationByID = $grpc.ClientMethod<$1.GetLocationByIDRequest, $1.LocationResponse>(
+      '/proto.LocationService/GetLocationByID',
+      ($1.GetLocationByIDRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.LocationResponse.fromBuffer(value));
+  static final _$getLocations = $grpc.ClientMethod<$1.GetLocationsRequest, $1.GetLocationsResponse>(
+      '/proto.LocationService/GetLocations',
+      ($1.GetLocationsRequest value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $1.GetLocationsResponse.fromBuffer(value));
   static final _$upsertLocation = $grpc.ClientMethod<$1.UpsertLocationRequest, $1.UpsertLocationResponse>(
       '/proto.LocationService/UpsertLocation',
       ($1.UpsertLocationRequest value) => value.writeToBuffer(),
@@ -134,6 +142,14 @@ class LocationServiceClient extends $grpc.Client {
       : super(channel, options: options,
         interceptors: interceptors);
 
+  $grpc.ResponseFuture<$1.LocationResponse> getLocationByID($1.GetLocationByIDRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getLocationByID, request, options: options);
+  }
+
+  $grpc.ResponseFuture<$1.GetLocationsResponse> getLocations($1.GetLocationsRequest request, {$grpc.CallOptions? options}) {
+    return $createUnaryCall(_$getLocations, request, options: options);
+  }
+
   $grpc.ResponseFuture<$1.UpsertLocationResponse> upsertLocation($1.UpsertLocationRequest request, {$grpc.CallOptions? options}) {
     return $createUnaryCall(_$upsertLocation, request, options: options);
   }
@@ -144,6 +160,20 @@ abstract class LocationServiceBase extends $grpc.Service {
   $core.String get $name => 'proto.LocationService';
 
   LocationServiceBase() {
+    $addMethod($grpc.ServiceMethod<$1.GetLocationByIDRequest, $1.LocationResponse>(
+        'GetLocationByID',
+        getLocationByID_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.GetLocationByIDRequest.fromBuffer(value),
+        ($1.LocationResponse value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$1.GetLocationsRequest, $1.GetLocationsResponse>(
+        'GetLocations',
+        getLocations_Pre,
+        false,
+        false,
+        ($core.List<$core.int> value) => $1.GetLocationsRequest.fromBuffer(value),
+        ($1.GetLocationsResponse value) => value.writeToBuffer()));
     $addMethod($grpc.ServiceMethod<$1.UpsertLocationRequest, $1.UpsertLocationResponse>(
         'UpsertLocation',
         upsertLocation_Pre,
@@ -153,10 +183,20 @@ abstract class LocationServiceBase extends $grpc.Service {
         ($1.UpsertLocationResponse value) => value.writeToBuffer()));
   }
 
+  $async.Future<$1.LocationResponse> getLocationByID_Pre($grpc.ServiceCall call, $async.Future<$1.GetLocationByIDRequest> request) async {
+    return getLocationByID(call, await request);
+  }
+
+  $async.Future<$1.GetLocationsResponse> getLocations_Pre($grpc.ServiceCall call, $async.Future<$1.GetLocationsRequest> request) async {
+    return getLocations(call, await request);
+  }
+
   $async.Future<$1.UpsertLocationResponse> upsertLocation_Pre($grpc.ServiceCall call, $async.Future<$1.UpsertLocationRequest> request) async {
     return upsertLocation(call, await request);
   }
 
+  $async.Future<$1.LocationResponse> getLocationByID($grpc.ServiceCall call, $1.GetLocationByIDRequest request);
+  $async.Future<$1.GetLocationsResponse> getLocations($grpc.ServiceCall call, $1.GetLocationsRequest request);
   $async.Future<$1.UpsertLocationResponse> upsertLocation($grpc.ServiceCall call, $1.UpsertLocationRequest request);
 }
 @$pb.GrpcServiceName('proto.ReservationService')

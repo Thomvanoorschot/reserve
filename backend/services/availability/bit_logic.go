@@ -16,6 +16,67 @@ const (
 	OneSixthBitRange        = 0b111111111111111111111111111111111111111111111111
 )
 
+func BitsToRanges(bits Bits) []*proto.AvailabilityRange {
+	var resp []*proto.AvailabilityRange
+	mask := createBitRange(1)
+	var isCounting bool
+	bits.PartOne |= bits.PartTwo << SegmentsInOneSixthDay
+	for si := 1; si <= SegmentsInDay; si++ {
+
+		if si != 1 {
+			mask = mask << uint(1)
+		}
+
+		if si%SegmentsInOneTwelfthDay == 0 && si != SegmentsInOneTwelfthDay {
+			mask >>= SegmentsInOneTwelfthDay
+			bits.PartOne >>= SegmentsInOneTwelfthDay
+			switch si {
+			case 48:
+				bits.PartOne |= bits.PartTwo << SegmentsInOneTwelfthDay
+			case 72:
+				bits.PartOne |= bits.PartTwo
+				bits.PartOne |= bits.PartThree << SegmentsInOneSixthDay
+			case 96:
+				bits.PartOne |= bits.PartThree << SegmentsInOneTwelfthDay
+			case 120:
+				bits.PartOne |= bits.PartThree
+				bits.PartOne |= bits.PartFour << SegmentsInOneSixthDay
+			case 144:
+				bits.PartOne |= bits.PartFour << SegmentsInOneTwelfthDay
+			case 168:
+				bits.PartOne |= bits.PartFour
+				bits.PartOne |= bits.PartFive << SegmentsInOneSixthDay
+			case 192:
+				bits.PartOne |= bits.PartFive << SegmentsInOneTwelfthDay
+			case 216:
+				bits.PartOne |= bits.PartFive
+				bits.PartOne |= bits.PartSix << SegmentsInOneSixthDay
+			case 240:
+				bits.PartOne |= bits.PartSix << SegmentsInOneTwelfthDay
+			case 264:
+				bits.PartOne |= bits.PartSix
+			}
+		}
+		if (bits.PartOne & mask) == mask {
+			if len(resp) == 0 || !isCounting {
+				resp = append(resp, &proto.AvailabilityRange{
+					StartAtUnix: time.Unix(0, 0).Add(time.Duration((si-1)*MinutesInSegment) * time.Minute).Unix(),
+					EndAtUnix:   0,
+				})
+			}
+			isCounting = true
+		} else {
+			if isCounting {
+				resp[len(resp)-1].EndAtUnix = time.Unix(0, 0).Add(time.Duration((si-1)*MinutesInSegment) * time.Minute).Unix()
+				isCounting = false
+			}
+		}
+		if si == SegmentsInDay && isCounting {
+			resp[len(resp)-1].EndAtUnix = time.Unix(0, 0).Add(time.Duration((si-1)*MinutesInSegment) * time.Minute).Unix()
+		}
+	}
+	return resp
+}
 func RangesToBits(availabilityRanges []*proto.AvailabilityRange) Bits {
 	var b Bits
 	for _, ar := range availabilityRanges {

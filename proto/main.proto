@@ -18,6 +18,8 @@ service AvailabilityService {
 }
 
 service LocationService {
+  rpc GetLocationByID(GetLocationByIDRequest) returns (LocationResponse);
+  rpc GetLocations(GetLocationsRequest) returns (GetLocationsResponse);
   rpc UpsertLocation(UpsertLocationRequest) returns (UpsertLocationResponse);
 }
 

@@ -7,7 +7,7 @@ part 'grpc_client.g.dart';
 @riverpod
 GrpcOrGrpcWebClientChannel grpcClient(GrpcClientRef ref) {
   return GrpcOrGrpcWebClientChannel.toSeparatePorts(
-    host: '192.168.1.244',
+    host: '192.168.1.94',
     grpcPort: 8080,
     grpcWebPort: 8081,
     grpcTransportSecure: false,
