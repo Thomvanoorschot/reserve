@@ -1,0 +1,899 @@
+openapi: 3.1.0
+info:
+  description: ""
+  title: ""
+  version: ""
+paths:
+  /AvailabilityService/GetAvailableDays:
+    post:
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/AvailabilityService.GetAvailableDays.GetAvailableDaysRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/AvailabilityService.GetAvailableDays.GetAvailableDaysResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - AvailabilityService
+  /AvailabilityService/GetAvailableTimeslots:
+    post:
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/AvailabilityService.GetAvailableTimeslots.GetAvailableTimeslotsRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/AvailabilityService.GetAvailableTimeslots.GetAvailableTimeslotsResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - AvailabilityService
+  /AvailabilityService/UpdateLocationDefaultAvailability:
+    post:
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/AvailabilityService.UpdateLocationDefaultAvailability.UpdateLocationDefaultAvailabilityRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/AvailabilityService.UpdateLocationDefaultAvailability.UpdateLocationDefaultAvailabilityResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - AvailabilityService
+  /AvailabilityService/UpsertAvailabilityOverride:
+    post:
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/AvailabilityService.UpsertAvailabilityOverride.UpsertAvailabilityOverrideRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/AvailabilityService.UpsertAvailabilityOverride.UpsertAvailabilityOverrideResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - AvailabilityService
+  /LocationService/GetLocations:
+    post:
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/LocationService.GetLocations.GetLocationsRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/LocationService.GetLocations.GetLocationsResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - LocationService
+  /LocationService/UpsertLocation:
+    post:
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/LocationService.UpsertLocation.UpsertLocationRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/LocationService.UpsertLocation.UpsertLocationResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - LocationService
+  /ReservationService/UpsertReservation:
+    post:
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/ReservationService.UpsertReservation.UpsertReservationRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/ReservationService.UpsertReservation.UpsertReservationResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - ReservationService
+  /TenantService/RegisterTenant:
+    post:
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/TenantService.RegisterTenant.RegisterTenantRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/TenantService.RegisterTenant.RegisterTenantResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - TenantService
+  /TestService/TestUnaryRPC:
+    post:
+      description: ""
+      requestBody:
+        $ref: '#/components/requestBodies/TestService.TestUnaryRPC.TestRPCRequest'
+      responses:
+        "200":
+          $ref: '#/components/responses/TestService.TestUnaryRPC.TestRPCResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - TestService
+  /id:
+    get:
+      description: ""
+      parameters:
+      - description: ""
+        in: query
+        name: id
+        schema:
+          description: ""
+          format: uuid
+          oneOf: null
+          ref: null
+          title: id
+          type: string
+      responses:
+        "200":
+          $ref: '#/components/responses/LocationService.GetLocationByID.LocationResponse'
+        default:
+          $ref: '#/components/responses/connect.error'
+      tags:
+      - LocationService
+components:
+  requestBodies:
+    AvailabilityService.GetAvailableDays.GetAvailableDaysRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetAvailableDaysRequest'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/GetAvailableDaysRequest'
+      required: true
+    AvailabilityService.GetAvailableTimeslots.GetAvailableTimeslotsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetAvailableTimeslotsRequest'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/GetAvailableTimeslotsRequest'
+      required: true
+    AvailabilityService.UpdateLocationDefaultAvailability.UpdateLocationDefaultAvailabilityRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateLocationDefaultAvailabilityRequest'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/UpdateLocationDefaultAvailabilityRequest'
+      required: true
+    AvailabilityService.UpsertAvailabilityOverride.UpsertAvailabilityOverrideRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpsertAvailabilityOverrideRequest'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/UpsertAvailabilityOverrideRequest'
+      required: true
+    LocationService.GetLocationByID.GetLocationByIDRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetLocationByIDRequest'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/GetLocationByIDRequest'
+      required: true
+    LocationService.GetLocations.GetLocationsRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetLocationsRequest'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/GetLocationsRequest'
+      required: true
+    LocationService.UpsertLocation.UpsertLocationRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpsertLocationRequest'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/UpsertLocationRequest'
+      required: true
+    ReservationService.UpsertReservation.UpsertReservationRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpsertReservationRequest'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/UpsertReservationRequest'
+      required: true
+    TenantService.RegisterTenant.RegisterTenantRequest:
+      content: {}
+      required: true
+    TestService.TestUnaryRPC.TestRPCRequest:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TestRPCRequest'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/TestRPCRequest'
+      required: true
+  responses:
+    AvailabilityService.GetAvailableDays.GetAvailableDaysResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetAvailableDaysResponse'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/GetAvailableDaysResponse'
+      description: ""
+    AvailabilityService.GetAvailableTimeslots.GetAvailableTimeslotsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetAvailableTimeslotsResponse'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/GetAvailableTimeslotsResponse'
+      description: ""
+    AvailabilityService.UpdateLocationDefaultAvailability.UpdateLocationDefaultAvailabilityResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpdateLocationDefaultAvailabilityResponse'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/UpdateLocationDefaultAvailabilityResponse'
+      description: ""
+    AvailabilityService.UpsertAvailabilityOverride.UpsertAvailabilityOverrideResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpsertAvailabilityOverrideResponse'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/UpsertAvailabilityOverrideResponse'
+      description: ""
+    LocationService.GetLocationByID.LocationResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LocationResponse'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/LocationResponse'
+      description: ""
+    LocationService.GetLocations.GetLocationsResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GetLocationsResponse'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/GetLocationsResponse'
+      description: ""
+    LocationService.UpsertLocation.UpsertLocationResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpsertLocationResponse'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/UpsertLocationResponse'
+      description: ""
+    ReservationService.UpsertReservation.UpsertReservationResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/UpsertReservationResponse'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/UpsertReservationResponse'
+      description: ""
+    TenantService.RegisterTenant.RegisterTenantResponse:
+      description: ""
+    TestService.TestUnaryRPC.TestRPCResponse:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/TestRPCResponse'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/TestRPCResponse'
+      description: ""
+    connect.error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/connect.error'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/connect.error'
+      description: ""
+  schemas:
+    AvailabilityRange:
+      additionalProperties: false
+      description: ""
+      properties:
+        endAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: endAtUnix
+        startAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: startAtUnix
+      title: AvailabilityRange
+      type: object
+    Empty:
+      additionalProperties: false
+      description: ""
+      title: Empty
+      type: object
+    GetAvailableDaysRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        endAtUnix:
+          additionalProperties: false
+          description: ""
+          exclusiveMinimum: 0
+          oneOf:
+          - type: string
+          - type: number
+          title: endAtUnix
+        locationId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: locationId
+          type: string
+        startAtUnix:
+          additionalProperties: false
+          description: ""
+          exclusiveMinimum: 0
+          oneOf:
+          - type: string
+          - type: number
+          title: startAtUnix
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: GetAvailableDaysRequest
+      type: object
+    GetAvailableDaysResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        availableDaysUnix:
+          additionalProperties: false
+          description: ""
+          items:
+            oneOf:
+            - type: string
+            - type: number
+          title: availableDaysUnix
+          type: array
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: GetAvailableDaysResponse
+      type: object
+    GetAvailableTimeslotsRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        dayUnix:
+          additionalProperties: false
+          description: ""
+          exclusiveMinimum: 0
+          oneOf:
+          - type: string
+          - type: number
+          title: dayUnix
+        locationId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: locationId
+          type: string
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: GetAvailableTimeslotsRequest
+      type: object
+    GetAvailableTimeslotsResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        startTimesUnix:
+          additionalProperties: false
+          description: ""
+          items:
+            oneOf:
+            - type: string
+            - type: number
+          title: startTimesUnix
+          type: array
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: GetAvailableTimeslotsResponse
+      type: object
+    GetLocationByIDRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+      title: GetLocationByIDRequest
+      type: object
+    GetLocationsRequest:
+      additionalProperties: false
+      description: ""
+      title: GetLocationsRequest
+      type: object
+    GetLocationsResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        locations:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/LocationResponse'
+            type: object
+          title: locations
+          type: array
+      title: GetLocationsResponse
+      type: object
+    LocationResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        DefaultFridayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultFridayAvailability
+          type: array
+        DefaultMondayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultMondayAvailability
+          type: array
+        DefaultSaturdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultSaturdayAvailability
+          type: array
+        DefaultSundayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultSundayAvailability
+          type: array
+        DefaultThursdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultThursdayAvailability
+          type: array
+        DefaultTuesdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultTuesdayAvailability
+          type: array
+        DefaultWednesdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultWednesdayAvailability
+          type: array
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+        name:
+          additionalProperties: false
+          description: ""
+          title: name
+          type: string
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: LocationResponse
+      type: object
+    RegisterTenantRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        email:
+          additionalProperties: false
+          description: ""
+          format: email
+          title: email
+          type: string
+        location:
+          additionalProperties: false
+          description: ""
+          title: location
+          type: string
+        name:
+          additionalProperties: false
+          description: ""
+          minLength: 1
+          title: name
+          type: string
+        password:
+          additionalProperties: false
+          description: ""
+          title: password
+          type: string
+      title: RegisterTenantRequest
+      type: object
+    RegisterTenantResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        error:
+          additionalProperties: false
+          description: ""
+          title: error
+          type: string
+        status:
+          additionalProperties: false
+          description: ""
+          title: status
+          type: string
+      title: RegisterTenantResponse
+      type: object
+    TestRPCRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        testField:
+          additionalProperties: false
+          description: ""
+          title: testField
+          type: string
+      title: TestRPCRequest
+      type: object
+    TestRPCResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        testField:
+          additionalProperties: false
+          description: ""
+          title: testField
+          type: string
+      title: TestRPCResponse
+      type: object
+    UpdateLocationDefaultAvailabilityRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        availabilityId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: availabilityId
+          type: string
+        availabilityRanges:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: availabilityRanges
+          type: array
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+      required:
+      - availabilityId
+      title: UpdateLocationDefaultAvailabilityRequest
+      type: object
+    UpdateLocationDefaultAvailabilityResponse:
+      additionalProperties: false
+      description: ""
+      title: UpdateLocationDefaultAvailabilityResponse
+      type: object
+    UpsertAvailabilityOverrideRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        availabilityId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: availabilityId
+          type: string
+        availabilityRanges:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: availabilityRanges
+          type: array
+        endAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: endAtUnix
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+        name:
+          additionalProperties: false
+          description: ""
+          title: name
+          type: string
+        resourceId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: resourceId
+          type: string
+        startAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: startAtUnix
+      title: UpsertAvailabilityOverrideRequest
+      type: object
+    UpsertAvailabilityOverrideResponse:
+      additionalProperties: false
+      description: ""
+      title: UpsertAvailabilityOverrideResponse
+      type: object
+    UpsertLocationRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        DefaultFridayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultFridayAvailability
+          type: array
+        DefaultMondayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultMondayAvailability
+          type: array
+        DefaultSaturdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultSaturdayAvailability
+          type: array
+        DefaultSundayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultSundayAvailability
+          type: array
+        DefaultThursdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultThursdayAvailability
+          type: array
+        DefaultTuesdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultTuesdayAvailability
+          type: array
+        DefaultWednesdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultWednesdayAvailability
+          type: array
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+        name:
+          additionalProperties: false
+          description: ""
+          title: name
+          type: string
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: UpsertLocationRequest
+      type: object
+    UpsertLocationResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        id:
+          additionalProperties: false
+          description: ""
+          title: id
+          type: string
+      title: UpsertLocationResponse
+      type: object
+    UpsertReservationRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        endAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: endAtUnix
+        reservationId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: reservationId
+          type: string
+        resourceId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: resourceId
+          type: string
+        startAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: startAtUnix
+      title: UpsertReservationRequest
+      type: object
+    UpsertReservationResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        reservationId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: reservationId
+          type: string
+        reservedUntilUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: reservedUntilUnix
+      title: UpsertReservationResponse
+      type: object
+    connect.error:
+      additionalProperties: false
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+      properties:
+        code:
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          enum:
+          - CodeCanceled
+          - CodeUnknown
+          - CodeInvalidArgument
+          - CodeDeadlineExceeded
+          - CodeNotFound
+          - CodeAlreadyExists
+          - CodePermissionDenied
+          - CodeResourceExhausted
+          - CodeFailedPrecondition
+          - CodeAborted
+          - CodeOutOfRange
+          - CodeInternal
+          - CodeUnavailable
+          - CodeDataLoss
+          - CodeUnauthenticated
+          examples:
+          - CodeNotFound
+          type: string
+        detail:
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          type: array
+        message:
+          description: A developer-facing error message, which should be in English.
+            Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details]
+            field, or localized by the client.
+          type: string
+      title: Connect Error
+      type: object
+    google.protobuf.Any:
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that
+        describes the type of the serialized message.
+      id: google.protobuf.Any
+      properties:
+        '@type':
+          description: The type of the serialized message.
+          type: string
+      type: object
+tags:
+- description: ""
+  name: AvailabilityService
+- description: ""
+  name: LocationService
+- description: ""
+  name: ReservationService
+- description: ""
+  name: TenantService
+- description: ""
+  name: TestService

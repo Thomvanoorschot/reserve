@@ -18,7 +18,6 @@ type AvailabilityService interface {
 
 type AvailabilityHandler struct {
 	availabilityService AvailabilityService
-	proto.UnimplementedAvailabilityServiceServer
 }
 
 func NewAvailabilityHandler(availabilityService AvailabilityService) *AvailabilityHandler {

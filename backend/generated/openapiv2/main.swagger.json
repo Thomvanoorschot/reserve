@@ -1,0 +1,255 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "main.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "AvailabilityService"
+    },
+    {
+      "name": "LocationService"
+    },
+    {
+      "name": "ReservationService"
+    },
+    {
+      "name": "TenantService"
+    },
+    {
+      "name": "TestService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/id": {
+      "get": {
+        "operationId": "LocationService_GetLocationByID",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/LocationResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "LocationService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "AvailabilityRange": {
+      "type": "object",
+      "properties": {
+        "startAtUnix": {
+          "type": "string",
+          "format": "int64"
+        },
+        "endAtUnix": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "GetAvailableDaysResponse": {
+      "type": "object",
+      "properties": {
+        "availableDaysUnix": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "tz": {
+          "type": "string"
+        }
+      }
+    },
+    "GetAvailableTimeslotsResponse": {
+      "type": "object",
+      "properties": {
+        "startTimesUnix": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "format": "int64"
+          }
+        },
+        "tz": {
+          "type": "string"
+        }
+      }
+    },
+    "GetLocationsResponse": {
+      "type": "object",
+      "properties": {
+        "locations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/LocationResponse"
+          }
+        }
+      }
+    },
+    "LocationResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "tz": {
+          "type": "string"
+        },
+        "DefaultMondayAvailability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/AvailabilityRange"
+          }
+        },
+        "DefaultTuesdayAvailability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/AvailabilityRange"
+          }
+        },
+        "DefaultWednesdayAvailability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/AvailabilityRange"
+          }
+        },
+        "DefaultThursdayAvailability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/AvailabilityRange"
+          }
+        },
+        "DefaultFridayAvailability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/AvailabilityRange"
+          }
+        },
+        "DefaultSaturdayAvailability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/AvailabilityRange"
+          }
+        },
+        "DefaultSundayAvailability": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/AvailabilityRange"
+          }
+        }
+      }
+    },
+    "RegisterTenantResponse": {
+      "type": "object",
+      "properties": {
+        "status": {
+          "type": "string"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    },
+    "TestRPCResponse": {
+      "type": "object",
+      "properties": {
+        "testField": {
+          "type": "string"
+        }
+      }
+    },
+    "UpdateLocationDefaultAvailabilityResponse": {
+      "type": "object"
+    },
+    "UpsertAvailabilityOverrideResponse": {
+      "type": "object"
+    },
+    "UpsertLocationResponse": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "UpsertReservationResponse": {
+      "type": "object",
+      "properties": {
+        "reservationId": {
+          "type": "string"
+        },
+        "reservedUntilUnix": {
+          "type": "string",
+          "format": "int64"
+        }
+      }
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}

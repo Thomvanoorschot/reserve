@@ -5,6 +5,7 @@ import (
 
 	"reserve/generated/proto"
 
+	"connectrpc.com/connect"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -15,7 +16,6 @@ type ReservationService interface {
 
 type ReservationHandler struct {
 	reservationService ReservationService
-	proto.UnimplementedReservationServiceServer
 }
 
 func NewReservationHandler(reservationService ReservationService) *ReservationHandler {
@@ -24,19 +24,22 @@ func NewReservationHandler(reservationService ReservationService) *ReservationHa
 	}
 }
 
-func (h *ReservationHandler) UpsertReservation(ctx context.Context, req *proto.UpsertReservationRequest) (*proto.UpsertReservationResponse, error) {
+func (h *ReservationHandler) UpsertReservation(
+	ctx context.Context,
+	req *connect.Request[proto.UpsertReservationRequest],
+) (*connect.Response[proto.UpsertReservationResponse], error) {
 	if req == nil {
 		return nil, status.Error(
 			codes.InvalidArgument, "no request found",
 		)
 	}
 
-	resp, err := h.reservationService.UpsertReservation(ctx, req)
+	resp, err := h.reservationService.UpsertReservation(ctx, req.Msg)
 	if err != nil {
 		return nil, status.Error(
 			codes.Unknown, err.Error(),
 		)
 	}
 
-	return resp, nil
+	return connect.NewResponse(resp), nil
 }

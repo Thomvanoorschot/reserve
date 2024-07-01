@@ -1,11 +1,9 @@
 syntax = "proto3";
 
-package proto;
-
 import "buf/validate/validate.proto";
 import "availability.proto";
 
-option go_package = "./proto";
+option go_package = "reserve/generated/proto";
 
 
 message GetLocationByIDRequest {

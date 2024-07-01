@@ -5,6 +5,7 @@ import (
 
 	"reserve/generated/proto"
 
+	"connectrpc.com/connect"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -17,7 +18,6 @@ type LocationService interface {
 
 type LocationHandler struct {
 	locationService LocationService
-	proto.UnimplementedLocationServiceServer
 }
 
 func NewLocationHandler(locationService LocationService) *LocationHandler {
@@ -26,53 +26,62 @@ func NewLocationHandler(locationService LocationService) *LocationHandler {
 	}
 }
 
-func (h *LocationHandler) GetLocationByID(ctx context.Context, req *proto.GetLocationByIDRequest) (*proto.LocationResponse, error) {
+func (h *LocationHandler) GetLocationByID(
+	ctx context.Context,
+	req *connect.Request[proto.GetLocationByIDRequest],
+) (*connect.Response[proto.LocationResponse], error) {
 	if req == nil {
 		return nil, status.Error(
 			codes.InvalidArgument, "no request found",
 		)
 	}
 
-	resp, err := h.locationService.GetLocationByID(ctx, req)
+	resp, err := h.locationService.GetLocationByID(ctx, req.Msg)
 	if err != nil {
 		return nil, status.Error(
 			codes.Unknown, err.Error(),
 		)
 	}
 
-	return resp, nil
+	return connect.NewResponse(resp), nil
 }
 
-func (h *LocationHandler) GetLocations(ctx context.Context, req *proto.GetLocationsRequest) (*proto.GetLocationsResponse, error) {
+func (h *LocationHandler) GetLocations(
+	ctx context.Context,
+	req *connect.Request[proto.GetLocationsRequest],
+) (*connect.Response[proto.GetLocationsResponse], error) {
 	if req == nil {
 		return nil, status.Error(
 			codes.InvalidArgument, "no request found",
 		)
 	}
 
-	resp, err := h.locationService.GetLocations(ctx, req)
+	resp, err := h.locationService.GetLocations(ctx, req.Msg)
 	if err != nil {
 		return nil, status.Error(
 			codes.Unknown, err.Error(),
 		)
 	}
 
-	return resp, nil
+	return connect.NewResponse(resp), nil
 }
 
-func (h *LocationHandler) UpsertLocation(ctx context.Context, req *proto.UpsertLocationRequest) (*proto.UpsertLocationResponse, error) {
+func (h *LocationHandler) UpsertLocation(
+	ctx context.Context,
+	req *connect.Request[proto.UpsertLocationRequest],
+) (*connect.Response[proto.UpsertLocationResponse], error) {
 	if req == nil {
 		return nil, status.Error(
 			codes.InvalidArgument, "no request found",
 		)
 	}
 
-	resp, err := h.locationService.UpsertLocation(ctx, req)
+	resp, err := h.locationService.UpsertLocation(ctx, req.Msg)
 	if err != nil {
 		return nil, status.Error(
 			codes.Unknown, err.Error(),
 		)
 	}
 
-	return resp, nil
+	return connect.NewResponse(resp), nil
 }

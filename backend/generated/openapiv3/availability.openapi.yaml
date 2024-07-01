@@ -1,0 +1,316 @@
+openapi: 3.1.0
+info:
+  description: ""
+  title: ""
+  version: ""
+paths: {}
+components:
+  responses:
+    connect.error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/connect.error'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/connect.error'
+      description: ""
+  schemas:
+    AvailabilityRange:
+      additionalProperties: false
+      description: ""
+      properties:
+        endAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: endAtUnix
+        startAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: startAtUnix
+      title: AvailabilityRange
+      type: object
+    GetAvailableDaysRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        endAtUnix:
+          additionalProperties: false
+          description: ""
+          exclusiveMinimum: 0
+          oneOf:
+          - type: string
+          - type: number
+          title: endAtUnix
+        locationId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: locationId
+          type: string
+        startAtUnix:
+          additionalProperties: false
+          description: ""
+          exclusiveMinimum: 0
+          oneOf:
+          - type: string
+          - type: number
+          title: startAtUnix
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: GetAvailableDaysRequest
+      type: object
+    GetAvailableDaysResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        availableDaysUnix:
+          additionalProperties: false
+          description: ""
+          items:
+            oneOf:
+            - type: string
+            - type: number
+          title: availableDaysUnix
+          type: array
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: GetAvailableDaysResponse
+      type: object
+    GetAvailableTimeslotsRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        dayUnix:
+          additionalProperties: false
+          description: ""
+          exclusiveMinimum: 0
+          oneOf:
+          - type: string
+          - type: number
+          title: dayUnix
+        locationId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: locationId
+          type: string
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: GetAvailableTimeslotsRequest
+      type: object
+    GetAvailableTimeslotsResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        startTimesUnix:
+          additionalProperties: false
+          description: ""
+          items:
+            oneOf:
+            - type: string
+            - type: number
+          title: startTimesUnix
+          type: array
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: GetAvailableTimeslotsResponse
+      type: object
+    Test:
+      additionalProperties: false
+      description: ""
+      properties:
+        availability:
+          additionalProperties: false
+          description: ""
+          title: availability
+          type: object
+      title: Test
+      type: object
+    Test.AvailabilityEntry:
+      additionalProperties: false
+      description: ""
+      properties:
+        key:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: key
+        value:
+          $ref: '#/components/schemas/TestSlice'
+          additionalProperties: false
+          description: ""
+          title: value
+          type: object
+      title: AvailabilityEntry
+      type: object
+    TestSlice:
+      additionalProperties: false
+      description: ""
+      properties:
+        startTimeUnix:
+          additionalProperties: false
+          description: ""
+          items:
+            oneOf:
+            - type: string
+            - type: number
+          title: startTimeUnix
+          type: array
+      title: TestSlice
+      type: object
+    UpdateLocationDefaultAvailabilityRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        availabilityId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: availabilityId
+          type: string
+        availabilityRanges:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: availabilityRanges
+          type: array
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+      required:
+      - availabilityId
+      title: UpdateLocationDefaultAvailabilityRequest
+      type: object
+    UpdateLocationDefaultAvailabilityResponse:
+      additionalProperties: false
+      description: ""
+      title: UpdateLocationDefaultAvailabilityResponse
+      type: object
+    UpsertAvailabilityOverrideRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        availabilityId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: availabilityId
+          type: string
+        availabilityRanges:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: availabilityRanges
+          type: array
+        endAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: endAtUnix
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+        name:
+          additionalProperties: false
+          description: ""
+          title: name
+          type: string
+        resourceId:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: resourceId
+          type: string
+        startAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: startAtUnix
+      title: UpsertAvailabilityOverrideRequest
+      type: object
+    UpsertAvailabilityOverrideResponse:
+      additionalProperties: false
+      description: ""
+      title: UpsertAvailabilityOverrideResponse
+      type: object
+    connect.error:
+      additionalProperties: false
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+      properties:
+        code:
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          enum:
+          - CodeCanceled
+          - CodeUnknown
+          - CodeInvalidArgument
+          - CodeDeadlineExceeded
+          - CodeNotFound
+          - CodeAlreadyExists
+          - CodePermissionDenied
+          - CodeResourceExhausted
+          - CodeFailedPrecondition
+          - CodeAborted
+          - CodeOutOfRange
+          - CodeInternal
+          - CodeUnavailable
+          - CodeDataLoss
+          - CodeUnauthenticated
+          examples:
+          - CodeNotFound
+          type: string
+        detail:
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          type: array
+        message:
+          description: A developer-facing error message, which should be in English.
+            Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details]
+            field, or localized by the client.
+          type: string
+      title: Connect Error
+      type: object
+    google.protobuf.Any:
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that
+        describes the type of the serialized message.
+      id: google.protobuf.Any
+      properties:
+        '@type':
+          description: The type of the serialized message.
+          type: string
+      type: object

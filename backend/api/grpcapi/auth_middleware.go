@@ -4,6 +4,7 @@ import (
 	"context"
 	"strings"
 
+	"connectrpc.com/connect"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
@@ -27,10 +28,22 @@ var ignoreList = []string{
 	"/proto.LocationService/GetLocations",
 }
 
+func NewAuthInterceptor() connect.UnaryInterceptorFunc {
+	interceptor := func(next connect.UnaryFunc) connect.UnaryFunc {
+		return func(
+			ctx context.Context,
+			req connect.AnyRequest,
+		) (connect.AnyResponse, error) {
+			ctx = context.WithValue(ctx, "tenant", "test")
+			return next(ctx, req)
+		}
+	}
+	return connect.UnaryInterceptorFunc(interceptor)
+}
+
 func ValidateToken(ctx context.Context, req any, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (any, error) {
 	// TODO Temporary code
 
-	ctx = context.WithValue(ctx, "tenant", "test")
 	for _, il := range ignoreList {
 		if il == info.FullMethod {
 			return handler(ctx, req)

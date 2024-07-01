@@ -1,16 +1,13 @@
 syntax = "proto3";
 
-package proto;
-
 import "buf/validate/validate.proto";
 
-option go_package = "./proto";
-
+option go_package = "reserve/generated/proto";
 
 message GetAvailableDaysRequest {
   string locationId = 1 [(buf.validate.field).string.uuid = true];
-  int64 startAtUnix = 2  [(buf.validate.field).int64.gt = 0];
-  int64 endAtUnix = 3  [(buf.validate.field).int64.gt = 0];
+  int64 startAtUnix = 2 [(buf.validate.field).int64.gt = 0];
+  int64 endAtUnix = 3 [(buf.validate.field).int64.gt = 0];
   string tz = 4;
 }
 message GetAvailableDaysResponse {
@@ -20,7 +17,7 @@ message GetAvailableDaysResponse {
 
 message GetAvailableTimeslotsRequest {
   string locationId = 1 [(buf.validate.field).string.uuid = true];
-  int64 dayUnix = 2  [(buf.validate.field).int64.gt = 0];
+  int64 dayUnix = 2 [(buf.validate.field).int64.gt = 0];
   string tz = 3;
 }
 message GetAvailableTimeslotsResponse {
@@ -34,29 +31,37 @@ message AvailabilityRange {
 }
 
 message UpsertAvailabilityOverrideRequest {
-  string id = 1 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
+  string id = 1 [
+    (buf.validate.field).required = false,
+    (buf.validate.field).string.uuid = true
+  ];
   string resourceId = 2 [(buf.validate.field).string.uuid = true];
   string name = 4;
   int64 startAtUnix = 5;
   int64 endAtUnix = 6;
 
-  string availabilityId = 7 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
+  string availabilityId = 7 [
+    (buf.validate.field).required = false,
+    (buf.validate.field).string.uuid = true
+  ];
   repeated AvailabilityRange availabilityRanges = 8;
 }
 
-message UpsertAvailabilityOverrideResponse{
-
-}
+message UpsertAvailabilityOverrideResponse {}
 
 message UpdateLocationDefaultAvailabilityRequest {
-  string id = 1 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];
-  string availabilityId = 2 [(buf.validate.field).required = true, (buf.validate.field).string.uuid = true];
+  string id = 1 [
+    (buf.validate.field).required = false,
+    (buf.validate.field).string.uuid = true
+  ];
+  string availabilityId = 2 [
+    (buf.validate.field).required = true,
+    (buf.validate.field).string.uuid = true
+  ];
   repeated AvailabilityRange availabilityRanges = 3;
 }
 
-message UpdateLocationDefaultAvailabilityResponse{
-
-}
+message UpdateLocationDefaultAvailabilityResponse {}
 
 message Test {
   map<int64, TestSlice> availability = 1;

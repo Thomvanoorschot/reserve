@@ -5,6 +5,7 @@ import (
 
 	"reserve/generated/proto"
 
+	"connectrpc.com/connect"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )
@@ -15,7 +16,6 @@ type TenantService interface {
 
 type TenantHandler struct {
 	tenantService TenantService
-	proto.UnimplementedTenantServiceServer
 }
 
 func NewTenantHandler(tenantService TenantService) *TenantHandler {
@@ -24,24 +24,31 @@ func NewTenantHandler(tenantService TenantService) *TenantHandler {
 	}
 }
 
-func (h *TenantHandler) RegisterTenant(req *proto.RegisterTenantRequest, s proto.TenantService_RegisterTenantServer) error {
+func (h *TenantHandler) RegisterTenant(
+	ctx context.Context,
+	req *connect.Request[proto.RegisterTenantRequest],
+	resp *connect.ServerStream[proto.RegisterTenantResponse],
+) error {
 	if req == nil {
 		return status.Error(
 			codes.InvalidArgument, "no request found",
 		)
 	}
+
 	respCh := make(chan *proto.RegisterTenantResponse)
 	quitCh := make(chan bool)
-	go h.tenantService.RegisterTenant(s.Context(), req, respCh, quitCh)
+	go h.tenantService.RegisterTenant(ctx, req.Msg, respCh, quitCh)
+
 	for {
 		select {
 		case res := <-respCh:
+
 			if res.Error != "" {
 				return status.Error(
 					codes.Unknown, res.Error,
 				)
 			}
-			err := s.Send(res)
+			err := resp.Send(res)
 			if err != nil {
 				return err
 			}

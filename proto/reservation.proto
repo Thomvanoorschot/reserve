@@ -1,11 +1,8 @@
 syntax = "proto3";
 
-package proto;
-
 import "buf/validate/validate.proto";
 
-option go_package = "./proto";
-
+option go_package = "reserve/generated/proto";
 
 message UpsertReservationRequest {
   string reservationId = 1 [(buf.validate.field).required = false, (buf.validate.field).string.uuid = true];

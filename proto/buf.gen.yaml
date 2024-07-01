@@ -1,0 +1,21 @@
+version: v1
+
+plugins:
+  - plugin: buf.build/protocolbuffers/go
+    out: ../backend/generated/proto
+    opt: paths=source_relative
+  - plugin: buf.build/connectrpc/go
+    out: ../backend/generated/proto
+    opt: paths=source_relative
+  - plugin: es
+    out: ../frontend/src/lib/proto
+    opt:
+     - target=ts
+  - plugin: connect-es
+    out: ../frontend/src/lib/proto
+    opt:
+     - target=ts
+  - plugin: openapiv2
+    out: ../backend/generated/openapiv2
+  - plugin: connect-openapi
+    out: ../backend/generated/openapiv3

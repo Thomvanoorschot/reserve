@@ -1,0 +1,282 @@
+openapi: 3.1.0
+info:
+  description: ""
+  title: ""
+  version: ""
+paths: {}
+components:
+  responses:
+    connect.error:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/connect.error'
+        application/proto:
+          schema:
+            $ref: '#/components/schemas/connect.error'
+      description: ""
+  schemas:
+    AvailabilityRange:
+      additionalProperties: false
+      description: ""
+      properties:
+        endAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: endAtUnix
+        startAtUnix:
+          additionalProperties: false
+          description: ""
+          oneOf:
+          - type: string
+          - type: number
+          title: startAtUnix
+      title: AvailabilityRange
+      type: object
+    GetLocationByIDRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+      title: GetLocationByIDRequest
+      type: object
+    GetLocationsRequest:
+      additionalProperties: false
+      description: ""
+      title: GetLocationsRequest
+      type: object
+    GetLocationsResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        locations:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/LocationResponse'
+            type: object
+          title: locations
+          type: array
+      title: GetLocationsResponse
+      type: object
+    LocationResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        DefaultFridayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultFridayAvailability
+          type: array
+        DefaultMondayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultMondayAvailability
+          type: array
+        DefaultSaturdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultSaturdayAvailability
+          type: array
+        DefaultSundayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultSundayAvailability
+          type: array
+        DefaultThursdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultThursdayAvailability
+          type: array
+        DefaultTuesdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultTuesdayAvailability
+          type: array
+        DefaultWednesdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultWednesdayAvailability
+          type: array
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+        name:
+          additionalProperties: false
+          description: ""
+          title: name
+          type: string
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: LocationResponse
+      type: object
+    UpsertLocationRequest:
+      additionalProperties: false
+      description: ""
+      properties:
+        DefaultFridayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultFridayAvailability
+          type: array
+        DefaultMondayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultMondayAvailability
+          type: array
+        DefaultSaturdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultSaturdayAvailability
+          type: array
+        DefaultSundayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultSundayAvailability
+          type: array
+        DefaultThursdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultThursdayAvailability
+          type: array
+        DefaultTuesdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultTuesdayAvailability
+          type: array
+        DefaultWednesdayAvailability:
+          additionalProperties: false
+          description: ""
+          items:
+            $ref: '#/components/schemas/AvailabilityRange'
+            type: object
+          title: DefaultWednesdayAvailability
+          type: array
+        id:
+          additionalProperties: false
+          description: ""
+          format: uuid
+          title: id
+          type: string
+        name:
+          additionalProperties: false
+          description: ""
+          title: name
+          type: string
+        tz:
+          additionalProperties: false
+          description: ""
+          title: tz
+          type: string
+      title: UpsertLocationRequest
+      type: object
+    UpsertLocationResponse:
+      additionalProperties: false
+      description: ""
+      properties:
+        id:
+          additionalProperties: false
+          description: ""
+          title: id
+          type: string
+      title: UpsertLocationResponse
+      type: object
+    connect.error:
+      additionalProperties: false
+      description: 'Error type returned by Connect: https://connectrpc.com/docs/go/errors/#http-representation'
+      properties:
+        code:
+          description: The status code, which should be an enum value of [google.rpc.Code][google.rpc.Code].
+          enum:
+          - CodeCanceled
+          - CodeUnknown
+          - CodeInvalidArgument
+          - CodeDeadlineExceeded
+          - CodeNotFound
+          - CodeAlreadyExists
+          - CodePermissionDenied
+          - CodeResourceExhausted
+          - CodeFailedPrecondition
+          - CodeAborted
+          - CodeOutOfRange
+          - CodeInternal
+          - CodeUnavailable
+          - CodeDataLoss
+          - CodeUnauthenticated
+          examples:
+          - CodeNotFound
+          type: string
+        detail:
+          items:
+            $ref: '#/components/schemas/google.protobuf.Any'
+          type: array
+        message:
+          description: A developer-facing error message, which should be in English.
+            Any user-facing error message should be localized and sent in the [google.rpc.Status.details][google.rpc.Status.details]
+            field, or localized by the client.
+          type: string
+      title: Connect Error
+      type: object
+    google.protobuf.Any:
+      additionalProperties: true
+      description: Contains an arbitrary serialized message along with a @type that
+        describes the type of the serialized message.
+      id: google.protobuf.Any
+      properties:
+        '@type':
+          description: The type of the serialized message.
+          type: string
+      type: object

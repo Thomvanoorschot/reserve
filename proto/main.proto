@@ -3,10 +3,9 @@ import "availability.proto";
 import "tenant.proto";
 import "reservation.proto";
 import "location.proto";
+import "google/api/annotations.proto";
 
-package proto;
-
-option go_package = "./proto";
+option go_package = "reserve/generated/proto";
 
 message Empty { }
 
@@ -18,7 +17,12 @@ service AvailabilityService {
 }
 
 service LocationService {
-  rpc GetLocationByID(GetLocationByIDRequest) returns (LocationResponse);
+  rpc GetLocationByID(GetLocationByIDRequest) returns (LocationResponse){
+    option(google.api.http) = {
+      get: "/id"
+      response_body: "*"
+    };
+  };
   rpc GetLocations(GetLocationsRequest) returns (GetLocationsResponse);
   rpc UpsertLocation(UpsertLocationRequest) returns (UpsertLocationResponse);
 }
